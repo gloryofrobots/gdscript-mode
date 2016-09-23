@@ -4,9 +4,9 @@
 ;; IT`S A 20k-line file after all
 
 (defgroup gdscript-mode nil
-  "Support for the GDScript programming language, <http://www.python.org/>"
+  "Support for the GDScript programming language, <http://www.godotengine.org/>"
   :group 'languages
-  :prefix "py-")
+  :prefix "gd-")
 
 (defconst gd-version "6.2.2+")
 
@@ -205,7 +205,7 @@ Default is nil"
 
 Default is t")
 
-(defcustom py--execute-use-temp-file-p nil
+(defcustom gd--execute-use-temp-file-p nil
  "Assume execution at a remote machine.
 
  where write-access is not given. "
@@ -213,7 +213,7 @@ Default is t")
  :type 'boolean
  :group 'gdscript-mode)
 
-(defvar py--match-paren-forward-p nil
+(defvar gd--match-paren-forward-p nil
   "Internally used by `gd-match-paren'. ")
 
 (defvar gd-new-session-p t
@@ -322,7 +322,7 @@ Default is  nil"
   :group 'gdscript-mode)
 
 (defcustom gd-fast-completion-delay 0.1
-  "Used by py--fast-send-string-intern. "
+  "Used by gd--fast-send-string-intern. "
 
   :type 'float
   :tag "gd-fast-completion-delay"
@@ -486,13 +486,13 @@ Avoid repeated call at identic pos. ")
 (defvar gd-complete-last-modified nil
   "Internally used by `gd-auto-completion-mode'")
 
-(defvar py--auto-complete-timer nil
+(defvar gd--auto-complete-timer nil
   "Internally used by `gd-auto-completion-mode'")
 
 (defvar gd-auto-completion-buffer nil
   "Internally used by `gd-auto-completion-mode'")
 
-(defvar py--auto-complete-timer-delay 1
+(defvar gd--auto-complete-timer-delay 1
   "Seconds Emacs must be idle to trigger auto-completion.
 
 See `gd-auto-completion-mode'")
@@ -1089,15 +1089,15 @@ Default is `t'."
   :tag "gd-current-defun-delay"
   :group 'gdscript-mode)
 
-(defcustom py--delete-temp-file-delay 1
-  "Used by `py--delete-temp-file'"
+(defcustom gd--delete-temp-file-delay 1
+  "Used by `gd--delete-temp-file'"
 
   :type 'number
-  :tag "py--delete-temp-file-delay"
+  :tag "gd--delete-temp-file-delay"
   :group 'gdscript-mode)
 
 (defcustom gd-gdscript-send-delay 5
-  "Seconds to wait for output, used by `py--send-...' functions.
+  "Seconds to wait for output, used by `gd--send-...' functions.
 
 See also gd-ipython-send-delay"
 
@@ -1106,7 +1106,7 @@ See also gd-ipython-send-delay"
   :group 'gdscript-mode)
 
 (defcustom gd-ipython-send-delay 9
-  "Seconds to wait for output, used by `py--send-...' functions.
+  "Seconds to wait for output, used by `gd--send-...' functions.
 
 See also gd-gdscript-send-delay"
 
@@ -1531,10 +1531,10 @@ Default /usr/bin/jython"
   :tag "gd-shell-toggle-2"
   :group 'gdscript-mode)
 
-(defcustom py--imenu-create-index-p nil
+(defcustom gd--imenu-create-index-p nil
   "Non-nil means GDScript mode creates and displays an index menu of functions and global variables. "
   :type 'boolean
-  :tag "py--imenu-create-index-p"
+  :tag "gd--imenu-create-index-p"
   :group 'gdscript-mode)
 
 (defvar gd-history-filter-regexp "\\`\\s-*\\S-?\\S-?\\s-*\\'\\|'''/tmp/"
@@ -1624,10 +1624,10 @@ Default is `t'. See lp:1100892 "
   :tag "gd-newline-delete-trailing-whitespace-p"
   :group 'gdscript-mode)
 
-(defcustom py--warn-tmp-files-left-p nil
+(defcustom gd--warn-tmp-files-left-p nil
   "Messages a warning, when `gd-temp-directory' contains files susceptible being left by previous GDScript-mode sessions. See also lp:987534 "
   :type 'boolean
-  :tag "py--warn-tmp-files-left-p"
+  :tag "gd--warn-tmp-files-left-p"
   :group 'gdscript-mode)
 
 (defcustom gd-complete-ac-sources '(ac-source-pycomplete)
@@ -1725,12 +1725,12 @@ if \'0.10\' < version:
   "';'.join(module_completion('''%s'''))"
   "See also `gd-ipython-module-completion-code'")
 
-(defcustom py--imenu-create-index-function 'py--imenu-create-index-new
-  "Switch between `py--imenu-create-index-new', which also lists modules variables,  and series 5. index-machine"
-  :type '(choice (const :tag "'py--imenu-create-index-new, also lists modules variables " py--imenu-create-index-new)
+(defcustom gd--imenu-create-index-function 'gd--imenu-create-index-new
+  "Switch between `gd--imenu-create-index-new', which also lists modules variables,  and series 5. index-machine"
+  :type '(choice (const :tag "'gd--imenu-create-index-new, also lists modules variables " gd--imenu-create-index-new)
 
-                 (const :tag "py--imenu-create-index, series 5. index-machine" gd-imenu-create-index))
-  :tag "py--imenu-create-index-function"
+                 (const :tag "gd--imenu-create-index, series 5. index-machine" gd-imenu-create-index))
+  :tag "gd--imenu-create-index-function"
   :group 'gdscript-mode)
 
 (defvar gd-input-filter-re "\\`\\s-*\\S-?\\S-?\\s-*\\'"
@@ -1864,7 +1864,7 @@ See also `gd-execute-directory'"
 (defvar gd-orig-buffer-or-file nil
   "Internal use. ")
 
-(defun py--set-ffap-form ()
+(defun gd--set-ffap-form ()
   (cond ((and gd-ffap-p gd-ffap)
          (eval-after-load "ffap"
            '(push '(gdscript-mode . gd-module-path) ffap-alist))
@@ -1889,7 +1889,7 @@ Default is nil "
   :tag "gd-ffap-p"
   :set (lambda (symbol value)
          (set-default symbol value)
-         (py--set-ffap-form))
+         (gd--set-ffap-form))
     :group 'gdscript-mode)
 
 (defcustom gd-keep-windows-configuration nil
@@ -1991,7 +1991,7 @@ See also command `toggle-gd-underscore-word-syntax-p' ")
 
 (defvar gdscript-mode-message-string
   (if (or (string= "gdscript-mode.el" (buffer-name))
-	  (ignore-errors (string-match "gdscript-mode.el" (py--buffer-filename-remote-maybe))))
+	  (ignore-errors (string-match "gdscript-mode.el" (gd--buffer-filename-remote-maybe))))
       "gdscript-mode.el"
     "gdscript-components-mode.el")
   "Internally used. Reports the gdscript-mode branch")
@@ -2230,7 +2230,7 @@ See also `gd-operator-re' ")
   "When an exception occurs as a result of gd-execute-region, a
 subsequent gd-up-exception needs the line number where the region
 started, in order to jump to the correct file line.  This variable is
-set in gd-execute-region and used in py--jump-to-exception.")
+set in gd-execute-region and used in gd--jump-to-exception.")
 
 (defvar gd-match-paren-no-use-syntax-pps nil)
 
@@ -2590,7 +2590,7 @@ hooked into `compilation-error-regexp-alist'  "
   :tag "gd-compilation-regexp-alist"
   :group 'gdscript-mode)
 
-(defun py--quote-syntax (n)
+(defun gd--quote-syntax (n)
   "Put `syntax-table' property correctly on triple quote.
 Used for syntactic keywords.  N is the match number (1, 2 or 3)."
   ;; Given a triple quote, we have to check the context to know
@@ -2637,10 +2637,10 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
   ;; First avoid a sequence preceded by an odd number of backslashes.
   `((,(concat "\\(?:^\\|[^\\]\\(?:\\\\.\\)*\\)" ;Prefix.
               "\\(?1:\"\\)\\(?2:\"\\)\\(?3:\"\\)\\(?4:\"\\)\\(?5:\"\\)\\(?6:\"\\)\\|\\(?1:\"\\)\\(?2:\"\\)\\(?3:\"\\)\\|\\(?1:'\\)\\(?2:'\\)\\(?3:'\\)\\(?4:'\\)\\(?5:'\\)\\(?6:'\\)\\|\\(?1:'\\)\\(?2:'\\)\\(?3:'\\)\\(?4:'\\)\\(?5:'\\)\\(?6:'\\)\\|\\(?1:'\\)\\(?2:'\\)\\(?3:'\\)")
-     (1 (py--quote-syntax 1) t t)
-     (2 (py--quote-syntax 2) t t)
-     (3 (py--quote-syntax 3) t t)
-     (6 (py--quote-syntax 1) t t))))
+     (1 (gd--quote-syntax 1) t t)
+     (2 (gd--quote-syntax 2) t t)
+     (3 (gd--quote-syntax 3) t t)
+     (6 (gd--quote-syntax 1) t t))))
 
 (defconst gd-windows-config-register 313465889
   "Internal used")
@@ -2651,79 +2651,9 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
 (put 'gd-indent-offset 'safe-local-variable 'integerp)
 
 ;; testing
-(defvar gd-ert-test-default-executables
-  (list "python" "python3" "ipython")
-  "Serialize tests employing dolist")
+(defvar gd--shell-unfontify nil
+  "Internally used by `gd--run-unfontify-timer'. ")
 
-(defvar py--shell-unfontify nil
-  "Internally used by `py--run-unfontify-timer'. ")
-(make-variable-buffer-local 'py--shell-unfontify)
-
-(defvar py--timer nil
-  "Used by `py--run-unfontify-timer'")
-(make-variable-buffer-local 'py--timer)
-
-(defvar py--timer-delay nil
-  "Used by `py--run-unfontify-timer'")
-(make-variable-buffer-local 'py--timer-delay)
-
-(defcustom gd-shell-unfontify-p t
-  "Run `py--run-unfontify-timer' unfontifying the shell banner-text.
-
-Default is nil "
-
-  :type 'boolean
-  :tag "gd-shell-unfontify-p"
-  :group 'gdscript-mode)
-
-(defun py--unfontify-banner-intern (buffer)
-  (save-excursion
-    (goto-char (point-min))
-    (let ((erg (or (ignore-errors (car comint-last-prompt))
-		   (and
-		    (re-search-forward gd-fast-filter-re nil t 1)
-		    (match-beginning 0))
-		   (progn
-		     (forward-paragraph)
-		     (point)))))
-      ;; (sit-for 1 t)
-      (if erg
-	  (progn
-	    (font-lock-unfontify-region (point-min) erg)
-	    (goto-char (point-max)))
-	(progn (and gd-debug-p (message "%s" (concat "py--unfontify-banner: Don't see a prompt in buffer " (buffer-name buffer)))))))))
-
-(defun py--unfontify-banner (&optional buffer)
-  "Unfontify the shell banner-text.
-
-Cancels `py--timer'
-Expects being called by `py--run-unfontify-timer' "
-  (interactive)
-    (let ((buffer (or buffer (current-buffer))))
-      (if (ignore-errors (buffer-live-p (get-buffer buffer)))
-	  (with-current-buffer buffer
-	    (py--unfontify-banner-intern buffer)
-	    (and (timerp py--timer)(cancel-timer py--timer)))
-	(and (timerp py--timer)(cancel-timer py--timer)))))
-
-(defun py--run-unfontify-timer (&optional buffer)
-  "Unfontify the shell banner-text "
-  (when py--shell-unfontify
-    (let ((buffer (or buffer (current-buffer)))
-	  done)
-      (if (and
-	   (buffer-live-p buffer)
-	   (or
-	    (eq major-mode 'gd-gdscript-shell-mode)
-	    (eq major-mode 'gd-ipython-shell-mode)))
-	  (unless py--timer
-	    (setq py--timer
-		  (run-with-idle-timer
-		   (if py--timer-delay (setq py--timer-delay 3)
-		     (setq py--timer-delay 0.1))
-		   nil
-		   #'py--unfontify-banner buffer)))
-	(cancel-timer py--timer)))))
 
 (defsubst gd-keep-region-active ()
   "Keep the region active in XEmacs."
@@ -2814,7 +2744,7 @@ See also `gd-object-reference-face'"
   :tag "gd-exception-name-face"
   :group 'gdscript-mode)
 
-(defun py--delete-all-but-first-prompt ()
+(defun gd--delete-all-but-first-prompt ()
   "Don't let prompts from setup-codes sent clutter buffer. "
   (let (last erg)
     (when (re-search-backward gd-fast-filter-re nil t 1)
@@ -2823,46 +2753,46 @@ See also `gd-object-reference-face'"
       (delete-region erg (point-max))))
   (goto-char (point-max)))
 
-(defun py--gdscript-send-setup-code-intern (name &optional msg)
-  (let ((setup-file (concat (py--normalize-directory gd-temp-directory) "py-" name "-setup-code.py"))
+(defun gd--gdscript-send-setup-code-intern (name &optional msg)
+  (let ((setup-file (concat (gd--normalize-directory gd-temp-directory) "py-" name "-setup-code.py"))
 	(gd-ignore-result-p t)
 	(buf (current-buffer)))
     (unless (file-readable-p setup-file)
       (with-temp-buffer
 	(insert (eval (car (read-from-string (concat "py-" name "-setup-code")))))
 	(write-file setup-file)))
-    (py--execute-file-base nil setup-file nil buf)
+    (gd--execute-file-base nil setup-file nil buf)
     (when msg (message "%s" (concat name " setup-code sent to " (process-name (get-buffer-process buf)))))))
 
-(defun py--gdscript-send-completion-setup-code ()
-  "For GDScript see py--gdscript-send-setup-code "
-  (py--gdscript-send-setup-code-intern "shell-completion" gd-verbose-p))
+(defun gd--gdscript-send-completion-setup-code ()
+  "For GDScript see gd--gdscript-send-setup-code "
+  (gd--gdscript-send-setup-code-intern "shell-completion" gd-verbose-p))
 
-(defun py--gdscript-send-ffap-setup-code ()
-  "For GDScript see py--gdscript-send-setup-code "
-  (py--gdscript-send-setup-code-intern "ffap" gd-verbose-p))
+(defun gd--gdscript-send-ffap-setup-code ()
+  "For GDScript see gd--gdscript-send-setup-code "
+  (gd--gdscript-send-setup-code-intern "ffap" gd-verbose-p))
 
-(defun py--gdscript-send-eldoc-setup-code ()
-  "For GDScript see py--gdscript-send-setup-code "
-  (py--gdscript-send-setup-code-intern "eldoc" gd-verbose-p))
+(defun gd--gdscript-send-eldoc-setup-code ()
+  "For GDScript see gd--gdscript-send-setup-code "
+  (gd--gdscript-send-setup-code-intern "eldoc" gd-verbose-p))
 
-(defun py--ipython-import-module-completion ()
+(defun gd--ipython-import-module-completion ()
   "Setup IPython v0.11 or greater.
 
 Used by `gd-ipython-module-completion-string'"
-  (let ((setup-file (concat (py--normalize-directory gd-temp-directory) "gd-ipython-module-completion.py"))
+  (let ((setup-file (concat (gd--normalize-directory gd-temp-directory) "gd-ipython-module-completion.py"))
 	(gd-ignore-result-p t))
     (unless (file-readable-p setup-file)
       (with-temp-buffer
 	(insert gd-ipython-module-completion-code)
 	(write-file setup-file)))
-    (py--execute-file-base nil setup-file nil (current-buffer))))
+    (gd--execute-file-base nil setup-file nil (current-buffer))))
 
-(defun py--at-raw-string ()
+(defun gd--at-raw-string ()
   "If at beginning of a raw-string. "
   (looking-at "\"\"\"\\|'''") (member (char-before) (list ?u ?U ?r ?R)))
 
-(defun py--docstring-p (&optional beginning-of-string-position)
+(defun gd--docstring-p (&optional beginning-of-string-position)
   "Check to see if there is a docstring at POS."
   (let* (pps
 	 (pos (or beginning-of-string-position
@@ -2871,16 +2801,16 @@ Used by `gd-ipython-module-completion-string'"
       (widen)
       (save-excursion
 	(goto-char pos)
-	(when (py--at-raw-string)
+	(when (gd--at-raw-string)
 	  (forward-char -1)
 	  (setq pos (point)))
 	(when (gd-backward-statement)
 	  (when (looking-at gd-def-or-class-re)
 	    pos))))))
 
-(defun py--font-lock-syntactic-face-function (state)
+(defun gd--font-lock-syntactic-face-function (state)
   (if (nth 3 state)
-      (if (py--docstring-p (nth 8 state))
+      (if (gd--docstring-p (nth 8 state))
           font-lock-doc-face
         font-lock-string-face)
     font-lock-comment-face))
@@ -2888,157 +2818,8 @@ Used by `gd-ipython-module-completion-string'"
 (and (fboundp 'make-obsolete-variable)
      (make-obsolete-variable 'gd-mode-hook 'gdscript-mode-hook nil))
 
-(defun gd-choose-shell-by-shebang (&optional shebang)
-  "Choose shell by looking at #! on the first line.
 
-If SHEBANG is non-nil, returns the shebang as string,
-otherwise the GDScript resp. Jython shell command name. "
-  (interactive)
-  ;; look for an interpreter specified in the first line
-  (let* (erg res)
-    (save-excursion
-      (goto-char (point-min))
-      (when (looking-at gd-shebang-regexp)
-        (if shebang
-            (setq erg (match-string-no-properties 0))
-          (setq erg (split-string (match-string-no-properties 0) "[#! \t]"))
-          (dolist (ele erg)
-            (when (string-match "[bijp]+ython" ele)
-              (setq res ele))))))
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" res))
-    res))
-
-(defun py--choose-shell-by-import ()
-  "Choose CPython or Jython mode based imports.
-
-If a file imports any packages in `gd-jython-packages', within
-`gd-import-check-point-max' characters from the start of the file,
-return `jython', otherwise return nil."
-  (let (mode)
-    (save-excursion
-      (goto-char (point-min))
-      (while (and (not mode)
-                  (search-forward-regexp
-                   "^\\(\\(from\\)\\|\\(import\\)\\) \\([^ \t\n.]+\\)"
-                   gd-import-check-point-max t))
-        (setq mode (and (member (match-string 4) gd-jython-packages)
-                        'jython))))
-    mode))
-
-(defun gd-choose-shell-by-path (&optional gd-separator-char)
-  "Select GDScript executable according to version desplayed in path, current buffer-file is selected from.
-
-Returns versioned string, nil if nothing appropriate found "
-  (interactive)
-  (let ((path (py--buffer-filename-remote-maybe))
-                (gd-separator-char (or gd-separator-char gd-separator-char))
-                erg)
-    (when (and path gd-separator-char
-               (string-match (concat gd-separator-char "[iI]?[pP]ython[0-9.]+" gd-separator-char) path))
-      (setq erg (substring path
-                           (1+ (string-match (concat gd-separator-char "[iI]?[pP]ython[0-9.]+" gd-separator-char) path)) (1- (match-end 0)))))
-    (when (called-interactively-p 'any) (message "%s" erg))
-    erg))
-
-(defun gd-which-python ()
-  "Returns version of GDScript of current environment, a number. "
-  (interactive)
-  (let* (treffer (cmd (gd-choose-shell))
-         version erg)
-    (setq treffer (string-match "\\([23]*\\.?[0-9\\.]*\\)$" cmd))
-    (if treffer
-        ;; if a number if part of python name, assume it's the version
-        (setq version (substring-no-properties cmd treffer))
-      (setq erg (shell-command-to-string (concat cmd " --version")))
-      (setq version (cond ((string-match (concat "\\(on top of GDScript \\)" "\\([0-9]\\.[0-9]+\\)") erg)
-                           (match-string-no-properties 2 erg))
-                          ((string-match "\\([0-9]\\.[0-9]+\\)" erg)
-                           (substring erg 7 (1- (length erg)))))))
-    (when (called-interactively-p 'any)
-      (if version
-          (when gd-verbose-p (message "%s" version))
-        (message "%s" "Could not detect GDScript on your system")))
-    (string-to-number version)))
-
-(defun gd-gdscript-current-environment ()
-  "Returns path of current GDScript installation. "
-  (interactive)
-  (let* ((cmd (gd-choose-shell))
-         (denv (shell-command-to-string (concat "type " cmd)))
-         (erg (substring denv (string-match "/" denv))))
-    (when (called-interactively-p 'any)
-      (if erg
-          (message "%s" erg)
-        (message "%s" "Could not detect GDScript on your system")))
-    erg))
-
- ;; requested by org-mode still
-(defalias 'gd-toggle-shells 'gd-choose-shell)
-
-(defun py--cleanup-process-name (res)
-  "Make res ready for use by `executable-find'
-
-Returns RES or substring of RES"
-  (if (string-match "<" res)
-      (substring res 0 (match-beginning 0))
-    res))
-
-(defalias 'gd-which-shell 'gd-choose-shell)
-(defun gd-choose-shell (&optional arg pyshell)
-  "Return an appropriate executable as a string.
-
-Returns nil, if no executable found.
-
-This does the following:
- - look for an interpreter with `gd-choose-shell-by-shebang'
- - examine imports using `py--choose-shell-by-import'
- - look if Path/To/File indicates a GDScript version
- - if not successful, return default value of `gd-shell-name'
-
-When interactivly called, messages the shell name, Emacs would in the given circtumstances.
-
-With \\[universal-argument] 4 is called `gd-switch-shell' see docu there."
-  (interactive "P")
-  (if (eq 4 (prefix-numeric-value arg))
-      (gd-switch-shell '(4))
-    (let* (res done
-	       (erg (cond (gd-force-gd-shell-name-p
-			   (default-value 'gd-shell-name))
-			  (gd-use-local-default
-			   (if (not (string= "" gd-shell-local-path))
-			       (expand-file-name gd-shell-local-path)
-			     (message "Abort: `gd-use-local-default' is set to `t' but `gd-shell-local-path' is empty. Maybe call `gd-toggle-local-default-use'")))
-			  ((and gd-fast-process-p
-				(comint-check-proc (current-buffer))
-				(string-match "ython" (process-name (get-buffer-process (current-buffer)))))
-			   (progn
-			     (setq res (process-name (get-buffer-process (current-buffer))))
-			     (py--cleanup-process-name res)))
-			  ((and (not gd-fast-process-p)
-				(comint-check-proc (current-buffer))
-				(setq done t)
-				(string-match "ython" (process-name (get-buffer-process (current-buffer)))))
-			   (setq res (process-name (get-buffer-process (current-buffer))))
-			   (py--cleanup-process-name res))
-			  ((gd-choose-shell-by-shebang))
-			  ((py--choose-shell-by-import))
-			  ((gd-choose-shell-by-path))
-			  (t (or
-			      (default-value 'gd-shell-name)
-			      "python"))))
-	       (cmd (if (or
-			 ;; comint-check-proc was succesful
-			 done
-			 gd-edit-only-p) erg
-		      (executable-find erg))))
-      (if cmd
-          (when (called-interactively-p 'any)
-            (message "%s" cmd))
-        (when (called-interactively-p 'any) (message "%s" "Could not detect GDScript on your system. Maybe set `gd-edit-only-p'?")))
-      erg)))
-
-
-(defun py--normalize-directory (directory)
+(defun gd--normalize-directory (directory)
   "Make sure DIRECTORY ends with a file-path separator char.
 
 Returns DIRECTORY"
@@ -3049,125 +2830,7 @@ Returns DIRECTORY"
     (unless erg (when gd-verbose-p (message "Warning: directory is empty")))
     erg))
 
-(defun py--normalize-pythonpath (pythonpath)
-  "Make sure PYTHONPATH ends with a colon.
 
-Returns PYTHONPATH"
-  (let ((erg (cond ((string-match (concat path-separator "$") pythonpath)
-                    pythonpath)
-                   ((not (string= "" pythonpath))
-                    (concat pythonpath path-separator))
-		   (t pythonpath))))
-    erg))
-
-(defun gd-install-directory-check ()
-  "Do some sanity check for `gd-install-directory'.
-
-Returns `t' if successful. "
-  (interactive)
-  (let ((erg (and (boundp 'gd-install-directory) (stringp gd-install-directory) (< 1 (length gd-install-directory)))))
-    (when (called-interactively-p 'any) (message "gd-install-directory-check: %s" erg))
-    erg))
-
-(defun gd-guess-gd-install-directory ()
-  "Takes value of user directory aka $HOME
-if `(locate-library \"gdscript-mode\")' is not succesful.
-
-Used only, if `gd-install-directory' is empty. "
-  (interactive)
-  (let (name
-	(erg (cond ((locate-library "gdscript-mode")
-                    (file-name-directory (locate-library "gdscript-mode")))
-                   ((and (setq name (py--buffer-filename-remote-maybe)) (string-match "gdscript-mode" name))
-                    (file-name-directory name))
-                   ((string-match "gdscript-mode" (buffer-name))
-                    default-directory))))
-    (cond ((and (or (not gd-install-directory) (string= "" gd-install-directory)) erg)
-	   (setq gd-install-directory erg))
-	   (t (setq gd-install-directory (expand-file-name "~/")))))
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "Setting gd-install-directory to: %s" gd-install-directory))
-    gd-install-directory)
-
-(defun py--fetch-pythonpath ()
-  "Consider settings of gd-pythonpath. "
-  (if (string= "" gd-pythonpath)
-      (getenv "PYTHONPATH")
-    (concat (py--normalize-pythonpath (getenv "PYTHONPATH")) gd-pythonpath)))
-
-(defun gd-load-pymacs ()
-  "Load Pymacs as delivered with gdscript-mode.el.
-
-Pymacs has been written by François Pinard and many others.
-See original source: http://pymacs.progiciels-bpi.ca"
-  (interactive)
-  (let ((pyshell (gd-choose-shell))
-        (path (py--fetch-pythonpath))
-        (gd-install-directory (cond ((string= "" gd-install-directory)
-                                     (gd-guess-gd-install-directory))
-                                    (t (py--normalize-directory gd-install-directory)))))
-    (if (gd-install-directory-check)
-        (progn
-          ;; If Pymacs has not been loaded before, prepend gd-install-directory to
-          ;; PYTHONPATH, so that the Pymacs delivered with gdscript-mode is used.
-          (unless (featurep 'pymacs)
-            (setenv "PYTHONPATH" (concat
-                                  (expand-file-name gd-install-directory)
-                                  (if path (concat path-separator path)))))
-          (setenv "PYMACS_PYTHON" (if (string-match "IP" pyshell)
-                                      "python"
-                                    pyshell))
-          (require 'pymacs))
-      (error "`gd-install-directory' not set, see INSTALL"))))
-
-(when gd-load-pymacs-p (gd-load-pymacs))
-
-(when (and gd-load-pymacs-p (featurep 'pymacs))
-  (defun gd-load-pycomplete ()
-    "Load Pymacs based pycomplete."
-    (interactive)
-    (let* ((path (py--fetch-pythonpath))
-           (gd-install-directory (cond ((string= "" gd-install-directory)
-                                        (gd-guess-gd-install-directory))
-                                       (t (py--normalize-directory gd-install-directory))))
-           (pycomplete-directory (concat (expand-file-name gd-install-directory) "completion")))
-      (if (gd-install-directory-check)
-          (progn
-            ;; If the Pymacs process is already running, augment its path.
-            (when (and (get-process "pymacs") (fboundp 'pymacs-exec))
-              (pymacs-exec (concat "sys.path.insert(0, '" pycomplete-directory "')")))
-            (require 'pymacs)
-            (setenv "PYTHONPATH" (concat
-                                  pycomplete-directory
-                                  (if path (concat path-separator path))))
-            (add-to-list 'load-path pycomplete-directory)
-            (require 'pycomplete)
-            (add-hook 'gdscript-mode-hook 'gd-complete-initialize))
-        (error "`gd-install-directory' not set, see INSTALL")))))
-
-(when (functionp 'gd-load-pycomplete)
-  (gd-load-pycomplete))
-
-(defun gd-set-load-path ()
-  "Include needed subdirs of gdscript-mode directory. "
-  (interactive)
-  (let ((gd-install-directory (py--normalize-directory gd-install-directory)))
-    (cond ((and (not (string= "" gd-install-directory))(stringp gd-install-directory))
-           (add-to-list 'load-path (expand-file-name gd-install-directory))
-           (add-to-list 'load-path (concat (expand-file-name gd-install-directory) "completion"))
-           (add-to-list 'load-path (concat (expand-file-name gd-install-directory) "extensions"))
-           (add-to-list 'load-path (concat (expand-file-name gd-install-directory) "test"))
-           (add-to-list 'load-path (concat (expand-file-name gd-install-directory) "tools"))
-           (add-to-list 'load-path (concat (expand-file-name gd-install-directory) "autopair")))
-          (gd-guess-gd-install-directory-p
-	   (let ((guessed-gd-install-directory (gd-guess-gd-install-directory)))
-	     (when guessed-gd-install-directory
-	       (add-to-list 'load-path guessed-gd-install-directory))))
-          (t (error "Please set `gd-install-directory', see INSTALL"))
-          (when (called-interactively-p 'any) (message "%s" load-path)))))
-
-(unless gd-install-directory
-  (add-to-list 'load-path default-directory)
-  (add-to-list 'load-path (concat default-directory "extensions")))
 
 (defun gd-count-lines (&optional beg end)
   "Count lines in accessible part until current line.
@@ -3196,7 +2859,7 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
       (when (and gd-debug-p (called-interactively-p 'any)) (message "%s" count))
       count)))
 
-(defun py--escape-doublequotes (start end)
+(defun gd--escape-doublequotes (start end)
   (let ((end (copy-marker end)))
     (save-excursion
       (goto-char start)
@@ -3206,7 +2869,7 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
 	    (insert "\\")
 	    (forward-char 1)))))))
 
-(defun py--escape-open-paren-col1 (start end)
+(defun gd--escape-open-paren-col1 (start end)
   (goto-char start)
   ;; (switch-to-buffer (current-buffer))
   (while (re-search-forward "^(" end t 1)
@@ -3279,45 +2942,19 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
         (define-key map [(control c)(>)] 'gd-shift-right)
         (define-key map [(control c)(tab)] 'gd-indent-region)
         (define-key map [(control c)(:)] 'gd-guess-indent-offset)
-        ;; subprocess commands
-        (define-key map [(control c)(control c)] 'gd-execute-buffer)
-        (define-key map [(control c)(control m)] 'gd-execute-import-or-reload)
-        (define-key map [(control c)(control s)] 'gd-execute-string)
-        (define-key map [(control c)(|)] 'gd-execute-region)
-        (define-key map [(control meta x)] 'gd-execute-def-or-class)
-        (define-key map [(control c)(!)] 'gd-shell)
-        (define-key map [(control c)(control t)] 'gd-toggle-shell)
-        (define-key map [(control meta h)] 'gd-mark-def-or-class)
-        (define-key map [(control c)(control k)] 'gd-mark-block-or-clause)
-        (define-key map [(control c)(.)] 'gd-expression)
         ;; Miscellaneous
         ;; (define-key map [(super q)] 'gd-copy-statement)
-        (define-key map [(control c)(control d)] 'gd-pdbtrack-toggle-stack-tracking)
-        (define-key map [(control c)(control f)] 'gd-sort-imports)
         (define-key map [(control c)(\#)] 'gd-comment-region)
-        (define-key map [(control c)(\?)] 'gd-describe-mode)
-        (define-key map [(control c)(control e)] 'gd-help-at-point)
-        (define-key map [(control c)(-)] 'gd-up-exception)
-        (define-key map [(control c)(=)] 'gd-down-exception)
         (define-key map [(control x) (n) (d)] 'gd-narrow-to-defun)
         ;; information
-        (define-key map [(control c)(control b)] 'gd-submit-bug-report)
         (define-key map [(control c)(control v)] 'gd-version)
-        (define-key map [(control c)(control w)] 'gd-pychecker-run)
-        ;; (define-key map (kbd "TAB") 'gd-indent-line)
-        (define-key map (kbd "TAB") 'gd-indent-or-complete)
+        (define-key map (kbd "TAB") 'gd-indent-line)
 	;; (if gd-complete-function
         ;;     (progn
         ;;       (define-key map [(meta tab)] gd-complete-function)
         ;;       (define-key map [(esc) (tab)] gd-complete-function))
         ;;   (define-key map [(meta tab)] 'gd-shell-complete)
         ;;   (define-key map [(esc) (tab)] 'gd-shell-complete))
-        (substitute-key-definition 'complete-symbol 'completion-at-point
-                                   map global-map)
-        (substitute-key-definition 'backward-up-list 'gd-up
-                                   map global-map)
-        (substitute-key-definition 'down-list 'gd-down
-                                   map global-map)
         map))
 
 (defun gd-separator-char ()
@@ -3357,119 +2994,54 @@ Returns char found. "
       (when (or (looking-at "\"")(looking-at "[ \t]*#[ \t]*"))
         (point))))
 
-;; (eval-and-compile
-;;   (defconst gdscript-rx-constituents
-;;     `((block-start . ,(rx symbol-start
-;; 			  (or "async def" "async for" "async with" "def" "class" "if" "elif" "else" "try"
-;; 			      "except" "finally" "for" "while" "with")
-;; 			  symbol-end))
-;;       (decorator . ,(rx line-start (* space) ?@ (any letter ?_)
-;; 			(* (any word ?_))))
-;;       (defun . ,(rx symbol-start (or "def" "class") symbol-end))
-;;       (if-name-main . ,(rx line-start "if" (+ space) "__name__"
-;; 			   (+ space) "==" (+ space)
-;; 			   (any ?' ?\") "__main__" (any ?' ?\")
-;; 			   (* space) ?:))
-;;       (symbol-name . ,(rx (any letter ?_) (* (any word ?_))))
-;;       (open-paren . ,(rx (or "{" "[" "(")))
-;;       (close-paren . ,(rx (or "}" "]" ")")))
-;;       (simple-operator . ,(rx (any ?+ ?- ?/ ?& ?^ ?~ ?| ?* ?< ?> ?= ?%)))
-;;       ;; FIXME: rx should support (not simple-operator).
-;;       (not-simple-operator . ,(rx
-;; 			       (not
-;; 				(any ?+ ?- ?/ ?& ?^ ?~ ?| ?* ?< ?> ?= ?%))))
-;;       ;; FIXME: Use regexp-opt.
-;;       (operator . ,(rx (or "+" "-" "/" "&" "^" "~" "|" "*" "<" ">"
-;; 			   "=" "%" "**" "//" "<<" ">>" "<=" "!="
-;; 			   "==" ">=" "is" "not")))
-;;       ;; FIXME: Use regexp-opt.
-;;       (assignment-operator . ,(rx (or "=" "+=" "-=" "*=" "/=" "//=" "%=" "**="
-;; 				      ">>=" "<<=" "&=" "^=" "|=")))
-;;       (string-delimiter . ,(rx (and
-;;                                 ;; Match even number of backslashes.
-;;                                 (or (not (any ?\\ ?\' ?\")) point
-;;                                     ;; Quotes might be preceded by a escaped quote.
-;;                                     (and (or (not (any ?\\)) point) ?\\
-;;                                          (* ?\\ ?\\) (any ?\' ?\")))
-;;                                 (* ?\\ ?\\)
-;;                                 ;; Match single or triple quotes of any kind.
-;;                                 (group (or "\"" "\"\"\"" "'" "'''"))))))
-;;     "Additional GDScript specific sexps for `gdscript-rx'"))
-
-;; (eval-and-compile
-;;   (defmacro gdscript-rx (&rest regexps)
-;;     "GDScript mode specialized rx macro which supports common python named REGEXPS."
-;;     (let ((rx-constituents (append gdscript-rx-constituents rx-constituents)))
-;;       (cond ((null regexps)
-;; 	     (error "No regexp"))
-;; 	    ((cdr regexps)
-;; 	     (rx-to-string `(and ,@regexps) t))
-;; 	    (t
-;; 	     (rx-to-string (car regexps) t))))))
-
+;;Syntax highlighting
 ;;  Font-lock and syntax
+
 (setq gdscript-font-lock-keywords
       ;; Keywords
       `(,(rx symbol-start
              (or
-	      "if" "and" "del"  "not" "while" "as" "elif" "global"
-	      "or" "async with" "with" "assert" "else"  "pass" "yield" "break"
-	      "exec" "in" "continue" "finally" "is" "except" "raise"
-	      "return"  "async for" "for" "lambda" "await")
+			"if" "elif" "else" "for" "do" "while" "switch" "case" "break" "continue" "pass" 
+			"return" "class" "extends" "tool" "signal" "func" "static" "const" "enum" "var" 
+			"onready" "export" "setget" "breakpoint")
              symbol-end)
-        (,(rx symbol-start (or "async def" "def" "class") symbol-end) . gd-def-class-face)
-        (,(rx symbol-start (or "import" "from") symbol-end) . gd-import-from-face)
-        (,(rx symbol-start (or "try" "if") symbol-end) . gd-try-if-face)
+        (,(rx symbol-start (or "static func" "func" "class") symbol-end) . gd-def-class-face)
+        (,(rx symbol-start (or "if") symbol-end) . gd-try-if-face)
         ;; functions
-        (,(rx symbol-start "def" (1+ space) (group (1+ (or word ?_))))
+        (,(rx symbol-start "func" (1+ space) (group (1+ (or word ?_))))
          (1 font-lock-function-name-face))
-        (,(rx symbol-start "async def" (1+ space) (group (1+ (or word ?_))))
+        (,(rx symbol-start "static func" (1+ space) (group (1+ (or word ?_))))
          (1 font-lock-function-name-face))
         ;; classes
         (,(rx symbol-start (group "class") (1+ space) (group (1+ (or word ?_))))
          (1 gd-def-class-face) (2 gd-class-name-face))
         (,(rx symbol-start
-              (or "Ellipsis" "True" "False" "None"  "__debug__" "NotImplemented")
-              symbol-end) . gd-pseudo-keyword-face)
+              (or "true" "false" "null")
+			  symbol-end) . gd-pseudo-keyword-face)
         ;; Decorators.
         (,(rx line-start (* (any " \t")) (group "@" (1+ (or word ?_))
-                                                (0+ "." (1+ (or word ?_)))))
+                                               (0+ "." (1+ (or word ?_)))))
          (1 gd-decorators-face))
-	(,(rx symbol-start (or "cls" "self")
+	(,(rx symbol-start (or "self")
 	      symbol-end) . gd-object-reference-face)
-
-        ;; Exceptions
-        (,(rx word-start
-              (or "ArithmeticError" "AssertionError" "AttributeError"
-                  "BaseException" "BufferError" "BytesWarning" "DeprecationWarning"
-                  "EOFError" "EnvironmentError" "Exception" "FloatingPointError"
-                  "FutureWarning" "GeneratorExit" "IOError" "ImportError"
-                  "ImportWarning" "IndentationError" "IndexError" "KeyError"
-                  "KeyboardInterrupt" "LookupError" "MemoryError" "NameError" "NoResultFound"
-                  "NotImplementedError" "OSError" "OverflowError"
-                  "PendingDeprecationWarning" "ReferenceError" "RuntimeError"
-                  "RuntimeWarning" "StandardError" "StopIteration" "SyntaxError"
-                  "SyntaxWarning" "SystemError" "SystemExit" "TabError" "TypeError"
-                  "UnboundLocalError" "UnicodeDecodeError" "UnicodeEncodeError"
-                  "UnicodeError" "UnicodeTranslateError" "UnicodeWarning"
-                  "UserWarning" "ValueError" "Warning" "ZeroDivisionError")
-              word-end) . gd-exception-name-face)
         ;; Builtins
         (,(rx
-	   (or space line-start (not (any ".(")))
-	   symbol-start
-	   (group (or "_" "__doc__" "__import__" "__name__" "__package__" "abs" "all"
-		      "any" "apply" "basestring" "bin" "bool" "buffer" "bytearray"
-		      "bytes" "callable" "chr" "classmethod" "cmp" "coerce" "compile"
-		      "complex" "delattr" "dict" "dir" "divmod" "enumerate" "eval"
-		      "execfile" "filter" "float" "format" "frozenset"
-		      "getattr" "globals" "hasattr" "hash" "help" "hex" "id" "input"
-		      "int" "intern" "isinstance" "issubclass" "iter" "len" "list"
-		      "locals" "long" "map" "max" "min" "next" "object" "oct" "open"
-		      "ord" "pow" "property" "range" "raw_input" "reduce"
-		      "reload" "repr" "reversed" "round" "set" "setattr" "slice"
-		      "sorted" "staticmethod" "str" "sum" "super" "tuple" "type"
-		      "unichr" "unicode" "vars" "xrange" "zip"))
+        (or space line-start (not (any ".(")))
+        symbol-start
+        (group (or "_" "__doc__" "__import__" "__name__" "__package__" "abs" "all"
+            "Vector2" "Rect2" "Vector3" "Matrix32" "Plane" "Quat" "AABB" "Matrix3" "Transform"
+            "String" "int" "float" "bool" "Color" "RID" "Object"
+            "InputEvent" "Array" "Dictionary" 
+            "Color8" "abs" "acos" "asin" "assert" "atan" "atan2" "bytes2var"
+            "ceil" "clamp" "convert" "cos" "cosh" "db2linear" "decimals"
+            "dectime" "deg2rad" "dict2inst" "ease" "exp" "floor" "fmod"
+            "fposmod" "funcref" "hash" "inst2dict" "instance_from_id" "is_inf"
+            "is_nan" "lerp" "linear2db" "load" "log" "max" "min" "nearest_po2"
+            "pow" "preload" "print" "print_stack" "printerr" "printraw"
+            "prints" "printt" "rad2deg" "rand_range" "rand_seed" "randf"
+            "randi" "randomize" "range" "round" "seed" "sign" "sin" "sinh"
+            "sqrt" "stepify" "str" "str2var" "tan" "tanh" "type_exists"
+            "typeof" "var2bytes" "var2str" "weakref" "yield"))
 	   symbol-end) (1 gd-builtins-face))
         ("\\([._[:word:]]+\\)\\(?:\\[[^]]+]\\)?[[:space:]]*\\(?:\\(?:\\*\\*\\|//\\|<<\\|>>\\|[%&*+/|^-]\\)?=\\)"
          (1 gd-variable-name-face nil nil))
@@ -3497,14 +3069,10 @@ Returns char found. "
 
 
 (require 'ansi-color)
-(require 'cc-cmds)
+;; (require 'cc-cmds)
 (require 'cl)
-(require 'comint)
-(require 'compile)
 (require 'custom)
-(require 'flymake)
 (require 'hippie-exp)
-(require 'shell)
 (require 'thingatpt)
 (require 'which-func)
 
@@ -3517,7 +3085,7 @@ Returns char found. "
   (interactive "P")
   ;; (let ((indent indent))
   (unless (featurep 'highlight-indentation)
-    (load (concat (py--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
+    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
   (highlight-indentation indent)
   (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
   highlight-indent-active)
@@ -3526,7 +3094,7 @@ Returns char found. "
   "If `highlight-indentation-p' should be on or off. "
   (interactive)
   (unless (featurep 'highlight-indentation)
-    (load (concat (py--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
+    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
   (highlight-indentation-off)
   (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
   highlight-indent-active)
@@ -3535,7 +3103,7 @@ Returns char found. "
   "If `highlight-indentation-p' should be on or off. "
   (interactive "P")
   (unless (featurep 'highlight-indentation)
-    (load (concat (py--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
+    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
   (highlight-indentation-on)
   (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
   highlight-indent-active)
@@ -3633,205 +3201,7 @@ Returns value of `gd-smart-operator-mode-p'. "
   (interactive)
   (setq gd-smart-operator-mode-p (smart-operator-mode 0)))
 
-;;  gd-switch-buffers-on-execute-p forms
-(defun toggle-gd-switch-buffers-on-execute-p (&optional arg)
-  "If `gd-switch-buffers-on-execute-p' should be on or off.
 
-  Returns value of `gd-switch-buffers-on-execute-p' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-switch-buffers-on-execute-p -1 1))))
-    (if (< 0 arg)
-        (setq gd-switch-buffers-on-execute-p t)
-      (setq gd-switch-buffers-on-execute-p nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-switch-buffers-on-execute-p: %s" gd-switch-buffers-on-execute-p))
-    gd-switch-buffers-on-execute-p))
-
-(defun gd-switch-buffers-on-execute-p-on (&optional arg)
-  "Make sure, `gd-gd-switch-buffers-on-execute-p' is on.
-
-Returns value of `gd-switch-buffers-on-execute-p'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-switch-buffers-on-execute-p arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-switch-buffers-on-execute-p: %s" gd-switch-buffers-on-execute-p))
-  gd-switch-buffers-on-execute-p)
-
-(defun gd-switch-buffers-on-execute-p-off ()
-  "Make sure, `gd-switch-buffers-on-execute-p' is off.
-
-Returns value of `gd-switch-buffers-on-execute-p'. "
-  (interactive)
-  (toggle-gd-switch-buffers-on-execute-p -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-switch-buffers-on-execute-p: %s" gd-switch-buffers-on-execute-p))
-  gd-switch-buffers-on-execute-p)
-
-;;  gd-split-window-on-execute forms
-(defun toggle-gd-split-window-on-execute (&optional arg)
-  "If `gd-split-window-on-execute' should be on or off.
-
-  Returns value of `gd-split-window-on-execute' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-split-window-on-execute -1 1))))
-    (if (< 0 arg)
-        (setq gd-split-window-on-execute t)
-      (setq gd-split-window-on-execute nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-split-window-on-execute: %s" gd-split-window-on-execute))
-    gd-split-window-on-execute))
-
-(defun gd-split-window-on-execute-on (&optional arg)
-  "Make sure, `gd-gd-split-window-on-execute' is on.
-
-Returns value of `gd-split-window-on-execute'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-split-window-on-execute arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-split-window-on-execute: %s" gd-split-window-on-execute))
-  gd-split-window-on-execute)
-
-(defun gd-split-window-on-execute-off ()
-  "Make sure, `gd-split-window-on-execute' is off.
-
-Returns value of `gd-split-window-on-execute'. "
-  (interactive)
-  (toggle-gd-split-window-on-execute -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-split-window-on-execute: %s" gd-split-window-on-execute))
-  gd-split-window-on-execute)
-
-;;  gd-fontify-shell-buffer-p forms
-(defun toggle-gd-fontify-shell-buffer-p (&optional arg)
-  "If `gd-fontify-shell-buffer-p' should be on or off.
-
-  Returns value of `gd-fontify-shell-buffer-p' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-fontify-shell-buffer-p -1 1))))
-    (if (< 0 arg)
-        (progn
-          (setq gd-fontify-shell-buffer-p t)
-          (set (make-local-variable 'font-lock-defaults)
-             '(gdscript-font-lock-keywords nil nil nil nil
-                                         (font-lock-syntactic-keywords
-                                          . gd-font-lock-syntactic-keywords)))
-          (unless (looking-at comint-prompt-regexp)
-            (when (re-search-backward comint-prompt-regexp nil t 1)
-              (font-lock-fontify-region (line-beginning-position) (point-max)))))
-      (setq gd-fontify-shell-buffer-p nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-fontify-shell-buffer-p: %s" gd-fontify-shell-buffer-p))
-    gd-fontify-shell-buffer-p))
-
-(defun gd-fontify-shell-buffer-p-on (&optional arg)
-  "Make sure, `gd-gd-fontify-shell-buffer-p' is on.
-
-Returns value of `gd-fontify-shell-buffer-p'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-fontify-shell-buffer-p arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-fontify-shell-buffer-p: %s" gd-fontify-shell-buffer-p))
-  gd-fontify-shell-buffer-p)
-
-(defun gd-fontify-shell-buffer-p-off ()
-  "Make sure, `gd-fontify-shell-buffer-p' is off.
-
-Returns value of `gd-fontify-shell-buffer-p'. "
-  (interactive)
-  (toggle-gd-fontify-shell-buffer-p -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-fontify-shell-buffer-p: %s" gd-fontify-shell-buffer-p))
-  gd-fontify-shell-buffer-p)
-
-;;  gdscript-mode-v5-behavior-p forms
-(defun toggle-gdscript-mode-v5-behavior-p (&optional arg)
-  "If `gdscript-mode-v5-behavior-p' should be on or off.
-
-  Returns value of `gdscript-mode-v5-behavior-p' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gdscript-mode-v5-behavior-p -1 1))))
-    (if (< 0 arg)
-        (setq gdscript-mode-v5-behavior-p t)
-      (setq gdscript-mode-v5-behavior-p nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gdscript-mode-v5-behavior-p: %s" gdscript-mode-v5-behavior-p))
-    gdscript-mode-v5-behavior-p))
-
-(defun gdscript-mode-v5-behavior-p-on (&optional arg)
-  "Make sure, `gdscript-mode-v5-behavior-p' is on.
-
-Returns value of `gdscript-mode-v5-behavior-p'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gdscript-mode-v5-behavior-p arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gdscript-mode-v5-behavior-p: %s" gdscript-mode-v5-behavior-p))
-  gdscript-mode-v5-behavior-p)
-
-(defun gdscript-mode-v5-behavior-p-off ()
-  "Make sure, `gdscript-mode-v5-behavior-p' is off.
-
-Returns value of `gdscript-mode-v5-behavior-p'. "
-  (interactive)
-  (toggle-gdscript-mode-v5-behavior-p -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gdscript-mode-v5-behavior-p: %s" gdscript-mode-v5-behavior-p))
-  gdscript-mode-v5-behavior-p)
-
-;;  gd-jump-on-exception forms
-(defun toggle-gd-jump-on-exception (&optional arg)
-  "If `gd-jump-on-exception' should be on or off.
-
-  Returns value of `gd-jump-on-exception' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-jump-on-exception -1 1))))
-    (if (< 0 arg)
-        (setq gd-jump-on-exception t)
-      (setq gd-jump-on-exception nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-jump-on-exception: %s" gd-jump-on-exception))
-    gd-jump-on-exception))
-
-(defun gd-jump-on-exception-on (&optional arg)
-  "Make sure, gd-jump-on-exception' is on.
-
-Returns value of `gd-jump-on-exception'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-jump-on-exception arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-jump-on-exception: %s" gd-jump-on-exception))
-  gd-jump-on-exception)
-
-(defun gd-jump-on-exception-off ()
-  "Make sure, `gd-jump-on-exception' is off.
-
-Returns value of `gd-jump-on-exception'. "
-  (interactive)
-  (toggle-gd-jump-on-exception -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-jump-on-exception: %s" gd-jump-on-exception))
-  gd-jump-on-exception)
-
-;;  gd-use-current-dir-when-execute-p forms
-(defun toggle-gd-use-current-dir-when-execute-p (&optional arg)
-  "If `gd-use-current-dir-when-execute-p' should be on or off.
-
-  Returns value of `gd-use-current-dir-when-execute-p' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-use-current-dir-when-execute-p -1 1))))
-    (if (< 0 arg)
-        (setq gd-use-current-dir-when-execute-p t)
-      (setq gd-use-current-dir-when-execute-p nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-use-current-dir-when-execute-p: %s" gd-use-current-dir-when-execute-p))
-    gd-use-current-dir-when-execute-p))
-
-(defun gd-use-current-dir-when-execute-p-on (&optional arg)
-  "Make sure, gd-use-current-dir-when-execute-p' is on.
-
-Returns value of `gd-use-current-dir-when-execute-p'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-use-current-dir-when-execute-p arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-use-current-dir-when-execute-p: %s" gd-use-current-dir-when-execute-p))
-  gd-use-current-dir-when-execute-p)
-
-(defun gd-use-current-dir-when-execute-p-off ()
-  "Make sure, `gd-use-current-dir-when-execute-p' is off.
-
-Returns value of `gd-use-current-dir-when-execute-p'. "
-  (interactive)
-  (toggle-gd-use-current-dir-when-execute-p -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-use-current-dir-when-execute-p: %s" gd-use-current-dir-when-execute-p))
-  gd-use-current-dir-when-execute-p)
 
 ;;  gd-electric-comment-p forms
 (defun toggle-gd-electric-comment-p (&optional arg)
@@ -3916,20 +3286,8 @@ See bug report at launchpad, lp:940812 "
          (toggle-gd-underscore-word-syntax-p (if value 1 0))))
 
 ;; gdscript-components-edit
-(defvar gd-keywords "\\<\\(ArithmeticError\\|AssertionError\\|AttributeError\\|BaseException\\|BufferError\\|BytesWarning\\|DeprecationWarning\\|EOFError\\|Ellipsis\\|EnvironmentError\\|Exception\\|False\\|FloatingPointError\\|FutureWarning\\|GeneratorExit\\|IOError\\|ImportError\\|ImportWarning\\|IndentationError\\|IndexError\\|KeyError\\|KeyboardInterrupt\\|LookupError\\|MemoryError\\|NameError\\|NoneNotImplementedError\\|NotImplemented\\|OSError\\|OverflowError\\|PendingDeprecationWarning\\|ReferenceError\\|RuntimeError\\|RuntimeWarning\\|StandardError\\|StopIteration\\|SyntaxError\\|SyntaxWarning\\|SystemError\\|SystemExit\\|TabError\\|True\\|TypeError\\|UnboundLocalError\\|UnicodeDecodeError\\|UnicodeEncodeError\\|UnicodeError\\|UnicodeTranslateError\\|UnicodeWarning\\|UserWarning\\|ValueError\\|Warning\\|ZeroDivisionError\\|__debug__\\|__import__\\|__name__\\|abs\\|all\\|and\\|any\\|apply\\|as\\|assert\\|basestring\\|bin\\|bool\\|break\\|buffer\\|bytearray\\|callable\\|chr\\|class\\|classmethod\\|cmp\\|coerce\\|compile\\|complex\\|continue\\|copyright\\|credits\\|def\\|del\\|delattr\\|dict\\|dir\\|divmod\\|elif\\|else\\|enumerate\\|eval\\|except\\|exec\\|execfile\\|exit\\|file\\|filter\\|float\\|for\\|format\\|from\\|getattr\\|global\\|globals\\|hasattr\\|hash\\|help\\|hex\\|id\\|if\\|import\\|in\\|input\\|int\\|intern\\|is\\|isinstance\\|issubclass\\|iter\\|lambda\\|len\\|license\\|list\\|locals\\|long\\|map\\|max\\|memoryview\\|min\\|next\\|not\\|object\\|oct\\|open\\|or\\|ord\\|pass\\|pow\\|print\\|property\\|quit\\|raise\\|range\\|raw_input\\|reduce\\|reload\\|repr\\|return\\|round\\|set\\|setattr\\|slice\\|sorted\\|staticmethod\\|str\\|sum\\|super\\|tuple\\|type\\|unichr\\|unicode\\|vars\\|while\\|with\\|xrange\\|yield\\|zip\\|\\)\\>"
-  "Contents like gd-fond-lock-keyword")
 
-;; ;
-(defun gd-insert-default-shebang ()
-  "Insert in buffer shebang of installed default GDScript. "
-  (interactive "*")
-  (let* ((erg (if gd-edit-only-p
-                  gd-shell-name
-                (executable-find gd-shell-name)))
-         (sheb (concat "#! " erg)))
-    (insert sheb)))
-
-(defun py--top-level-form-p ()
+(defun gd--top-level-form-p ()
   "Return non-nil, if line starts with a top level definition.
 
 Used by `gd-electric-colon', which will not indent than. "
@@ -3960,7 +3318,7 @@ With optional \\[universal-argument] an indent with length `gd-indent-offset' is
              (delete-horizontal-space)
              (indent-to need))))))
 
-(defun py--indent-fix-region-intern (beg end)
+(defun gd--indent-fix-region-intern (beg end)
   "Used when `gd-tab-indents-region-p' is non-nil. "
   (let (indent)
     (save-excursion
@@ -3979,12 +3337,12 @@ With optional \\[universal-argument] an indent with length `gd-indent-offset' is
           (delete-region (point) (progn (skip-chars-forward " \t\r\n\f") (point)))
           (indent-to (gd-compute-indentation)))))))
 
-(defun py--indent-line-intern (need cui gd-indent-offset col &optional beg end region)
+(defun gd--indent-line-intern (need cui gd-indent-offset col &optional beg end region)
   (let (erg)
     (if gd-tab-indent
 	(progn
 	  (and gd-tab-indents-region-p region
-	       (py--indent-fix-region-intern beg end))
+	       (gd--indent-fix-region-intern beg end))
 	  (cond
 	   ((bolp)
 	    (if (and gd-tab-shifts-region-p region)
@@ -4042,7 +3400,7 @@ With optional \\[universal-argument] an indent with length `gd-indent-offset' is
 		(beginning-of-line))))))
       (insert-tab))))
 
-(defun py--indent-line-base (beg end region cui need arg this-indent-offset col)
+(defun gd--indent-line-base (beg end region cui need arg this-indent-offset col)
   (cond ((eq 4 (prefix-numeric-value arg))
 	 (if (and (eq cui (current-indentation))
 		  (<= need cui))
@@ -4052,10 +3410,10 @@ With optional \\[universal-argument] an indent with length `gd-indent-offset' is
 	   (indent-to (+ need gd-indent-offset))))
 	((not (eq 1 (prefix-numeric-value arg)))
 	 (gd-smart-indentation-off)
-	 (py--indent-line-intern need cui this-indent-offset col beg end region))
-	(t (py--indent-line-intern need cui this-indent-offset col beg end region))))
+	 (gd--indent-line-intern need cui this-indent-offset col beg end region))
+	(t (gd--indent-line-intern need cui this-indent-offset col beg end region))))
 
-(defun py--calculate-indent-backwards (cui indent-offset)
+(defun gd--calculate-indent-backwards (cui indent-offset)
   "Return the next reasonable indent lower than current indentation. "
   (if (< 0 (% cui gd-indent-offset))
       ;; not correctly indented at all
@@ -4117,10 +3475,10 @@ C-q TAB inserts a literal TAB-character."
 	  (cond ((eq this-command last-command)
 		 (if (eq cui outmost)
 		     (when (not outmost-only)
-		       (py--calculate-indent-backwards cui this-indent-offset)))
+		       (gd--calculate-indent-backwards cui this-indent-offset)))
 		 (if (bolp)
 		     (gd-compute-indentation orig)
-		   (py--calculate-indent-backwards cui this-indent-offset)))
+		   (gd--calculate-indent-backwards cui this-indent-offset)))
 		(t
 		 outmost
 		 ;; (gd-compute-indentation orig)
@@ -4129,7 +3487,7 @@ C-q TAB inserts a literal TAB-character."
     ;; if at outmost
     ;; and not (eq this-command last-command), need remains nil
     (when need
-      (py--indent-line-base beg end region cui need arg this-indent-offset col)
+      (gd--indent-line-base beg end region cui need arg this-indent-offset col)
       (and region (or gd-tab-shifts-region-p
 		      gd-tab-indents-region-p)
 	   (not (eq (point) orig))
@@ -4137,7 +3495,7 @@ C-q TAB inserts a literal TAB-character."
       (when (and (called-interactively-p 'any) gd-verbose-p)(message "%s" (current-indentation)))
       (current-indentation))))
 
-(defun py--delete-trailing-whitespace (orig)
+(defun gd--delete-trailing-whitespace (orig)
   "Delete trailing whitespace if either `gd-newline-delete-trailing-whitespace-p' or `gd-trailing-whitespace-smart-delete-p' are `t' "
   (when (or gd-newline-delete-trailing-whitespace-p gd-trailing-whitespace-smart-delete-p)
     (let ((pos (copy-marker (point))))
@@ -4168,11 +3526,11 @@ When indent is set back manually, this is honoured in following lines. "
 	    (current-column)))
 	 erg pos)
     (newline)
-    (py--delete-trailing-whitespace orig)
+    (gd--delete-trailing-whitespace orig)
     (setq erg
 	  (cond (this-dedent
 		 (indent-to-column this-dedent))
-		((and gd-empty-line-closes-p (or (eq this-command last-command)(py--after-empty-line)))
+		((and gd-empty-line-closes-p (or (eq this-command last-command)(gd--after-empty-line)))
 		 (indent-to-column (save-excursion (gd-backward-statement)(- (current-indentation) gd-indent-offset))))
 		(t
 		 (fixup-whitespace)
@@ -4233,7 +3591,7 @@ Returns value of `indent-tabs-mode' switched to. "
 (defun gd-guessed-sanity-check (guessed)
   (and (>= guessed 2)(<= guessed 8)(eq 0 (% guessed 2))))
 
-(defun py--guess-indent-final (indents orig)
+(defun gd--guess-indent-final (indents orig)
   "Calculate and do sanity-check. "
   (let* ((first (car indents))
          (second (cadr indents))
@@ -4246,10 +3604,10 @@ Returns value of `indent-tabs-mode' switched to. "
     (setq erg (and (gd-guessed-sanity-check erg) erg))
     erg))
 
-(defun py--guess-indent-forward ()
+(defun gd--guess-indent-forward ()
   "Called when moving to end of a form and `gd-smart-indentation' is on. "
   (let* ((first (if
-                    (py--beginning-of-statement-p)
+                    (gd--beginning-of-statement-p)
                     (current-indentation)
                   (progn
                     (gd-forward-statement)
@@ -4268,7 +3626,7 @@ Returns value of `indent-tabs-mode' switched to. "
                    (current-indentation))))
     (list first second)))
 
-(defun py--guess-indent-backward ()
+(defun gd--guess-indent-backward ()
   "Called when moving to beginning of a form and `gd-smart-indentation' is on. "
   (let* ((cui (current-indentation))
          (indent (if (< 0 cui) cui 999))
@@ -4293,20 +3651,20 @@ downwards from beginning of block followed by a statement. Otherwise default-val
            (indents
             (cond (direction
                    (if (eq 'forward direction)
-                       (py--guess-indent-forward)
-                     (py--guess-indent-backward)))
+                       (gd--guess-indent-forward)
+                     (gd--guess-indent-backward)))
                   ;; guess some usable indent is above current position
                   ((eq 0 (current-indentation))
-                   (py--guess-indent-forward))
-                  (t (py--guess-indent-backward))))
-           (erg (py--guess-indent-final indents orig)))
+                   (gd--guess-indent-forward))
+                  (t (gd--guess-indent-backward))))
+           (erg (gd--guess-indent-final indents orig)))
       (if erg (setq gd-indent-offset erg)
         (setq gd-indent-offset
               (default-value 'gd-indent-offset)))
       (when (called-interactively-p 'any) (message "%s" gd-indent-offset))
       gd-indent-offset)))
 
-(defun py--comment-indent-function ()
+(defun gd--comment-indent-function ()
   "GDScript version of `comment-indent-function'."
   ;; This is required when filladapt is turned off.  Without it, when
   ;; filladapt is not used, comments which start in column zero
@@ -4350,7 +3708,7 @@ If optional INDENT is given, use it"
     (forward-line 1))
   (back-to-indentation))
 
-(defun py--indent-line-by-line (beg end)
+(defun gd--indent-line-by-line (beg end)
   "Indent every line until end to max reasonable extend.
 
 Starts from second line of region specified"
@@ -4382,36 +3740,36 @@ In order to shift a chunk of code, where the first line is okay, start with seco
     (beginning-of-line)
     (setq beg (point))
     (skip-chars-forward " \t\r\n\f")
-    (py--indent-line-by-line beg end)
+    (gd--indent-line-by-line beg end)
     ;; (if (eq 4 (prefix-numeric-value line-by-line))
-    ;; 	(py--indent-line-by-line beg end)
+    ;; 	(gd--indent-line-by-line beg end)
     ;;   (setq need (gd-compute-indentation))
     ;;   (if (< 0 (abs need))
     ;; 	  (indent-region beg end need)
-    ;; 	(py--indent-line-by-line beg end))
+    ;; 	(gd--indent-line-by-line beg end))
     ;;   (goto-char orig))
     )
   )
 
-(defun py--beginning-of-buffer-position ()
+(defun gd--beginning-of-buffer-position ()
   (point-min))
 
-(defun py--end-of-buffer-position ()
+(defun gd--end-of-buffer-position ()
   (point-max))
 
 ;;  Declarations start
-(defun py--bounds-of-declarations ()
+(defun gd--bounds-of-declarations ()
   "Bounds of consecutive multitude of assigments resp. statements around point.
 
 Indented same level, which don't open blocks.
 Typically declarations resp. initialisations of variables following
 a class or function definition.
-See also py--bounds-of-statements "
+See also gd--bounds-of-statements "
   (let* ((orig-indent (progn
                         (back-to-indentation)
-                        (unless (py--beginning-of-statement-p)
+                        (unless (gd--beginning-of-statement-p)
                           (gd-backward-statement))
-                        (unless (py--beginning-of-block-p)
+                        (unless (gd--beginning-of-block-p)
                           (current-indentation))))
          (orig (point))
          last beg end)
@@ -4420,17 +3778,17 @@ See also py--bounds-of-statements "
       ;; look upward first
       (while (and
               (progn
-                (unless (py--beginning-of-statement-p)
+                (unless (gd--beginning-of-statement-p)
                   (gd-backward-statement))
                 (line-beginning-position))
               (gd-backward-statement)
-              (not (py--beginning-of-block-p))
+              (not (gd--beginning-of-block-p))
               (eq (current-indentation) orig-indent))
         (setq beg (line-beginning-position)))
       (goto-char orig)
       (while (and (setq last (line-end-position))
                   (setq end (gd-down-statement))
-                  (not (py--beginning-of-block-p))
+                  (not (gd--beginning-of-block-p))
                   (eq (gd-indentation-of-statement) orig-indent)))
       (setq end last)
       (goto-char beg)
@@ -4445,7 +3803,7 @@ See also py--bounds-of-statements "
   "Got to the beginning of assigments resp. statements in current level which don't open blocks.
 "
   (interactive)
-  (let* ((bounds (py--bounds-of-declarations))
+  (let* ((bounds (gd--bounds-of-declarations))
          (erg (car bounds)))
     (when erg (goto-char erg))
     (when (called-interactively-p 'any) (message "%s" erg))
@@ -4454,7 +3812,7 @@ See also py--bounds-of-statements "
 (defun gd-forward-declarations ()
   "Got to the end of assigments resp. statements in current level which don't open blocks. "
   (interactive)
-  (let* ((bounds (py--bounds-of-declarations))
+  (let* ((bounds (gd--bounds-of-declarations))
          (erg (cdr bounds)))
     (when erg (goto-char erg))
     (when (called-interactively-p 'any) (message "%s" erg))
@@ -4466,7 +3824,7 @@ See also py--bounds-of-statements "
 
 See also `gd-statements', which is more general, taking also simple statements starting with a keyword. "
   (interactive)
-  (let* ((bounds (py--bounds-of-declarations))
+  (let* ((bounds (gd--bounds-of-declarations))
          (beg (car bounds))
          (end (cdr bounds)))
     (when (and beg end)
@@ -4481,7 +3839,7 @@ See also `gd-statements', which is more general, taking also simple statements s
 
 Store deleted variables in kill-ring "
   (interactive "*")
-  (let* ((bounds (py--bounds-of-declarations))
+  (let* ((bounds (gd--bounds-of-declarations))
          (beg (car bounds))
          (end (cdr bounds)))
     (when (and beg end)
@@ -4493,16 +3851,16 @@ Store deleted variables in kill-ring "
 ;;  Declarations end
 
 ;;  Statements start
-(defun py--bounds-of-statements ()
+(defun gd--bounds-of-statements ()
   "Bounds of consecutive multitude of statements around point.
 
 Indented same level, which don't open blocks. "
   (interactive)
   (let* ((orig-indent (progn
                         (back-to-indentation)
-                        (unless (py--beginning-of-statement-p)
+                        (unless (gd--beginning-of-statement-p)
                           (gd-backward-statement))
-                        (unless (py--beginning-of-block-p)
+                        (unless (gd--beginning-of-block-p)
                           (current-indentation))))
          (orig (point))
          last beg end)
@@ -4513,16 +3871,14 @@ Indented same level, which don't open blocks. "
                         (when (gd-backward-statement)
                           (line-beginning-position)))
                   (not (gd-in-string-p))
-                  (not (py--beginning-of-block-p))
+                  (not (gd--beginning-of-block-p))
                   (eq (current-indentation) orig-indent)))
       (setq beg last)
       (goto-char orig)
       (setq end (line-end-position))
-      (while (and (setq last (py--end-of-statement-position))
+      (while (and (setq last (gd--end-of-statement-position))
                   (setq end (gd-down-statement))
-                  (not (py--beginning-of-block-p))
-                  ;; (not (looking-at gd-keywords))
-                  ;; (not (looking-at "pdb\."))
+                  (not (gd--beginning-of-block-p))
                   (not (gd-in-string-p))
                   (eq (gd-indentation-of-statement) orig-indent)))
       (setq end last)
@@ -4537,7 +3893,7 @@ Indented same level, which don't open blocks. "
 (defun gd-backward-statements ()
   "Got to the beginning of statements in current level which don't open blocks. "
   (interactive)
-  (let* ((bounds (py--bounds-of-statements))
+  (let* ((bounds (gd--bounds-of-statements))
          (erg (car bounds)))
     (when erg (goto-char erg))
     (when (called-interactively-p 'any) (message "%s" erg))
@@ -4546,7 +3902,7 @@ Indented same level, which don't open blocks. "
 (defun gd-forward-statements ()
   "Got to the end of statements in current level which don't open blocks. "
   (interactive)
-  (let* ((bounds (py--bounds-of-statements))
+  (let* ((bounds (gd--bounds-of-statements))
          (erg (cdr bounds)))
     (when erg (goto-char erg))
     (when (called-interactively-p 'any) (message "%s" erg))
@@ -4558,7 +3914,7 @@ Indented same level, which don't open blocks. "
 
 More general than gd-declarations, which would stop at keywords like a print-statement. "
   (interactive)
-  (let* ((bounds (py--bounds-of-statements))
+  (let* ((bounds (gd--bounds-of-statements))
          (beg (car bounds))
          (end (cdr bounds)))
     (when (and beg end)
@@ -4573,14 +3929,14 @@ More general than gd-declarations, which would stop at keywords like a print-sta
 
 Store deleted statements in kill-ring "
   (interactive "*")
-  (let* ((bounds (py--bounds-of-statements))
+  (let* ((bounds (gd--bounds-of-statements))
          (beg (car bounds))
          (end (cdr bounds)))
     (when (and beg end)
       (kill-new (buffer-substring-no-properties beg end))
       (delete-region beg end))))
 
-(defun py--join-words-wrapping (words separator line-prefix line-length)
+(defun gd--join-words-wrapping (words separator line-prefix line-length)
   (let ((lines ())
         (current-line line-prefix))
     (while words
@@ -4595,72 +3951,38 @@ Store deleted statements in kill-ring "
                        current-line 0 (- 0 (length separator) 1)) lines))
     (mapconcat 'identity (nreverse lines) "\n")))
 
-(defun gd-insert-super ()
-  "Insert a function \"super()\" from current environment.
-
-As example given in GDScript v3.1 documentation » The GDScript Standard Library »
-
-class C(B):
-    def method(self, arg):
-        super().method(arg) # This does the same thing as:
-                               # super(C, self).method(arg)
-
-Returns the string inserted. "
-  (interactive "*")
-  (let* ((orig (point))
-         (funcname (progn
-                     (gd-backward-def)
-                     (when (looking-at (concat gd-def-re " *\\([^(]+\\) *(\\(?:[^),]*\\),? *\\([^)]*\\))"))
-                       (match-string-no-properties 2))))
-         (args (match-string-no-properties 3))
-         (ver (gd-which-python))
-         classname erg)
-    (if (< ver 3)
-        (progn
-          (gd-backward-class)
-          (when (looking-at (concat gd-class-re " *\\([^( ]+\\)"))
-            (setq classname (match-string-no-properties 2)))
-          (goto-char orig)
-          (setq erg (concat "super(" classname ", self)." funcname "(" args ")"))
-          ;; super(C, self).method(arg)"
-          (insert erg))
-      (goto-char orig)
-      (setq erg (concat "super()." funcname "(" args ")"))
-      (insert erg))
-    erg))
-
 ;; Comments
 (defun gd-delete-comments-in-def-or-class ()
   "Delete all commented lines in def-or-class at point"
   (interactive "*")
   (save-excursion
-    (let ((beg (py--beginning-of-def-or-class-position))
-          (end (py--end-of-def-or-class-position)))
-      (and beg end (py--delete-comments-intern beg end)))))
+    (let ((beg (gd--beginning-of-def-or-class-position))
+          (end (gd--end-of-def-or-class-position)))
+      (and beg end (gd--delete-comments-intern beg end)))))
 
 (defun gd-delete-comments-in-class ()
   "Delete all commented lines in class at point"
   (interactive "*")
   (save-excursion
-    (let ((beg (py--beginning-of-class-position))
-          (end (py--end-of-class-position)))
-      (and beg end (py--delete-comments-intern beg end)))))
+    (let ((beg (gd--beginning-of-class-position))
+          (end (gd--end-of-class-position)))
+      (and beg end (gd--delete-comments-intern beg end)))))
 
 (defun gd-delete-comments-in-block ()
   "Delete all commented lines in block at point"
   (interactive "*")
   (save-excursion
-    (let ((beg (py--beginning-of-block-position))
-          (end (py--end-of-block-position)))
-      (and beg end (py--delete-comments-intern beg end)))))
+    (let ((beg (gd--beginning-of-block-position))
+          (end (gd--end-of-block-position)))
+      (and beg end (gd--delete-comments-intern beg end)))))
 
 (defun gd-delete-comments-in-region (beg end)
   "Delete all commented lines in region. "
   (interactive "r*")
   (save-excursion
-    (py--delete-comments-intern beg end)))
+    (gd--delete-comments-intern beg end)))
 
-(defun py--delete-comments-intern (beg end)
+(defun gd--delete-comments-intern (beg end)
   (save-restriction
     (narrow-to-region beg end)
     (goto-char beg)
@@ -4670,38 +3992,38 @@ Returns the string inserted. "
           (delete-region (point) (1+ (line-end-position)))
         (forward-line 1)))))
 
-(defun py--edit-docstring-set-vars ()
+(defun gd--edit-docstring-set-vars ()
   (save-excursion
-    (setq py--docbeg (when (use-region-p) (region-beginning)))
-    (setq py--docend (when (use-region-p) (region-end)))
+    (setq gd--docbeg (when (use-region-p) (region-beginning)))
+    (setq gd--docend (when (use-region-p) (region-end)))
     (let ((pps (parse-partial-sexp (point-min) (point))))
       (when (nth 3 pps)
-	(setq py--docbeg (or py--docbeg (progn (goto-char (nth 8 pps))
+	(setq gd--docbeg (or gd--docbeg (progn (goto-char (nth 8 pps))
 					       (skip-chars-forward (char-to-string (char-after)))(push-mark)(point))))
-	(setq py--docend (or py--docend
+	(setq gd--docend (or gd--docend
 			     (progn (goto-char (nth 8 pps))
 				    (forward-sexp)
 				    (skip-chars-backward (char-to-string (char-before)))
 				    (point)))))
-      (setq py--docbeg (copy-marker py--docbeg))
-      (setq py--docend (copy-marker py--docend)))))
+      (setq gd--docbeg (copy-marker gd--docbeg))
+      (setq gd--docend (copy-marker gd--docend)))))
 
 ;; Edit docstring
-(defvar py--docbeg nil
+(defvar gd--docbeg nil
   "Internally used by `gd-edit-docstring'")
 
-(defvar py--docend nil
+(defvar gd--docend nil
   "Internally used by `gd-edit-docstring'")
 
-(defvar py--oldbuf nil
+(defvar gd--oldbuf nil
   "Internally used by `gd-edit-docstring'")
 
 (defvar gd-edit-docstring-buffer "Edit docstring"
   "Name of the temporary buffer to use when editing. ")
 
-(defvar py--edit-docstring-register nil)
+(defvar gd--edit-docstring-register nil)
 
-(defun py--write-back-docstring ()
+(defun gd--write-back-docstring ()
   (interactive)
   (unless (eq (current-buffer) (get-buffer gd-edit-docstring-buffer))
     (set-buffer gd-edit-docstring-buffer))
@@ -4709,9 +4031,9 @@ Returns the string inserted. "
   (while (re-search-forward "[\"']" nil t 1)
     (or (gd-escaped)
 	(replace-match (concat "\\\\" (match-string-no-properties 0)))))
-  (jump-to-register py--edit-docstring-register)
+  (jump-to-register gd--edit-docstring-register)
   ;; (gd-restore-window-configuration)
-  (delete-region py--docbeg py--docend)
+  (delete-region gd--docbeg gd--docend)
   (insert-buffer gd-edit-docstring-buffer))
 
 (defun gd-edit-docstring ()
@@ -4719,21 +4041,21 @@ Returns the string inserted. "
   (interactive "*")
   (save-excursion
     (save-restriction
-      (window-configuration-to-register py--edit-docstring-register)
-      (setq py--oldbuf (current-buffer))
+      (window-configuration-to-register gd--edit-docstring-register)
+      (setq gd--oldbuf (current-buffer))
       (let ((orig (point))
 	     pps)
-	(py--edit-docstring-set-vars)
+	(gd--edit-docstring-set-vars)
 	;; store relative position in docstring
-	(setq relpos (1+ (- orig py--docbeg)))
-	(setq docstring (buffer-substring py--docbeg py--docend))
+	(setq relpos (1+ (- orig gd--docbeg)))
+	(setq docstring (buffer-substring gd--docbeg gd--docend))
 	(set (make-variable-buffer-local 'gd-edit-docstring-orig-pos) orig)
 	(set-buffer (get-buffer-create gd-edit-docstring-buffer))
 	(erase-buffer)
 	(switch-to-buffer (current-buffer))
 	(insert docstring)
 	(gdscript-mode)
-	(local-set-key [(control c)(control c)] 'py--write-back-docstring)
+	(local-set-key [(control c)(control c)] 'gd--write-back-docstring)
 	(goto-char relpos)
 	(message "%s" "Type C-c C-c writes contents back")
 	))))
@@ -4747,7 +4069,7 @@ Returns the string inserted. "
 If already at beginning, go one `block' backward.
 Returns beginning of `block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-block-or-clause (&optional indent)
   "Go to beginning of `block-or-clause'.
@@ -4755,7 +4077,7 @@ Returns beginning of `block' if successful, nil otherwise"
 If already at beginning, go one `block-or-clause' backward.
 Returns beginning of `block-or-clause' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-clause (&optional indent)
   "Go to beginning of `clause'.
@@ -4763,7 +4085,7 @@ Returns beginning of `block-or-clause' if successful, nil otherwise"
 If already at beginning, go one `clause' backward.
 Returns beginning of `clause' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-elif-block (&optional indent)
   "Go to beginning of `elif-block'.
@@ -4771,7 +4093,7 @@ Returns beginning of `clause' if successful, nil otherwise"
 If already at beginning, go one `elif-block' backward.
 Returns beginning of `elif-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-elif-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-elif-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-else-block (&optional indent)
   "Go to beginning of `else-block'.
@@ -4779,7 +4101,7 @@ Returns beginning of `elif-block' if successful, nil otherwise"
 If already at beginning, go one `else-block' backward.
 Returns beginning of `else-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-else-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-else-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-except-block (&optional indent)
   "Go to beginning of `except-block'.
@@ -4787,7 +4109,7 @@ Returns beginning of `else-block' if successful, nil otherwise"
 If already at beginning, go one `except-block' backward.
 Returns beginning of `except-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-except-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-except-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-for-block (&optional indent)
   "Go to beginning of `for-block'.
@@ -4795,7 +4117,7 @@ Returns beginning of `except-block' if successful, nil otherwise"
 If already at beginning, go one `for-block' backward.
 Returns beginning of `for-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-for-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-for-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-if-block (&optional indent)
   "Go to beginning of `if-block'.
@@ -4803,7 +4125,7 @@ Returns beginning of `for-block' if successful, nil otherwise"
 If already at beginning, go one `if-block' backward.
 Returns beginning of `if-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-if-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-if-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-minor-block (&optional indent)
   "Go to beginning of `minor-block'.
@@ -4811,7 +4133,7 @@ Returns beginning of `if-block' if successful, nil otherwise"
 If already at beginning, go one `minor-block' backward.
 Returns beginning of `minor-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-minor-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-minor-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-try-block (&optional indent)
   "Go to beginning of `try-block'.
@@ -4819,7 +4141,7 @@ Returns beginning of `minor-block' if successful, nil otherwise"
 If already at beginning, go one `try-block' backward.
 Returns beginning of `try-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-try-block-re 'gd-clause-re (called-interactively-p 'any)))
+  (gd--backward-prepare indent 'gd-try-block-re 'gd-clause-re (called-interactively-p 'any)))
 
 (defun gd-backward-block-bol (&optional indent)
   "Go to beginning of `block', go to BOL.
@@ -4827,7 +4149,7 @@ Returns beginning of `try-block' if successful, nil otherwise"
 If already at beginning, go one `block' backward.
 Returns beginning of `block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-block-or-clause-bol (&optional indent)
   "Go to beginning of `block-or-clause', go to BOL.
@@ -4835,7 +4157,7 @@ Returns beginning of `block' if successful, nil otherwise"
 If already at beginning, go one `block-or-clause' backward.
 Returns beginning of `block-or-clause' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-clause-bol (&optional indent)
   "Go to beginning of `clause', go to BOL.
@@ -4843,7 +4165,7 @@ Returns beginning of `block-or-clause' if successful, nil otherwise"
 If already at beginning, go one `clause' backward.
 Returns beginning of `clause' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-extended-block-or-clause-re 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-elif-block-bol (&optional indent)
   "Go to beginning of `elif-block', go to BOL.
@@ -4851,7 +4173,7 @@ Returns beginning of `clause' if successful, nil otherwise"
 If already at beginning, go one `elif-block' backward.
 Returns beginning of `elif-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-elif-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-elif-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-else-block-bol (&optional indent)
   "Go to beginning of `else-block', go to BOL.
@@ -4859,7 +4181,7 @@ Returns beginning of `elif-block' if successful, nil otherwise"
 If already at beginning, go one `else-block' backward.
 Returns beginning of `else-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-else-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-else-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-except-block-bol (&optional indent)
   "Go to beginning of `except-block', go to BOL.
@@ -4867,7 +4189,7 @@ Returns beginning of `else-block' if successful, nil otherwise"
 If already at beginning, go one `except-block' backward.
 Returns beginning of `except-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-except-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-except-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-for-block-bol (&optional indent)
   "Go to beginning of `for-block', go to BOL.
@@ -4875,7 +4197,7 @@ Returns beginning of `except-block' if successful, nil otherwise"
 If already at beginning, go one `for-block' backward.
 Returns beginning of `for-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-for-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-for-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-if-block-bol (&optional indent)
   "Go to beginning of `if-block', go to BOL.
@@ -4883,7 +4205,7 @@ Returns beginning of `for-block' if successful, nil otherwise"
 If already at beginning, go one `if-block' backward.
 Returns beginning of `if-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-if-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-if-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-minor-block-bol (&optional indent)
   "Go to beginning of `minor-block', go to BOL.
@@ -4891,7 +4213,7 @@ Returns beginning of `if-block' if successful, nil otherwise"
 If already at beginning, go one `minor-block' backward.
 Returns beginning of `minor-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-minor-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-minor-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 (defun gd-backward-try-block-bol (&optional indent)
   "Go to beginning of `try-block', go to BOL.
@@ -4899,7 +4221,7 @@ Returns beginning of `minor-block' if successful, nil otherwise"
 If already at beginning, go one `try-block' backward.
 Returns beginning of `try-block' if successful, nil otherwise"
   (interactive)
-  (py--backward-prepare indent 'gd-try-block-re 'gd-clause-re (called-interactively-p 'any) t))
+  (gd--backward-prepare indent 'gd-try-block-re 'gd-clause-re (called-interactively-p 'any) t))
 
 ;; gdscript-components-forward-forms
 
@@ -4910,7 +4232,7 @@ Returns beginning of `try-block' if successful, nil otherwise"
 Returns end of block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-block-re orig)))
+         (erg (gd--end-base 'gd-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -4921,7 +4243,7 @@ Returns end of block if successful, nil otherwise"
 See also `gd-down-block': down from current definition to next beginning of block below. "
   (interactive)
   (let ((erg (gd-forward-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -4931,7 +4253,7 @@ See also `gd-down-block': down from current definition to next beginning of bloc
 Returns end of block-or-clause if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-block-or-clause-re orig)))
+         (erg (gd--end-base 'gd-block-or-clause-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -4942,7 +4264,7 @@ Returns end of block-or-clause if successful, nil otherwise"
 See also `gd-down-block-or-clause': down from current definition to next beginning of block-or-clause below. "
   (interactive)
   (let ((erg (gd-forward-block-or-clause indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -4952,7 +4274,7 @@ See also `gd-down-block-or-clause': down from current definition to next beginni
 Returns end of class if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-class-re orig)))
+         (erg (gd--end-base 'gd-class-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -4963,7 +4285,7 @@ Returns end of class if successful, nil otherwise"
 See also `gd-down-class': down from current definition to next beginning of class below. "
   (interactive)
   (let ((erg (gd-forward-class indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -4973,7 +4295,7 @@ See also `gd-down-class': down from current definition to next beginning of clas
 Returns end of clause if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-clause-re orig)))
+         (erg (gd--end-base 'gd-clause-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -4984,7 +4306,7 @@ Returns end of clause if successful, nil otherwise"
 See also `gd-down-clause': down from current definition to next beginning of clause below. "
   (interactive)
   (let ((erg (gd-forward-clause indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -4994,7 +4316,7 @@ See also `gd-down-clause': down from current definition to next beginning of cla
 Returns end of def-or-class if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-def-or-class-re orig)))
+         (erg (gd--end-base 'gd-def-or-class-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5005,7 +4327,7 @@ Returns end of def-or-class if successful, nil otherwise"
 See also `gd-down-def-or-class': down from current definition to next beginning of def-or-class below. "
   (interactive)
   (let ((erg (gd-forward-def-or-class indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5015,7 +4337,7 @@ See also `gd-down-def-or-class': down from current definition to next beginning 
 Returns end of def if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-def-re orig)))
+         (erg (gd--end-base 'gd-def-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5026,7 +4348,7 @@ Returns end of def if successful, nil otherwise"
 See also `gd-down-def': down from current definition to next beginning of def below. "
   (interactive)
   (let ((erg (gd-forward-def indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5036,7 +4358,7 @@ See also `gd-down-def': down from current definition to next beginning of def be
 Returns end of if-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-if-block-re orig)))
+         (erg (gd--end-base 'gd-if-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5047,7 +4369,7 @@ Returns end of if-block if successful, nil otherwise"
 See also `gd-down-if-block': down from current definition to next beginning of if-block below. "
   (interactive)
   (let ((erg (gd-forward-if-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5057,7 +4379,7 @@ See also `gd-down-if-block': down from current definition to next beginning of i
 Returns end of elif-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-elif-block-re orig)))
+         (erg (gd--end-base 'gd-elif-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5068,7 +4390,7 @@ Returns end of elif-block if successful, nil otherwise"
 See also `gd-down-elif-block': down from current definition to next beginning of elif-block below. "
   (interactive)
   (let ((erg (gd-forward-elif-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5078,7 +4400,7 @@ See also `gd-down-elif-block': down from current definition to next beginning of
 Returns end of else-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-else-block-re orig)))
+         (erg (gd--end-base 'gd-else-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5089,7 +4411,7 @@ Returns end of else-block if successful, nil otherwise"
 See also `gd-down-else-block': down from current definition to next beginning of else-block below. "
   (interactive)
   (let ((erg (gd-forward-else-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5099,7 +4421,7 @@ See also `gd-down-else-block': down from current definition to next beginning of
 Returns end of for-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-for-block-re orig)))
+         (erg (gd--end-base 'gd-for-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5110,7 +4432,7 @@ Returns end of for-block if successful, nil otherwise"
 See also `gd-down-for-block': down from current definition to next beginning of for-block below. "
   (interactive)
   (let ((erg (gd-forward-for-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5120,41 +4442,10 @@ See also `gd-down-for-block': down from current definition to next beginning of 
 Returns end of except-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-except-block-re orig)))
+         (erg (gd--end-base 'gd-except-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
-(defun gd-forward-except-block-bol (&optional indent)
-  "Goto beginning of line following end of except-block.
-  Returns position reached, if successful, nil otherwise.
-
-See also `gd-down-except-block': down from current definition to next beginning of except-block below. "
-  (interactive)
-  (let ((erg (gd-forward-except-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
-    (when (called-interactively-p 'any) (message "%s" erg))
-    erg))
-
-(defun gd-forward-try-block (&optional indent)
-  "Go to end of try-block.
-
-Returns end of try-block if successful, nil otherwise"
-  (interactive "P")
-  (let* ((orig (point))
-         (erg (py--end-base 'gd-try-block-re orig)))
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
-    erg))
-
-(defun gd-forward-try-block-bol (&optional indent)
-  "Goto beginning of line following end of try-block.
-  Returns position reached, if successful, nil otherwise.
-
-See also `gd-down-try-block': down from current definition to next beginning of try-block below. "
-  (interactive)
-  (let ((erg (gd-forward-try-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
-    (when (called-interactively-p 'any) (message "%s" erg))
-    erg))
 
 (defun gd-forward-minor-block (&optional indent)
   "Go to end of minor-block.
@@ -5162,7 +4453,7 @@ See also `gd-down-try-block': down from current definition to next beginning of 
 Returns end of minor-block if successful, nil otherwise"
   (interactive "P")
   (let* ((orig (point))
-         (erg (py--end-base 'gd-minor-block-re orig)))
+         (erg (gd--end-base 'gd-minor-block-re orig)))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5173,7 +4464,7 @@ Returns end of minor-block if successful, nil otherwise"
 See also `gd-down-minor-block': down from current definition to next beginning of minor-block below. "
   (interactive)
   (let ((erg (gd-forward-minor-block indent)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -5182,7 +4473,7 @@ See also `gd-down-minor-block': down from current definition to next beginning o
 
 ;; Indentation
 ;; Travel current level of indentation
-(defun py--travel-this-indent-backward ()
+(defun gd--travel-this-indent-backward ()
   (while (and (gd-backward-statement)
 	      (or indent (setq indent (current-indentation)))
 	      (eq indent (current-indentation))(setq erg (point)) (not (bobp)))))
@@ -5196,12 +4487,12 @@ Returns final position when called from inside section, nil otherwise"
   (unless (bobp)
     (let ((orig (point))
 	 erg indent)
-      (py--travel-this-indent-backward)
+      (gd--travel-this-indent-backward)
       (when erg (goto-char erg))
       (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
       erg)))
 
-(defun py--travel-this-indent-backward-bol ()
+(defun gd--travel-this-indent-backward-bol ()
   (while (and (gd-backward-statement-bol)
 	      (or indent (setq indent (current-indentation)))
 	      (eq indent (current-indentation))(setq erg (point)) (not (bobp))))
@@ -5217,14 +4508,14 @@ Returns final position when called from inside section, nil otherwise"
     (let ((orig (point))
 	  (indent (when (eq (current-indentation) (current-column)) (current-column)))
 	  erg)
-      (py--travel-this-indent-backward-bol)
+      (gd--travel-this-indent-backward-bol)
       ;; (when erg (goto-char erg)
       ;; (beginning-of-line)
       ;; (setq erg (point)))
       (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
       erg)))
 
-(defun py--travel-this-indent-forward ()
+(defun gd--travel-this-indent-forward ()
   (while (and (gd-down-statement)
 	      (or indent (eq indent (current-indentation)))
 	      (eq indent (current-indentation))(setq done (point)) (not (bobp)))))
@@ -5242,7 +4533,7 @@ Returns final position when called from inside section, nil otherwise"
 	(save-excursion
 	  (setq done (point))
 	  (setq indent (and (gd-backward-statement)(current-indentation)))))
-      (py--travel-this-indent-forward)
+      (gd--travel-this-indent-forward)
       (when done (goto-char done))
       ;; navigation doesn't reach BOL
       (unless (eolp) (setq done (gd-forward-statement)))
@@ -5263,7 +4554,7 @@ Returns final position when called from inside section, nil otherwise"
 	(save-excursion
 	  (setq erg (point))
 	  (setq indent (and (gd-backward-statement)(current-indentation)))))
-      (py--travel-this-indent-forward)
+      (gd--travel-this-indent-forward)
       (when erg (goto-char erg)
 	    (unless (eolp) (setq erg (gd-forward-statement))))
       (when erg
@@ -5374,7 +4665,7 @@ Operators are ignored. "
   (let ((orig (point))
 	erg)
     (and (< 0 (abs (skip-chars-backward " \t\r\n\f")))(not (bobp))(forward-char -1))
-    (when (py--in-comment-p)
+    (when (gd--in-comment-p)
       (gd-backward-comment)
       (skip-chars-backward " \t\r\n\f"))
     ;; part of gd-partial-expression-forward-chars
@@ -5382,7 +4673,7 @@ Operators are ignored. "
       (forward-char -1))
     (skip-chars-backward gd-partial-expression-forward-chars)
     (when (< 0 (abs (skip-chars-backward gd-partial-expression-backward-chars)))
-      (while (and (not (bobp)) (py--in-comment-p)(< 0 (abs (skip-chars-backward gd-partial-expression-backward-chars))))))
+      (while (and (not (bobp)) (gd--in-comment-p)(< 0 (abs (skip-chars-backward gd-partial-expression-backward-chars))))))
     (when (< (point) orig)
       (unless
 	  (and (bobp) (member (char-after) (list ?\ ?\t ?\r ?\n ?\f)))
@@ -5470,7 +4761,7 @@ computing indents"
 	  (gd-backward-statement orig done limit ignore-in-string-p))
          ((nth 1 pps)
           (goto-char (1- (nth 1 pps)))
-	  (when (py--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point)))
+	  (when (gd--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point)))
 	    (setq done t))
           (gd-backward-statement orig done limit ignore-in-string-p))
          ((gd-preceding-line-backslashed-p)
@@ -5480,7 +4771,7 @@ computing indents"
           (gd-backward-statement orig done limit ignore-in-string-p))
 	 ;; at raw-string
 	 ;; (and (looking-at "\"\"\"\\|'''") (member (char-before) (list ?u ?U ?r ?R)))
-	 ((py--at-raw-string)
+	 ((gd--at-raw-string)
 	  (forward-char -1)
 	  (gd-backward-statement orig done limit ignore-in-string-p))
 	 ;; BOL or at space before comment
@@ -5492,7 +4783,7 @@ computing indents"
             (gd-backward-statement orig done limit ignore-in-string-p)))
 	 ;; at inline comment
          ((looking-at "[ \t]*#")
-	  (when (py--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point)))
+	  (when (gd--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point)))
 	    (setq done t))
 	  (gd-backward-statement orig done limit ignore-in-string-p))
 	 ;; at beginning of string
@@ -5506,7 +4797,7 @@ computing indents"
 	  (skip-chars-backward ";")
 	  (gd-backward-statement orig done limit ignore-in-string-p))
 	 ;; travel until indentation or semicolon
-	 ((and (not done) (py--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point))))
+	 ((and (not done) (gd--skip-to-semicolon-backward (save-excursion (back-to-indentation)(point))))
 	  (setq done t)
 	  (gd-backward-statement orig done limit ignore-in-string-p))
 	 ;; at current indent
@@ -5550,7 +4841,7 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
           ;; use by scan-lists
           forward-sexp-function
           stringchar stm pps err)
-      (unless done (py--skip-to-comment-or-semicolon done))
+      (unless done (gd--skip-to-comment-or-semicolon done))
       (setq pps (parse-partial-sexp (point-min) (point)))
       ;; (origline (or origline (gd-count-lines)))
       (cond
@@ -5573,7 +4864,7 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
 		    (skip-chars-forward "^#" (line-end-position))
 		    (skip-chars-backward " \t\r\n\f" (line-beginning-position))
 		    (gd-forward-statement orig done repeat))
-		(setq err (py--record-list-error pps))
+		(setq err (gd--record-list-error pps))
 		(goto-char orig)))))
        ;; string
        ((nth 3 pps)
@@ -5586,8 +4877,8 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
 
        ;; in comment
        ((nth 4 pps)
-	(py--end-of-comment-intern (point))
-	(py--skip-to-comment-or-semicolon done)
+	(gd--end-of-comment-intern (point))
+	(gd--skip-to-comment-or-semicolon done)
 	(while (and (eq (char-before (point)) ?\\ )
 		    (gd-escaped)(setq last (point)))
 	  (forward-line 1)(end-of-line))
@@ -5607,15 +4898,15 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
 	  (gd-forward-statement orig done repeat)))
        ((eq orig (point))
 	(skip-chars-forward " \t\r\n\f#'\"")
-	(py--skip-to-comment-or-semicolon done)
+	(gd--skip-to-comment-or-semicolon done)
 	(gd-forward-statement orig done repeat))
        ((eq (current-indentation) (current-column))
-	(py--skip-to-comment-or-semicolon done)
+	(gd--skip-to-comment-or-semicolon done)
 	;; (setq pps (parse-partial-sexp (point-min) (point)))
 	(unless done
 	  (gd-forward-statement orig done repeat)))
 
-       ((and (looking-at "[[:print:]]+$") (not done) (py--skip-to-comment-or-semicolon done))
+       ((and (looking-at "[[:print:]]+$") (not done) (gd--skip-to-comment-or-semicolon done))
 	(gd-forward-statement orig done repeat)))
       (unless
 	  (or
@@ -5623,7 +4914,7 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
 	   (member (char-before) (list 10 32 9 ?#)))
 	(setq erg (point)))
       (if (and gd-verbose-p err)
-	  (py--message-error err)
+	  (gd--message-error err)
         (and gd-verbose-p (called-interactively-p 'any) (message "%s" erg)))
       erg)))
 
@@ -5631,7 +4922,7 @@ Optional argument REPEAT, the number of loops done already, is checked for gd-ma
   "Go to the beginning-of-line following current statement."
   (interactive)
   (let ((erg (gd-forward-statement)))
-    (setq erg (py--beginning-of-line-form erg))
+    (setq erg (gd--beginning-of-line-form erg))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
@@ -5705,7 +4996,7 @@ Travel empty lines "
     (while (and (not (eobp))
 		(or
 		 (forward-comment 99999)
-		 (when (py--in-comment-p)
+		 (when (gd--in-comment-p)
 		   (progn
 		     (end-of-line)
 		     (skip-chars-backward " \t\r\n\f")
@@ -5730,7 +5021,7 @@ From a programm use macro `gd-backward-comment' instead "
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))))
 
-(defun py--go-to-keyword (regexp &optional maxindent)
+(defun gd--go-to-keyword (regexp &optional maxindent)
   "Returns a list, whose car is indentation, cdr position. "
   (let ((orig (point))
         (maxindent
@@ -5761,7 +5052,7 @@ From a programm use macro `gd-backward-comment' instead "
     (when erg (setq erg (cons (current-indentation) erg)))
     erg))
 
-(defun py--clause-lookup-keyword (regexp arg &optional indent orig origline)
+(defun gd--clause-lookup-keyword (regexp arg &optional indent orig origline)
   "Returns a list, whose car is indentation, cdr position. "
   (let* ((orig (or orig (point)))
          (origline (or origline (gd-count-lines)))
@@ -5773,9 +5064,7 @@ From a programm use macro `gd-backward-comment' instead "
                            (current-indentation))
                           (t 0)))
          (complement-re
-          (cond ((or (string-match "finally" regexp)
-                     (string-match "except" regexp))
-                 gd-try-re)
+          (cond
                 ((string-match "elif" regexp)
                  gd-if-re)
                 ((string-match "else" regexp)
@@ -5797,14 +5086,6 @@ From a programm use macro `gd-backward-comment' instead "
         ;; (message "%s %s" count indent)
         ;; nesting
         (cond
-         ((and (looking-at "\\_<finally\\>[: \n\t]")(save-match-data (string-match regexp "finally")))
-          (setq indent (current-indentation))
-          (while
-              (and
-               (not (eval stop))
-               (funcall function)
-               (setq done t)
-               (not (and (eq indent (current-indentation)) (looking-at "try"))))))
          ((and (looking-at "\\<else\\>[: \n\t]")(save-match-data (string-match "else" regexp)))
           (setq indent (current-indentation))
           (setq count (1+ count))
@@ -5813,7 +5094,7 @@ From a programm use macro `gd-backward-comment' instead "
                (not (eval stop))
                (funcall function)
                (setq done t)
-               (not (and (eq indent (current-indentation)) (looking-at "try\\|if"))))))
+               (not (and (eq indent (current-indentation)) (looking-at "if"))))))
          ((and (looking-at "\\_<else\\>[: \n\t]")(save-match-data (string-match "else" regexp)))
           (setq indent (current-indentation))
           (setq count (1+ count))
@@ -5822,7 +5103,7 @@ From a programm use macro `gd-backward-comment' instead "
                (not (eval stop))
                (funcall function)
                (setq done t)
-               (not (and (eq indent (current-indentation)) (looking-at "try\\|if"))))))
+               (not (and (eq indent (current-indentation)) (looking-at "if"))))))
          ((and (looking-at "\\_<elif\\>[ \n\t]")(save-match-data (string-match "elif" regexp)))
           (setq indent (current-indentation))
           (while
@@ -5940,7 +5221,7 @@ A `nomenclature' is a fancy way of saying AWordWithMixedCaseNotUnderscores."
   (setq arg (or arg 1))
   (gd-forward-into-nomenclature (- arg) arg))
 
-(defun py--travel-current-indent (indent &optional orig)
+(defun gd--travel-current-indent (indent &optional orig)
   "Moves down until clause is closed, i.e. current indentation is reached.
 
 Takes a list, INDENT and START position. "
@@ -5949,7 +5230,7 @@ Takes a list, INDENT and START position. "
           last)
       (while (and (setq last (point))(not (eobp))(gd-forward-statement)
                   (save-excursion (or (<= indent (progn  (gd-backward-statement)(current-indentation)))(eq last (line-beginning-position))))
-                  ;; (py--end-of-statement-p)
+                  ;; (gd--end-of-statement-p)
 ))
       (goto-char last)
       (when (< orig last)
@@ -5997,7 +5278,7 @@ Return position if successful"
     (when (and (looking-back gd-section-end)(< orig (point)))
       (point))))
 
-(defun py--backward-def-or-class-decorator-maybe (&optional bol)
+(defun gd--backward-def-or-class-decorator-maybe (&optional bol)
   "Return position of the decorator.
 
 With BOL, return line-beginning-position"
@@ -6010,7 +5291,7 @@ With BOL, return line-beginning-position"
 	       (setq erg (line-beginning-position))))
     (or erg (goto-char orig))))
 
-(defun py--backward-def-or-class-matcher (regexp indent origline)
+(defun gd--backward-def-or-class-matcher (regexp indent origline)
   (let (done)
     (while (and
 	    (not done)
@@ -6032,25 +5313,25 @@ With BOL, return line-beginning-position"
 	       (setq done (match-beginning 0))))))
     done))
 
-(defun py--backward-def-or-class-intern (regexp &optional bol)
+(defun gd--backward-def-or-class-intern (regexp &optional bol)
   (let ((origline (gd-count-lines))
 	(indent (if (empty-line-p)
 		    (current-indentation)
 		  (save-excursion
-		    (if (py--beginning-of-statement-p)
+		    (if (gd--beginning-of-statement-p)
 			(current-indentation)
 		      (gd-backward-statement)
 		      (current-indentation)))))
 	erg)
     ;; (if (and (< (current-column) origindent) (looking-at regexp))
     ;; (setq erg (point))
-    (setq erg (py--backward-def-or-class-matcher regexp indent origline))
-    (and erg (looking-back "async ")
+    (setq erg (gd--backward-def-or-class-matcher regexp indent origline))
+    (and erg (looking-back "static ")
 	 (goto-char (match-beginning 0))
 	 (setq erg (point)))
     ;; bol-forms at not at bol yet
     (and bol erg (beginning-of-line) (setq erg (point)))
-    (and erg gd-mark-decorators (setq erg (py--backward-def-or-class-decorator-maybe bol)))
+    (and erg gd-mark-decorators (setq erg (gd--backward-def-or-class-decorator-maybe bol)))
     erg))
 
 (defun gd-backward-class (&optional nested)
@@ -6066,7 +5347,7 @@ When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (let ((erg
 	 (if (eq 4 (prefix-numeric-value nested))
 	     (gd-up-class)
-	   (py--backward-def-or-class-intern gd-class-re))))
+	   (gd--backward-def-or-class-intern gd-class-re))))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6083,7 +5364,7 @@ When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (interactive "P")
   (let ((erg (if (eq 4 (prefix-numeric-value nested))
 		 (gd-up-def)
-	       (py--backward-def-or-class-intern gd-def-re))))
+	       (gd--backward-def-or-class-intern gd-def-re))))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6100,7 +5381,7 @@ When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (interactive "P")
   (let ((erg (if (eq 4 (prefix-numeric-value nested))
 		 (gd-up-def-or-class)
-	       (py--backward-def-or-class-intern gd-def-or-class-re))))
+	       (gd--backward-def-or-class-intern gd-def-or-class-re))))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6113,7 +5394,7 @@ Returns beginning of class if successful, nil otherwise
 
 When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (interactive)
-  (let ((erg (py--backward-def-or-class-intern gd-class-re t)))
+  (let ((erg (gd--backward-def-or-class-intern gd-class-re t)))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6126,7 +5407,7 @@ Returns beginning of def if successful, nil otherwise
 
 When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (interactive)
-  (let ((erg (py--backward-def-or-class-intern gd-def-re t)))
+  (let ((erg (gd--backward-def-or-class-intern gd-def-re t)))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6139,7 +5420,7 @@ Returns beginning of def-or-class if successful, nil otherwise
 
 When `gd-mark-decorators' is non-nil, decorators are considered too. "
   (interactive)
-  (let ((erg (py--backward-def-or-class-intern gd-def-or-class-re t)))
+  (let ((erg (gd--backward-def-or-class-intern gd-def-or-class-re t)))
     (when (and gd-verbose-p (called-interactively-p 'any))
       (message "%s" erg))
     erg))
@@ -6152,7 +5433,7 @@ When `gd-mark-decorators' is non-nil, decorators are considered too. "
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "comment")))
+  (let ((erg (gd--mark-base "comment")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-line ()
@@ -6160,7 +5441,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "line")))
+  (let ((erg (gd--mark-base "line")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-paragraph ()
@@ -6168,7 +5449,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "paragraph")))
+  (let ((erg (gd--mark-base "paragraph")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-expression ()
@@ -6176,7 +5457,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "expression")))
+  (let ((erg (gd--mark-base "expression")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-partial-expression ()
@@ -6184,7 +5465,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "partial-expression")))
+  (let ((erg (gd--mark-base "partial-expression")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-section ()
@@ -6192,7 +5473,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "section")))
+  (let ((erg (gd--mark-base "section")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-top-level ()
@@ -6200,7 +5481,7 @@ Stores data in kill ring"
 
 Stores data in kill ring"
   (interactive "*")
-  (let ((erg (py--mark-base "top-level")))
+  (let ((erg (gd--mark-base "top-level")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-block ()
@@ -6208,7 +5489,7 @@ Stores data in kill ring"
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "block")))
+  (let ((erg (gd--mark-base-bol "block")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-block-or-clause ()
@@ -6216,7 +5497,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "block-or-clause")))
+  (let ((erg (gd--mark-base-bol "block-or-clause")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-class ()
@@ -6224,7 +5505,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "class")))
+  (let ((erg (gd--mark-base-bol "class")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-clause ()
@@ -6232,7 +5513,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "clause")))
+  (let ((erg (gd--mark-base-bol "clause")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-def ()
@@ -6240,7 +5521,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "def")))
+  (let ((erg (gd--mark-base-bol "def")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-def-or-class ()
@@ -6248,7 +5529,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "def-or-class")))
+  (let ((erg (gd--mark-base-bol "def-or-class")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-elif-block ()
@@ -6256,7 +5537,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "elif-block")))
+  (let ((erg (gd--mark-base-bol "elif-block")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-else-block ()
@@ -6264,23 +5545,16 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "else-block")))
+  (let ((erg (gd--mark-base-bol "else-block")))
     (kill-region (car erg) (cdr erg))))
 
-(defun gd-kill-except-block ()
-  "Delete except-block at point.
-
-Stores data in kill ring. Might be yanked back using `C-y'. "
-  (interactive "*")
-  (let ((erg (py--mark-base-bol "except-block")))
-    (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-for-block ()
   "Delete for-block at point.
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "for-block")))
+  (let ((erg (gd--mark-base-bol "for-block")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-if-block ()
@@ -6288,7 +5562,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "if-block")))
+  (let ((erg (gd--mark-base-bol "if-block")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-indent ()
@@ -6296,7 +5570,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "indent")))
+  (let ((erg (gd--mark-base-bol "indent")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-minor-block ()
@@ -6304,7 +5578,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "minor-block")))
+  (let ((erg (gd--mark-base-bol "minor-block")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-statement ()
@@ -6312,7 +5586,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "statement")))
+  (let ((erg (gd--mark-base-bol "statement")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-top-level ()
@@ -6320,7 +5594,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "top-level")))
+  (let ((erg (gd--mark-base-bol "top-level")))
     (kill-region (car erg) (cdr erg))))
 
 (defun gd-kill-try-block ()
@@ -6328,7 +5602,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
-  (let ((erg (py--mark-base-bol "try-block")))
+  (let ((erg (gd--mark-base-bol "try-block")))
     (kill-region (car erg) (cdr erg))))
 
 ;; gdscript-components-mark-forms
@@ -6340,7 +5614,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "comment"))
+    (setq erg (gd--mark-base "comment"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6351,7 +5625,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "line"))
+    (setq erg (gd--mark-base "line"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6362,7 +5636,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "paragraph"))
+    (setq erg (gd--mark-base "paragraph"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6373,7 +5647,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "expression"))
+    (setq erg (gd--mark-base "expression"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6384,7 +5658,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "partial-expression"))
+    (setq erg (gd--mark-base "partial-expression"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6395,7 +5669,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "section"))
+    (setq erg (gd--mark-base "section"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6406,7 +5680,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of marked area, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base "top-level"))
+    (setq erg (gd--mark-base "top-level"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6417,7 +5691,7 @@ Returns beginning and end positions of marked area, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "block"))
+    (setq erg (gd--mark-base-bol "block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6428,7 +5702,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "block-or-clause"))
+    (setq erg (gd--mark-base-bol "block-or-clause"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6441,7 +5715,7 @@ Returns beginning and end positions of region, a cons. "
   (interactive "P")
   (let ((gd-mark-decorators (or arg gd-mark-decorators))
         erg)
-    (py--mark-base-bol "class" gd-mark-decorators)
+    (gd--mark-base-bol "class" gd-mark-decorators)
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6452,7 +5726,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "clause"))
+    (setq erg (gd--mark-base-bol "clause"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6465,7 +5739,7 @@ Returns beginning and end positions of region, a cons. "
   (interactive "P")
   (let ((gd-mark-decorators (or arg gd-mark-decorators))
         erg)
-    (py--mark-base-bol "def" gd-mark-decorators)
+    (gd--mark-base-bol "def" gd-mark-decorators)
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6478,7 +5752,7 @@ Returns beginning and end positions of region, a cons. "
   (interactive "P")
   (let ((gd-mark-decorators (or arg gd-mark-decorators))
         erg)
-    (py--mark-base-bol "def-or-class" gd-mark-decorators)
+    (gd--mark-base-bol "def-or-class" gd-mark-decorators)
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6489,7 +5763,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "elif-block"))
+    (setq erg (gd--mark-base-bol "elif-block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6500,21 +5774,11 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "else-block"))
+    (setq erg (gd--mark-base-bol "else-block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
-(defun gd-mark-except-block ()
-  "Mark except-block, take beginning of line positions. 
-
-Returns beginning and end positions of region, a cons. "
-  (interactive)
-  (let (erg)
-    (setq erg (py--mark-base-bol "except-block"))
-    (exchange-point-and-mark)
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
-    erg))
 
 (defun gd-mark-for-block ()
   "Mark for-block, take beginning of line positions. 
@@ -6522,7 +5786,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "for-block"))
+    (setq erg (gd--mark-base-bol "for-block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6533,7 +5797,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "if-block"))
+    (setq erg (gd--mark-base-bol "if-block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6544,7 +5808,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "indent"))
+    (setq erg (gd--mark-base-bol "indent"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6555,7 +5819,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "minor-block"))
+    (setq erg (gd--mark-base-bol "minor-block"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6566,7 +5830,7 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "statement"))
+    (setq erg (gd--mark-base-bol "statement"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
@@ -6577,21 +5841,11 @@ Returns beginning and end positions of region, a cons. "
 Returns beginning and end positions of region, a cons. "
   (interactive)
   (let (erg)
-    (setq erg (py--mark-base-bol "top-level"))
+    (setq erg (gd--mark-base-bol "top-level"))
     (exchange-point-and-mark)
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
-(defun gd-mark-try-block ()
-  "Mark try-block, take beginning of line positions. 
-
-Returns beginning and end positions of region, a cons. "
-  (interactive)
-  (let (erg)
-    (setq erg (py--mark-base-bol "try-block"))
-    (exchange-point-and-mark)
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
-    erg))
 
 ;; gdscript-components-copy-forms
 
@@ -6602,7 +5856,7 @@ Returns beginning and end positions of region, a cons. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "block")))
+    (let ((erg (gd--mark-base-bol "block")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-block-or-clause ()
@@ -6611,7 +5865,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "block-or-clause")))
+    (let ((erg (gd--mark-base-bol "block-or-clause")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-buffer ()
@@ -6620,7 +5874,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "buffer")))
+    (let ((erg (gd--mark-base-bol "buffer")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-class ()
@@ -6629,7 +5883,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "class")))
+    (let ((erg (gd--mark-base-bol "class")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-clause ()
@@ -6638,7 +5892,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "clause")))
+    (let ((erg (gd--mark-base-bol "clause")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-def ()
@@ -6647,7 +5901,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "def")))
+    (let ((erg (gd--mark-base-bol "def")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-def-or-class ()
@@ -6656,7 +5910,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "def-or-class")))
+    (let ((erg (gd--mark-base-bol "def-or-class")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-expression ()
@@ -6665,7 +5919,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "expression")))
+    (let ((erg (gd--mark-base-bol "expression")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-indent ()
@@ -6674,7 +5928,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "indent")))
+    (let ((erg (gd--mark-base-bol "indent")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-line ()
@@ -6683,7 +5937,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "line")))
+    (let ((erg (gd--mark-base-bol "line")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-minor-block ()
@@ -6692,7 +5946,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "minor-block")))
+    (let ((erg (gd--mark-base-bol "minor-block")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-paragraph ()
@@ -6701,7 +5955,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "paragraph")))
+    (let ((erg (gd--mark-base-bol "paragraph")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-partial-expression ()
@@ -6710,7 +5964,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "partial-expression")))
+    (let ((erg (gd--mark-base-bol "partial-expression")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-region ()
@@ -6719,7 +5973,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "region")))
+    (let ((erg (gd--mark-base-bol "region")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-statement ()
@@ -6728,7 +5982,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "statement")))
+    (let ((erg (gd--mark-base-bol "statement")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-top-level ()
@@ -6737,7 +5991,7 @@ Store data in kill ring, so it might yanked back. "
 Store data in kill ring, so it might yanked back. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "top-level")))
+    (let ((erg (gd--mark-base-bol "top-level")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-block-bol ()
@@ -6746,7 +6000,7 @@ Store data in kill ring, so it might yanked back. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "block")))
+    (let ((erg (gd--mark-base-bol "block")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-block-or-clause-bol ()
@@ -6755,7 +6009,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "block-or-clause")))
+    (let ((erg (gd--mark-base-bol "block-or-clause")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-buffer-bol ()
@@ -6764,7 +6018,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "buffer")))
+    (let ((erg (gd--mark-base-bol "buffer")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-class-bol ()
@@ -6773,7 +6027,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "class")))
+    (let ((erg (gd--mark-base-bol "class")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-clause-bol ()
@@ -6782,7 +6036,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "clause")))
+    (let ((erg (gd--mark-base-bol "clause")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-def-bol ()
@@ -6791,7 +6045,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "def")))
+    (let ((erg (gd--mark-base-bol "def")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-def-or-class-bol ()
@@ -6800,7 +6054,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "def-or-class")))
+    (let ((erg (gd--mark-base-bol "def-or-class")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-expression-bol ()
@@ -6809,7 +6063,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "expression")))
+    (let ((erg (gd--mark-base-bol "expression")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-indent-bol ()
@@ -6818,7 +6072,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "indent")))
+    (let ((erg (gd--mark-base-bol "indent")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-line-bol ()
@@ -6827,7 +6081,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "line")))
+    (let ((erg (gd--mark-base-bol "line")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-minor-block-bol ()
@@ -6836,7 +6090,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "minor-block")))
+    (let ((erg (gd--mark-base-bol "minor-block")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-paragraph-bol ()
@@ -6845,7 +6099,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "paragraph")))
+    (let ((erg (gd--mark-base-bol "paragraph")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-partial-expression-bol ()
@@ -6854,7 +6108,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "partial-expression")))
+    (let ((erg (gd--mark-base-bol "partial-expression")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-region-bol ()
@@ -6863,7 +6117,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "region")))
+    (let ((erg (gd--mark-base-bol "region")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-statement-bol ()
@@ -6872,7 +6126,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "statement")))
+    (let ((erg (gd--mark-base-bol "statement")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 (defun gd-copy-top-level-bol ()
@@ -6881,7 +6135,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 Stores data in kill ring. Might be yanked back using `C-y'. "
   (interactive "*")
   (save-excursion
-    (let ((erg (py--mark-base-bol "top-level")))
+    (let ((erg (gd--mark-base-bol "top-level")))
       (copy-region-as-kill (car erg) (cdr erg)))))
 
 ;; gdscript-components-delete-forms
@@ -6892,7 +6146,7 @@ Stores data in kill ring. Might be yanked back using `C-y'. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "block")))
+  (let ((erg (gd--mark-base-bol "block")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-block-or-clause ()
@@ -6900,7 +6154,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "block-or-clause")))
+  (let ((erg (gd--mark-base-bol "block-or-clause")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-class (&optional arg)
@@ -6910,7 +6164,7 @@ Don't store data in kill ring.
 With \\[universal-argument] or `gd-mark-decorators' set to `t', `decorators' are included."
   (interactive "P")
  (let* ((gd-mark-decorators (or arg gd-mark-decorators))
-        (erg (py--mark-base "class" gd-mark-decorators)))
+        (erg (gd--mark-base "class" gd-mark-decorators)))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-clause ()
@@ -6918,7 +6172,7 @@ With \\[universal-argument] or `gd-mark-decorators' set to `t', `decorators' are
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "clause")))
+  (let ((erg (gd--mark-base-bol "clause")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-def (&optional arg)
@@ -6928,7 +6182,7 @@ Don't store data in kill ring.
 With \\[universal-argument] or `gd-mark-decorators' set to `t', `decorators' are included."
   (interactive "P")
  (let* ((gd-mark-decorators (or arg gd-mark-decorators))
-        (erg (py--mark-base "def" gd-mark-decorators)))
+        (erg (gd--mark-base "def" gd-mark-decorators)))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-def-or-class (&optional arg)
@@ -6938,7 +6192,7 @@ Don't store data in kill ring.
 With \\[universal-argument] or `gd-mark-decorators' set to `t', `decorators' are included."
   (interactive "P")
  (let* ((gd-mark-decorators (or arg gd-mark-decorators))
-        (erg (py--mark-base "def-or-class" gd-mark-decorators)))
+        (erg (gd--mark-base "def-or-class" gd-mark-decorators)))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-elif-block ()
@@ -6946,7 +6200,7 @@ With \\[universal-argument] or `gd-mark-decorators' set to `t', `decorators' are
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "elif-block")))
+  (let ((erg (gd--mark-base-bol "elif-block")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-else-block ()
@@ -6954,23 +6208,16 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "else-block")))
+  (let ((erg (gd--mark-base-bol "else-block")))
     (delete-region (car erg) (cdr erg))))
 
-(defun gd-delete-except-block ()
-  "Delete EXCEPT-BLOCK at point until beginning-of-line.
-
-Don't store data in kill ring. "
-  (interactive)
-  (let ((erg (py--mark-base-bol "except-block")))
-    (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-for-block ()
   "Delete FOR-BLOCK at point until beginning-of-line.
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "for-block")))
+  (let ((erg (gd--mark-base-bol "for-block")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-if-block ()
@@ -6978,7 +6225,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "if-block")))
+  (let ((erg (gd--mark-base-bol "if-block")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-indent ()
@@ -6986,7 +6233,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "indent")))
+  (let ((erg (gd--mark-base-bol "indent")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-minor-block ()
@@ -6994,7 +6241,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "minor-block")))
+  (let ((erg (gd--mark-base-bol "minor-block")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-statement ()
@@ -7002,7 +6249,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "statement")))
+  (let ((erg (gd--mark-base-bol "statement")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-top-level ()
@@ -7010,23 +6257,16 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base-bol "top-level")))
+  (let ((erg (gd--mark-base-bol "top-level")))
     (delete-region (car erg) (cdr erg))))
 
-(defun gd-delete-try-block ()
-  "Delete TRY-BLOCK at point until beginning-of-line.
-
-Don't store data in kill ring. "
-  (interactive)
-  (let ((erg (py--mark-base-bol "try-block")))
-    (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-comment ()
   "Delete COMMENT at point.
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "comment")))
+  (let ((erg (gd--mark-base "comment")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-line ()
@@ -7034,7 +6274,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "line")))
+  (let ((erg (gd--mark-base "line")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-paragraph ()
@@ -7042,7 +6282,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "paragraph")))
+  (let ((erg (gd--mark-base "paragraph")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-expression ()
@@ -7050,7 +6290,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "expression")))
+  (let ((erg (gd--mark-base "expression")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-partial-expression ()
@@ -7058,7 +6298,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "partial-expression")))
+  (let ((erg (gd--mark-base "partial-expression")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-section ()
@@ -7066,7 +6306,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "section")))
+  (let ((erg (gd--mark-base "section")))
     (delete-region (car erg) (cdr erg))))
 
 (defun gd-delete-top-level ()
@@ -7074,7 +6314,7 @@ Don't store data in kill ring. "
 
 Don't store data in kill ring. "
   (interactive)
-  (let ((erg (py--mark-base "top-level")))
+  (let ((erg (gd--mark-base "top-level")))
     (delete-region (car erg) (cdr erg))))
 
 ;; gdscript-components-execute
@@ -7355,14 +6595,14 @@ interpreter.
                (string-match "^[^0].+" ipython-version))
       (process-send-string proc "from IPython.core.completerlib import module_completion"))))
 
-(defun py--compose-buffer-name-initials (liste)
+(defun gd--compose-buffer-name-initials (liste)
   (let (erg)
     (dolist (ele liste)
       (unless (string= "" ele)
 	(setq erg (concat erg (char-to-string (aref ele 0))))))
     erg))
 
-(defun py--remove-home-directory-from-list (liste)
+(defun gd--remove-home-directory-from-list (liste)
   "Prepare for compose-buffer-name-initials. "
   (let ((case-fold-search t)
 	(liste liste)
@@ -7376,7 +6616,7 @@ interpreter.
       (setq erg (cdr erg)))
     (butlast liste)))
 
-(defun py--choose-buffer-name (&optional name dedicated fast-process)
+(defun gd--choose-buffer-name (&optional name dedicated fast-process)
   "Return an appropriate name to display in modeline.
 SEPCHAR is the file-path separator of your system. "
   (let* ((name-first (or name gd-shell-name))
@@ -7405,8 +6645,8 @@ SEPCHAR is the file-path separator of your system. "
 	  (setq erg (car (last prefix)))
 	  (unless gd-modeline-acronym-display-home-p
 	    ;; home-directory may still inside
-	    (setq prefix (py--remove-home-directory-from-list prefix))
-	    (setq prefix (py--compose-buffer-name-initials prefix))))
+	    (setq prefix (gd--remove-home-directory-from-list prefix))
+	    (setq prefix (gd--compose-buffer-name-initials prefix))))
       (setq erg (or name gd-shell-name))
       (setq prefix nil))
     (when fast-process (setq erg (concat erg " Fast")))
@@ -7433,7 +6673,7 @@ SEPCHAR is the file-path separator of your system. "
           (t (unless (string-match "^\*" erg)(setq erg (concat "*" erg "*")))))
     erg))
 
-(defun py--jump-to-exception-intern (action exception-buffer origline)
+(defun gd--jump-to-exception-intern (action exception-buffer origline)
   (let (erg)
     (set-buffer exception-buffer)
     (goto-char (point-min))
@@ -7445,7 +6685,7 @@ SEPCHAR is the file-path separator of your system. "
               (overlay-put erg
                            'face 'highlight)))))
 
-(defun py--jump-to-exception (gd-error origline &optional file)
+(defun gd--jump-to-exception (gd-error origline &optional file)
   "Jump to the GDScript code in FILE at LINE."
   (let (
         ;; (inhibit-point-motion-hooks t)
@@ -7456,17 +6696,17 @@ SEPCHAR is the file-path separator of your system. "
     (cond ((and gd-exception-buffer
                 (buffer-live-p gd-exception-buffer))
            ;; (pop-to-buffer procbuf)
-           (py--jump-to-exception-intern action gd-exception-buffer origline))
+           (gd--jump-to-exception-intern action gd-exception-buffer origline))
           ((ignore-errors (file-readable-p file))
            (find-file file)
-           (py--jump-to-exception-intern action (get-buffer (file-name-nondirectory file)) origline))
+           (gd--jump-to-exception-intern action (get-buffer (file-name-nondirectory file)) origline))
           ((buffer-live-p (get-buffer file))
            (set-buffer file)
-           (py--jump-to-exception-intern action file origline))
+           (gd--jump-to-exception-intern action file origline))
           (t (setq file (find-file (read-file-name "Exception file: "
                                                    nil
                                                    file t)))
-             (py--jump-to-exception-intern action file origline)))))
+             (gd--jump-to-exception-intern action file origline)))))
 
 (defalias 'gd-toggle-split-window-on-execute-function 'gd-toggle-split-window-function)
 (defun gd-toggle-split-window-function ()
@@ -7482,20 +6722,20 @@ Customizable variable `gd-split-windows-on-execute-function' tells how to split 
   (when (and gd-verbose-p (called-interactively-p 'any))
     (message "gd-split-windows-on-execute-function set to: %s" gd-split-windows-on-execute-function)))
 
-(defun py--manage-windows-set-and-switch (buffer)
+(defun gd--manage-windows-set-and-switch (buffer)
   "Switch to output-buffer, go to point-max.
 
 Internal use"
   (set-buffer buffer)
   (goto-char (process-mark (get-buffer-process (current-buffer)))))
 
-(defun py--alternative-split-windows-on-execute-function ()
-  "If `py--split-windows-on-execute-function' is `split-window-vertically' return `split-window-horizontally' and vice versa"
+(defun gd--alternative-split-windows-on-execute-function ()
+  "If `gd--split-windows-on-execute-function' is `split-window-vertically' return `split-window-horizontally' and vice versa"
   (if (eq gd-split-windows-on-execute-function 'split-window-vertically)
       'split-window-horizontally
     'split-window-vertically))
 
-(defun py--get-splittable-window (output-buffer)
+(defun gd--get-splittable-window (output-buffer)
   "If selected window doesn't permit a further split, search window-list for a suitable one. "
   (let ((this-window (selected-window))
 	erg)
@@ -7504,37 +6744,37 @@ Internal use"
 	(and (window-parent)(ignore-errors (split-window (window-parent))))
 	(and (window-atom-root)(split-window (window-atom-root))))))
 
-(defun py--manage-windows-split (exception-buffer output-buffer)
+(defun gd--manage-windows-split (exception-buffer output-buffer)
   "If one window, split according to `gd-split-windows-on-execute-function. "
   (interactive)
   (set-buffer exception-buffer)
-  ;; (when gd-debug-p (message "py--manage-windows-split: %s" "py--manage-windows-split"))
+  ;; (when gd-debug-p (message "gd--manage-windows-split: %s" "gd--manage-windows-split"))
   (or
    (ignore-errors (funcall gd-split-windows-on-execute-function))
    ;; If call didn't succeed according to settings of
    ;; `split-height-threshold', `split-width-threshold'
    ;; resp. `window-min-height', `window-min-width'
    ;; try alternative split
-   (unless (ignore-errors (funcall (py--alternative-split-windows-on-execute-function)))
+   (unless (ignore-errors (funcall (gd--alternative-split-windows-on-execute-function)))
      ;; if alternative split fails, look for larger window
-     (py--get-splittable-window output-buffer)
-     (ignore-errors (funcall (py--alternative-split-windows-on-execute-function))))))
+     (gd--get-splittable-window output-buffer)
+     (ignore-errors (funcall (gd--alternative-split-windows-on-execute-function))))))
 
-;; (defun py--display-windows (output-buffer)
+;; (defun gd--display-windows (output-buffer)
 ;;     "Otherwise new window appears above"
 ;;       (display-buffer output-buffer)
 ;;       (select-window gd-exception-window))
 
-(defun py--split-t-not-switch-wm ()
+(defun gd--split-t-not-switch-wm ()
   (unless (window-live-p output-buffer)
     (with-current-buffer (get-buffer output-buffer)
       (when (< number-of-windows gd-split-window-on-execute-threshold)
 	(unless
 	    (member (get-buffer-window output-buffer)(window-list))
-	  (py--manage-windows-split gd-exception-buffer output-buffer)))
+	  (gd--manage-windows-split gd-exception-buffer output-buffer)))
       (display-buffer output-buffer t))))
 
-(defun py--shell-manage-windows (output-buffer windows-config &optional exception-buffer)
+(defun gd--shell-manage-windows (output-buffer windows-config &optional exception-buffer)
   "Adapt or restore window configuration. Return nil "
   (let* ((gd-exception-buffer (or exception-buffer (and gd-exception-buffer (buffer-live-p gd-exception-buffer) gd-exception-buffer)))
 	 (output-buffer (or output-buffer gd-buffer-name))
@@ -7551,7 +6791,7 @@ Internal use"
       (if (member (get-buffer-window output-buffer)(window-list))
 	  ;; (delete-window (get-buffer-window output-buffer))
 	  (select-window (get-buffer-window output-buffer))
-	(py--manage-windows-split gd-exception-buffer output-buffer)
+	(gd--manage-windows-split gd-exception-buffer output-buffer)
 	;; otherwise new window appears above
 	(save-excursion
 	  (other-window 1)
@@ -7562,7 +6802,7 @@ Internal use"
        (not gd-switch-buffers-on-execute-p))
       (if (member (get-buffer-window output-buffer)(window-list))
 	  (select-window (get-buffer-window output-buffer))
-	(py--manage-windows-split gd-exception-buffer output-buffer)
+	(gd--manage-windows-split gd-exception-buffer output-buffer)
 	(display-buffer output-buffer)
 	(pop-to-buffer gd-exception-buffer)))
      ((and
@@ -7571,7 +6811,7 @@ Internal use"
       (switch-to-buffer (current-buffer))
       (delete-other-windows)
       ;; (sit-for gd-new-shell-delay)
-      (py--manage-windows-split gd-exception-buffer output-buffer)
+      (gd--manage-windows-split gd-exception-buffer output-buffer)
       ;; otherwise new window appears above
       (other-window 1)
       (set-buffer output-buffer)
@@ -7583,7 +6823,7 @@ Internal use"
       (delete-other-windows)
       (unless
 	  (member (get-buffer-window output-buffer)(window-list))
-	(py--manage-windows-split gd-exception-buffer output-buffer))
+	(gd--manage-windows-split gd-exception-buffer output-buffer))
       ;; Fixme: otherwise new window appears above
       (save-excursion
 	(other-window 1)
@@ -7596,13 +6836,13 @@ Internal use"
       ;; https://bugs.launchpad.net/gdscript-mode/+bug/1478122
       ;; > If the shell is visible in any of the windows it  should re-use that window
       ;; > I did double check and gd-keep-window-configuration is nil and gd-split-window-on-execute is t.
-      (py--split-t-not-switch-wm))
+      (gd--split-t-not-switch-wm))
      ((and
        gd-split-window-on-execute
        gd-switch-buffers-on-execute-p)
       (unless
 	  (member (get-buffer-window output-buffer)(window-list))
-	(py--manage-windows-split gd-exception-buffer output-buffer))
+	(gd--manage-windows-split gd-exception-buffer output-buffer))
       ;; Fixme: otherwise new window appears above
       (save-excursion
 	(other-window 1)
@@ -7630,7 +6870,7 @@ Receives a buffer-name as argument"
   (interactive)
   (gd-kill-buffer-unconditional "*GDScript*"))
 
-(defun py--report-executable (gd-buffer-name)
+(defun gd--report-executable (gd-buffer-name)
   (let ((erg (downcase (replace-regexp-in-string
                         "<\\([0-9]+\\)>" ""
                         (replace-regexp-in-string
@@ -7643,7 +6883,7 @@ Receives a buffer-name as argument"
       (setq erg (substring erg 0 (string-match "-" erg))))
     erg))
 
-(defun py--shell-make-comint (executable gd-buffer-name args)
+(defun gd--shell-make-comint (executable gd-buffer-name args)
   "Returns the buffer of the comint-proces created. "
   (let* ((buffer (apply #'make-comint-in-buffer executable gd-buffer-name executable nil (split-string-and-unquote (car args))))
 	 (proc (get-buffer-process buffer)))
@@ -7653,14 +6893,14 @@ Receives a buffer-name as argument"
 	(gd-gdscript-shell-mode)))
     buffer))
 
-(defun py--guess-buffer-name (argprompt dedicated)
+(defun gd--guess-buffer-name (argprompt dedicated)
   "Guess the buffer-name core string. "
   (when (and (not dedicated) argprompt
 	     (eq 4 (prefix-numeric-value argprompt)))
     (read-buffer "Py-Shell buffer: "
-		 (generate-new-buffer-name (py--choose-buffer-name)))))
+		 (generate-new-buffer-name (gd--choose-buffer-name)))))
 
-(defun py--configured-shell (name)
+(defun gd--configured-shell (name)
   "Return the configured PATH/TO/STRING if any. "
   (if (string-match "//\\|\\\\" name)
       name
@@ -7674,30 +6914,30 @@ Receives a buffer-name as argument"
 	   (or gd-jython-command name))
 	  (t (or gd-gdscript-command name)))))
 
-(defun py--grab-prompt-ps1 (proc buffer)
-  (py--send-string-no-output "import sys")
-  (py--fast-send-string-intern "sys.ps1" proc buffer nil t))
+(defun gd--grab-prompt-ps1 (proc buffer)
+  (gd--send-string-no-output "import sys")
+  (gd--fast-send-string-intern "sys.ps1" proc buffer nil t))
 
-(defun py--start-fast-process (shell buffer)
+(defun gd--start-fast-process (shell buffer)
   (let ((proc (start-process shell buffer shell)))
     (with-current-buffer buffer
       (erase-buffer))
     proc))
 
-(defun py--shell-fast-proceeding (proc gd-buffer-name gd-shell-name  gd-shell-completion-setup-code)
+(defun gd--shell-fast-proceeding (proc gd-buffer-name gd-shell-name  gd-shell-completion-setup-code)
   (unless (get-buffer-process (get-buffer gd-buffer-name))
-    (setq proc (py--start-fast-process gd-shell-name gd-buffer-name))
+    (setq proc (gd--start-fast-process gd-shell-name gd-buffer-name))
     (setq gd-output-buffer gd-buffer-name)
-    (py--fast-send-string-no-output gd-shell-completion-setup-code proc gd-buffer-name)))
+    (gd--fast-send-string-no-output gd-shell-completion-setup-code proc gd-buffer-name)))
 
-(defun py--reuse-existing-shell (exception-buffer)
+(defun gd--reuse-existing-shell (exception-buffer)
   (setq gd-exception-buffer (or exception-buffer (and gd-exception-buffer (buffer-live-p gd-exception-buffer) gd-exception-buffer) gd-buffer-name)))
 
-(defun py--create-new-shell (executable args exception-buffer)
+(defun gd--create-new-shell (executable args exception-buffer)
   (let ((buf (current-buffer)))
     (with-current-buffer
 	(apply #'make-comint-in-buffer executable gd-buffer-name executable nil (split-string-and-unquote args))
-      ;; (py--shell-make-comint executable gd-buffer-name args)
+      ;; (gd--shell-make-comint executable gd-buffer-name args)
       (let ((proc (get-buffer-process (current-buffer))))
 	(if (string-match "^i" (process-name proc))
 	    (gd-ipython-shell-mode)
@@ -7709,13 +6949,13 @@ Receives a buffer-name as argument"
       (set-marker comint-last-input-end (point))
       (setq gd-exception-buffer (or exception-buffer (and gd-exception-buffer (buffer-live-p gd-exception-buffer) gd-exception-buffer) buf)))))
 
-(defun py--determine-local-default ()
+(defun gd--determine-local-default ()
   (if (not (string= "" gd-shell-local-path))
       (expand-file-name gd-shell-local-path)
     (when gd-use-local-default
       (error "Abort: `gd-use-local-default' is set to `t' but `gd-shell-local-path' is empty. Maybe call `gd-toggle-local-default-use'"))))
 
-(defun py--provide-command-args (fast-process argprompt)
+(defun gd--provide-command-args (fast-process argprompt)
   (cond (fast-process nil)
 	((eq 2 (prefix-numeric-value argprompt))
 	 (mapconcat 'identity gd-python2-command-args " "))
@@ -7746,16 +6986,16 @@ Receives a buffer-name as argument"
 	 (dedicated (or dedicated gd-dedicated-process-p))
 	 (path (getenv "PYTHONPATH"))
 	 (gd-shell-name (or shell
-			    ;; (py--configured-shell (gd-choose-shell))
+			    ;; (gd--configured-shell (gd-choose-shell))
 			    (gd-choose-shell)))
-	 (args (py--provide-command-args fast-process argprompt))
+	 (args (gd--provide-command-args fast-process argprompt))
 
-	 (gd-use-local-default (py--determine-local-default))
-	 (gd-buffer-name (or buffer-name (py--guess-buffer-name argprompt dedicated)))
-	 (gd-buffer-name (or gd-buffer-name (py--choose-buffer-name nil dedicated fast-process)))
+	 (gd-use-local-default (gd--determine-local-default))
+	 (gd-buffer-name (or buffer-name (gd--guess-buffer-name argprompt dedicated)))
+	 (gd-buffer-name (or gd-buffer-name (gd--choose-buffer-name nil dedicated fast-process)))
 	 (executable (cond (gd-shell-name)
 			   (gd-buffer-name
-			    (py--report-executable gd-buffer-name))))
+			    (gd--report-executable gd-buffer-name))))
 	 proc)
     ;; lp:1169687, if called from within an existing gd-shell, open a new one
     (and (bufferp (get-buffer gd-buffer-name))(buffer-live-p (get-buffer gd-buffer-name))(string= (buffer-name (current-buffer)) (buffer-name (get-buffer gd-buffer-name)))
@@ -7763,20 +7003,20 @@ Receives a buffer-name as argument"
     (sit-for 0.1 t)
     (if fast-process
 	;; user rather wants an interactive shell
-	(py--shell-fast-proceeding proc gd-buffer-name gd-shell-name  gd-shell-completion-setup-code)
+	(gd--shell-fast-proceeding proc gd-buffer-name gd-shell-name  gd-shell-completion-setup-code)
       (if (comint-check-proc gd-buffer-name)
-	  (py--reuse-existing-shell exception-buffer)
+	  (gd--reuse-existing-shell exception-buffer)
 	;; buffer might exist but not being empty
 	(when (buffer-live-p gd-buffer-name)
 	  (with-current-buffer gd-buffer-name
 	    (erase-buffer)))
-	(py--create-new-shell executable args exception-buffer))
+	(gd--create-new-shell executable args exception-buffer))
       (when (or (called-interactively-p 'any)
 		(eq 1 argprompt)
 		gd-switch-buffers-on-execute-p
 		;; (member this-command gd-named-shells)
 		)
-	(py--shell-manage-windows gd-buffer-name windows-config gd-exception-buffer)))
+	(gd--shell-manage-windows gd-buffer-name windows-config gd-exception-buffer)))
     ;; (sit-for gd-new-shell-delay t)
     gd-buffer-name))
 
@@ -7805,20 +7045,20 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
     (when (called-interactively-p 'any) (message "%s" (prin1-to-string cmd)))
     cmd))
 
-(defun py--store-result-maybe (erg)
+(defun gd--store-result-maybe (erg)
   "If no error occurred and `gd-store-result-p' store result for yank. "
   (and (not gd-error) erg (or gd-debug-p gd-store-result-p) (kill-new erg)))
 
-(defun py--close-execution (tempbuf tempfile)
-  "Delete temporary buffer and and run `py--store-result-maybe'"
+(defun gd--close-execution (tempbuf tempfile)
+  "Delete temporary buffer and and run `gd--store-result-maybe'"
   (unless gd-debug-p
     (when tempfile (gd-delete-temporary tempfile tempbuf))))
 
-(defun py--execute-base (&optional start end shell filename proc file wholebuf)
+(defun gd--execute-base (&optional start end shell filename proc file wholebuf)
   "Update variables. "
-  ;; (when gd-debug-p (message "run: %s" "py--execute-base"))
+  ;; (when gd-debug-p (message "run: %s" "gd--execute-base"))
   (setq gd-error nil)
-  ;; (when gd-debug-p (message "py--execute-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
+  ;; (when gd-debug-p (message "gd--execute-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
 
   (let* ((gd-exception-buffer (or gd-exception-buffer (current-buffer)))
 	 (gd-exception-window (selected-window))
@@ -7826,8 +7066,8 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
 	 (end (or end (and (use-region-p) (region-end)) (point-max)))
 	 (strg-raw (if gd-if-name-main-permission-p
                        (buffer-substring-no-properties start end)
-                     (py--fix-if-name-main-permission (buffer-substring-no-properties start end))))
-         (strg (py--fix-start strg-raw))
+                     (gd--fix-if-name-main-permission (buffer-substring-no-properties start end))))
+         (strg (gd--fix-start strg-raw))
          (wholebuf (unless file (or wholebuf (and (eq (buffer-size) (- end start))))))
 	 (windows-config (window-configuration-to-register gd-windows-config-register))
 	 (origline
@@ -7853,10 +7093,10 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
 		 gd-execute-directory)
 		((getenv "VIRTUAL_ENV"))
 		(t (getenv "HOME"))))
-	 (buffer (py--choose-buffer-name which-shell))
+	 (buffer (gd--choose-buffer-name which-shell))
 	 (filename (or (and filename (expand-file-name filename))
 		       ;; (and (not (buffer-modified-p)) (buffer-file-name))
-		       (py--buffer-filename-remote-maybe)))
+		       (gd--buffer-filename-remote-maybe)))
 	 (gd-orig-buffer-or-file (or filename (current-buffer)))
 	 (proc (cond (proc)
 		     ;; will deal with gd-dedicated-process-p also
@@ -7868,29 +7108,29 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
 		     (t (or (get-buffer-process buffer)
 			    (get-buffer-process (gd-shell nil gd-dedicated-process-p which-shell buffer)))))))
     (setq gd-buffer-name buffer)
-    (py--execute-base-intern strg shell filename proc file wholebuf buffer origline execute-directory start end which-shell)
-    ;; (when gd-debug-p (message "py--execute-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
+    (gd--execute-base-intern strg shell filename proc file wholebuf buffer origline execute-directory start end which-shell)
+    ;; (when gd-debug-p (message "gd--execute-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
     (when (or gd-split-window-on-execute gd-switch-buffers-on-execute-p)
-      (py--shell-manage-windows buffer windows-config gd-exception-buffer))))
+      (gd--shell-manage-windows buffer windows-config gd-exception-buffer))))
 
-(defun py--send-to-fast-process (strg proc output-buffer)
-  "Called inside of `py--execute-base-intern' "
+(defun gd--send-to-fast-process (strg proc output-buffer)
+  "Called inside of `gd--execute-base-intern' "
   (let ((output-buffer (or output-buffer (process-buffer proc))))
   (with-current-buffer output-buffer
     (sit-for 0.2 t)
     (erase-buffer)
     (switch-to-buffer (current-buffer))
-    (py--fast-send-string-intern strg
+    (gd--fast-send-string-intern strg
 				 proc
 				 output-buffer gd-store-result-p gd-return-result-p)
     (sit-for 0.1))))
 
-(defun py--delete-temp-file (tempfile &optional tempbuf)
-  "The called, after `py--execute-buffer-finally' returned. "
-  (sit-for py--delete-temp-file-delay t)
-  (py--close-execution tempbuf tempfile))
+(defun gd--delete-temp-file (tempfile &optional tempbuf)
+  "The called, after `gd--execute-buffer-finally' returned. "
+  (sit-for gd--delete-temp-file-delay t)
+  (gd--close-execution tempbuf tempfile))
 
-(defun py--execute-buffer-finally (strg execute-directory wholebuf which-shell proc procbuf origline)
+(defun gd--execute-buffer-finally (strg execute-directory wholebuf which-shell proc procbuf origline)
   (let* ((temp (make-temp-name
 		;; FixMe: that should be simpler
                 (concat (replace-regexp-in-string gd-separator-char "-" (replace-regexp-in-string (concat "^" gd-separator-char) "" (replace-regexp-in-string ":" "-" (if (stringp which-shell) which-shell (prin1-to-string which-shell))))) "-")))
@@ -7898,36 +7138,36 @@ Per default it's \"(format \"execfile(r'%s') # PYTHON-MODE\\n\" filename)\" for 
 	 erg)
     (setq gd-tempfile (concat (expand-file-name gd-temp-directory) gd-separator-char (replace-regexp-in-string gd-separator-char "-" temp) ".py"))
     (with-current-buffer tempbuf
-      ;; (when gd-debug-p (message "py--execute-buffer-finally: gd-split-window-on-execute: %s" gd-split-window-on-execute))
+      ;; (when gd-debug-p (message "gd--execute-buffer-finally: gd-split-window-on-execute: %s" gd-split-window-on-execute))
       (insert strg)
       (write-file gd-tempfile))
     (unwind-protect
-	(setq erg (py--execute-file-base proc gd-tempfile nil procbuf gd-orig-buffer-or-file nil execute-directory gd-exception-buffer origline)))
+	(setq erg (gd--execute-file-base proc gd-tempfile nil procbuf gd-orig-buffer-or-file nil execute-directory gd-exception-buffer origline)))
     erg))
 
-(defun py--execute-base-intern (strg shell filename proc file wholebuf buffer origline execute-directory start end which-shell)
+(defun gd--execute-base-intern (strg shell filename proc file wholebuf buffer origline execute-directory start end which-shell)
   "Select the handler.
 
 When optional FILE is `t', no temporary file is needed. "
   (let (output-buffer erg)
     (setq gd-error nil)
-     (py--update-execute-directory proc buffer execute-directory)
-    (cond (gd-fast-process-p (py--send-to-fast-process strg proc output-buffer))
+     (gd--update-execute-directory proc buffer execute-directory)
+    (cond (gd-fast-process-p (gd--send-to-fast-process strg proc output-buffer))
 	  ;; enforce proceeding as gdscript-mode.el v5
 	  (gdscript-mode-v5-behavior-p
 	   (gd-execute-gdscript-mode-v5 start end gd-exception-buffer origline))
 	  (gd-execute-no-temp-p
-	   (py--execute-ge24.3 start end filename execute-directory which-shell gd-exception-buffer proc file origline))
+	   (gd--execute-ge24.3 start end filename execute-directory which-shell gd-exception-buffer proc file origline))
 	  ((and filename wholebuf)
-	   (py--execute-file-base proc filename nil buffer nil filename execute-directory gd-exception-buffer origline))
+	   (gd--execute-file-base proc filename nil buffer nil filename execute-directory gd-exception-buffer origline))
 	  (t
-	   (py--execute-buffer-finally strg execute-directory wholebuf which-shell proc buffer origline)
-	   (py--delete-temp-file gd-tempfile)
+	   (gd--execute-buffer-finally strg execute-directory wholebuf which-shell proc buffer origline)
+	   (gd--delete-temp-file gd-tempfile)
 	   ;;
 
 	   ))))
 
-(defun py--fetch-error (buf &optional origline)
+(defun gd--fetch-error (buf &optional origline)
   "Highlight exceptions found in BUF.
 If an exception occurred return error-string, otherwise return nil.  BUF must exist.
 
@@ -7951,7 +7191,7 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
     (when erg
       (goto-char erg)
       (save-match-data
-	(and (not (py--buffer-filename-remote-maybe
+	(and (not (gd--buffer-filename-remote-maybe
 		   (or
 		    (get-buffer gd-exception-buffer)
 		    (get-buffer (file-name-nondirectory gd-exception-buffer)))))
@@ -7962,23 +7202,23 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
       (sit-for 0.1 t)
       gd-error)))
 
-(defun py--fetch-result (orig)
+(defun gd--fetch-result (orig)
   "Return buffer-substring from orig to point-max. "
   (replace-regexp-in-string
    (format "[ \n]*%s[ \n]*" gd-fast-filter-re)
    ""
    (buffer-substring-no-properties orig (point-max))))
 
-(defun py--postprocess-comint (output-buffer origline windows-config gd-exception-buffer orig)
+(defun gd--postprocess-comint (output-buffer origline windows-config gd-exception-buffer orig)
   "Provide return values, check result for error, manage windows. "
-  ;; py--fast-send-string doesn't set origline
+  ;; gd--fast-send-string doesn't set origline
   (let (gd-result gd-result-raw gd-error)
-    ;; (when gd-debug-p (message "py--postprocess-comint: gd-split-window-on-execute: %s" gd-split-window-on-execute))
+    ;; (when gd-debug-p (message "gd--postprocess-comint: gd-split-window-on-execute: %s" gd-split-window-on-execute))
     ;; gd-ert-wrong-gdscript-test fails otherwise
     (with-current-buffer output-buffer
       (sit-for 0.1 t)
       ;; (when gd-debug-p (switch-to-buffer (current-buffer)))
-      (setq gd-result (py--fetch-result orig)))
+      (setq gd-result (gd--fetch-result orig)))
     ;; (when gd-debug-p (message "gd-result: %s" gd-result))
     (and (string-match "\n$" gd-result)
 	 (setq gd-result (replace-regexp-in-string gd-fast-filter-re "" (substring gd-result 0 (match-beginning 0)))))
@@ -7989,7 +7229,7 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
 		;; (when gd-debug-p (message "gd-result: %s" gd-result))
 		(insert gd-result)
 		(sit-for 0.1 t)
-		(setq gd-error (py--fetch-error (current-buffer) origline)))
+		(setq gd-error (gd--fetch-error (current-buffer) origline)))
 	      (with-current-buffer output-buffer
 		;; `comint-last-prompt' must not exist
 		(delete-region (point) (or (ignore-errors (car comint-last-prompt)) (point-max)))
@@ -8001,20 +7241,20 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
 	  (when gd-store-result-p
 	    (when (and gd-result (not (string= "" gd-result))(not (string= (car kill-ring) gd-result))) (kill-new gd-result)))
 	  (or gd-error gd-result))
-      (message "py--postprocess-comint: %s" "Don't see any result"))))
+      (message "gd--postprocess-comint: %s" "Don't see any result"))))
 
-(defun py--execute-ge24.3 (start end filename execute-directory which-shell &optional gd-exception-buffer proc file origline)
+(defun gd--execute-ge24.3 (start end filename execute-directory which-shell &optional gd-exception-buffer proc file origline)
   "An alternative way to do it.
 
 May we get rid of the temporary file? "
-  (and (py--buffer-filename-remote-maybe) buffer-offer-save (buffer-modified-p (py--buffer-filename-remote-maybe)) (y-or-n-p "Save buffer before executing? ")
-       (write-file (py--buffer-filename-remote-maybe)))
+  (and (gd--buffer-filename-remote-maybe) buffer-offer-save (buffer-modified-p (gd--buffer-filename-remote-maybe)) (y-or-n-p "Save buffer before executing? ")
+       (write-file (gd--buffer-filename-remote-maybe)))
   (let* ((start (copy-marker start))
          (end (copy-marker end))
          (gd-exception-buffer (or gd-exception-buffer (current-buffer)))
          (line (gd-count-lines (point-min) (if (eq start (line-beginning-position)) (1+ start) start)))
          (strg (buffer-substring-no-properties start end))
-         (tempfile (or (py--buffer-filename-remote-maybe) (concat (expand-file-name gd-temp-directory) gd-separator-char (replace-regexp-in-string gd-separator-char "-" "temp") ".py")))
+         (tempfile (or (gd--buffer-filename-remote-maybe) (concat (expand-file-name gd-temp-directory) gd-separator-char (replace-regexp-in-string gd-separator-char "-" "temp") ".py")))
 
          (proc (or proc (if gd-dedicated-process-p
                             (get-buffer-process (gd-shell nil gd-dedicated-process-p which-shell gd-buffer-name))
@@ -8029,7 +7269,7 @@ May we get rid of the temporary file? "
     (newline line)
     (save-excursion
       (insert strg))
-    (py--fix-start (buffer-substring-no-properties (point) (point-max)))
+    (gd--fix-start (buffer-substring-no-properties (point) (point-max)))
     (unless (string-match "[jJ]ython" which-shell)
       ;; (when (and execute-directory gd-use-current-dir-when-execute-p
       ;; (not (string= execute-directory default-directory)))
@@ -8042,10 +7282,10 @@ May we get rid of the temporary file? "
                          (buffer-substring-no-properties
                           (point-min) (point-max)))
     (sit-for 0.1 t)
-    (if (and (setq gd-error (save-excursion (py--postprocess-intern procbuf origline gd-exception-buffer)))
+    (if (and (setq gd-error (save-excursion (gd--postprocess-intern procbuf origline gd-exception-buffer)))
              (car gd-error)
              (not (markerp gd-error)))
-        (py--jump-to-exception gd-error origline)
+        (gd--jump-to-exception gd-error origline)
       (unless (string= (buffer-name (current-buffer)) (buffer-name procbuf))
         (when gd-verbose-p (message "Output buffer: %s" procbuf))))))
 
@@ -8070,7 +7310,7 @@ May we get rid of the temporary file? "
                                pcmd gd-output-buffer))
     (if (not (get-buffer gd-output-buffer))
         (message "No output.")
-      (setq gd-error (py--postprocess-intern gd-output-buffer origline gd-exception-buffer))
+      (setq gd-error (gd--postprocess-intern gd-output-buffer origline gd-exception-buffer))
       (let* ((line (cadr gd-error)))
         (if gd-error
             (when (and gd-jump-on-exception line)
@@ -8079,19 +7319,19 @@ May we get rid of the temporary file? "
           (goto-char (point-max))
           (copy-marker (point)))))))
 
-(defun py--insert-offset-lines (line)
+(defun gd--insert-offset-lines (line)
   "Fix offline amount, make error point at the corect line. "
   (insert (make-string (- line (gd-count-lines (point-min) (point))) 10)))
 
-(defun py--execute-file-base (&optional proc filename cmd procbuf orig file execute-directory gd-exception-buffer origline)
+(defun gd--execute-file-base (&optional proc filename cmd procbuf orig file execute-directory gd-exception-buffer origline)
   "Send to GDScript interpreter process PROC, in GDScript version 2.. \"execfile('FILENAME')\".
 
 Make that process's buffer visible and force display.  Also make
 comint believe the user typed this string so that
 `kill-output-from-shell' does The Right Thing.
 Returns position where output starts. "
-  ;; (when gd-debug-p (message "py--execute-file-base args: %s %s %s %s %s %s %s %s" proc filename cmd procbuf orig file execute-directory gd-exception-buffer))
-  ;; (when gd-debug-p (message "py--execute-file-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
+  ;; (when gd-debug-p (message "gd--execute-file-base args: %s %s %s %s %s %s %s %s" proc filename cmd procbuf orig file execute-directory gd-exception-buffer))
+  ;; (when gd-debug-p (message "gd--execute-file-base: gd-split-window-on-execute: %s" gd-split-window-on-execute))
   (let* ((origline (or (ignore-errors origline) 1))
 	 (cmd (or cmd (format "exec(compile(open('%s').read(), '%s', 'exec')) # PYTHON-MODE\n" filename filename)))
 	 (msg (and gd-verbose-p (format "## executing %s...\n" filename)))
@@ -8105,13 +7345,13 @@ Returns position where output starts. "
       (setq orig (point))
       (gd-send-string cmd proc)
       (unless gd-ignore-result-p
-	(setq erg (py--postprocess-comint buffer origline windows-config gd-exception-buffer orig))
+	(setq erg (gd--postprocess-comint buffer origline windows-config gd-exception-buffer orig))
 	(if gd-error
 	    ;; (progn
 	    (setq gd-error (prin1-to-string gd-error))
 	  ;; keep the temporary file in case of error
 	  ;; (when gd-debug-p
-	  ;; (message "py--execute-file-base, gd-error:%s" gd-error))
+	  ;; (message "gd--execute-file-base, gd-error:%s" gd-error))
 	  ;;)
 	  erg)))))
 
@@ -8125,26 +7365,26 @@ Returns position where output starts. "
         erg)
     (if (file-readable-p filename)
         (if gd-store-result-p
-            (setq erg (py--execute-file-base nil (expand-file-name filename origline)))
-          (py--execute-file-base nil (expand-file-name filename)))
+            (setq erg (gd--execute-file-base nil (expand-file-name filename origline)))
+          (gd--execute-file-base nil (expand-file-name filename)))
       (message "%s not readable. %s" filename "Do you have write permissions?"))
     erg))
 
-(defun py--current-working-directory (&optional shell)
+(defun gd--current-working-directory (&optional shell)
   "Return the directory of current `gd-shell'."
   (replace-regexp-in-string "\n" "" (shell-command-to-string (concat (or shell gd-shell-name) " -c \"import os; print(os.getcwd())\""))))
 
-(defun py--update-execute-directory-intern (dir proc)
+(defun gd--update-execute-directory-intern (dir proc)
   (comint-send-string proc (concat "import os;os.chdir(\"" dir "\")\n")))
 
-(defun py--update-execute-directory (proc procbuf execute-directory)
+(defun gd--update-execute-directory (proc procbuf execute-directory)
   (let ((gd-exception-buffer (current-buffer))
         orig cwd)
     (set-buffer procbuf)
-    (setq cwd (py--current-working-directory))
+    (setq cwd (gd--current-working-directory))
     (setq orig (point))
     (unless (string= execute-directory (concat cwd "/"))
-      (py--update-execute-directory-intern (or gd-execute-directory execute-directory) proc)
+      (gd--update-execute-directory-intern (or gd-execute-directory execute-directory) proc)
       (delete-region orig (point-max)))
     (set-buffer gd-exception-buffer)))
 
@@ -8171,26 +7411,26 @@ See also `gd-execute-region'. "
       (insert string)
       (gd-execute-region (point-min) (point-max)))))
 
-(defun py--insert-execute-directory (directory &optional orig done)
+(defun gd--insert-execute-directory (directory &optional orig done)
   (let ((orig (or orig (point)))
         (done done))
     (if done (goto-char done) (goto-char (point-min)))
     (cond ((re-search-forward "^from __future__ import " nil t 1)
            (gd-forward-statement)
            (setq done (point))
-           (py--insert-execute-directory directory orig done))
+           (gd--insert-execute-directory directory orig done))
           ((re-search-forward gd-encoding-string-re nil t 1)
            (setq done (point))
-           (py--insert-execute-directory directory orig done))
+           (gd--insert-execute-directory directory orig done))
           ((re-search-forward gd-shebang-regexp nil t 1)
            (setq done (point))
-           (py--insert-execute-directory directory orig done))
+           (gd--insert-execute-directory directory orig done))
           (t (forward-line 1)
              (unless  ;; (empty-line-p)
                  (eq 9 (char-after)) (newline))
              (insert (concat "import os; os.chdir(\"" directory "\")\n"))))))
 
-(defun py--fix-if-name-main-permission (string)
+(defun gd--fix-if-name-main-permission (string)
   "Remove \"if __name__ == '__main__ '\" from code to execute.
 
 See `gd-if-name-main-permission-p'"
@@ -8219,11 +7459,11 @@ See `gd-if-name-main-permission-p'"
        beg end
        (if (eq (current-bidi-paragraph-direction) 'right-to-left) 1 -1))))
 
-(defun py--fix-start (string)
+(defun gd--fix-start (string)
   "Internal use by gd-execute... functions.
 
 Avoid empty lines at the beginning. "
-  ;; (when gd-debug-p (message "py--fix-start:"))
+  ;; (when gd-debug-p (message "gd--fix-start:"))
   (with-temp-buffer
     (let (erg)
       (insert string)
@@ -8237,7 +7477,7 @@ Avoid empty lines at the beginning. "
 	  (indent-rigidly-left (point-min) (point-max))))
       ;; (member (char-after) (list 9 32))
       ;; (delete-char 1))
-      (unless (py--beginning-of-statement-p)
+      (unless (gd--beginning-of-statement-p)
 	(gd-down-statement))
       (while (not (eq (current-indentation) 0))
 	(gd-shift-left gd-indent-offset))
@@ -8293,16 +7533,16 @@ This may be preferable to `\\[gd-execute-buffer]' because:
                        (find-file-noselect filename))))
       (set-buffer buffer)))
   (let ((gd-shell-name (or shell (gd-choose-shell nil shell)))
-        (file (py--buffer-filename-remote-maybe (current-buffer))))
+        (file (gd--buffer-filename-remote-maybe (current-buffer))))
     (if file
         (let ((proc (or
                      (ignore-errors (get-process (file-name-directory shell)))
                      (get-buffer-process (gd-shell nil gd-dedicated-process-p shell (or shell (default-value 'gd-shell-name)))))))
           ;; Maybe save some buffers
           (save-some-buffers (not gd-ask-about-save) nil)
-          (py--execute-file-base proc file
+          (gd--execute-file-base proc file
                                 (if (string-match "\\.py$" file)
-                                    (let ((m (py--qualified-module-name (expand-file-name file))))
+                                    (let ((m (gd--qualified-module-name (expand-file-name file))))
                                       (if (string-match "python2" gd-shell-name)
                                           (format "import sys\nif sys.modules.has_key('%s'):\n reload(%s)\nelse:\n import %s\n" m m m)
                                         (format "import sys,imp\nif'%s' in sys.modules:\n imp.reload(%s)\nelse:\n import %s\n" m m m)))
@@ -8310,7 +7550,7 @@ This may be preferable to `\\[gd-execute-buffer]' because:
                                   (gd-which-execute-file-command file))))
       (gd-execute-buffer))))
 
-(defun py--qualified-module-name (file)
+(defun gd--qualified-module-name (file)
   "Find the qualified module name for filename FILE.
 
 Basically, this goes down the directory tree as long as there are __init__.py files there."
@@ -8369,7 +7609,7 @@ EVENT is usually a mouse click."
            (info (and e (extent-property e 'gd-exc-info))))
       (message "Event point: %d, info: %s" point info)
       (and info
-           (py--jump-to-exception (car info) origline (cdr info)))))))
+           (gd--jump-to-exception (car info) origline (cdr info)))))))
 
 (defun gd-goto-exception (&optional file line)
   "Go to the line indicated by the traceback."
@@ -8388,7 +7628,7 @@ EVENT is usually a mouse click."
     (goto-char (point-min))
     (forward-line (1- line))))
 
-(defun py--find-next-exception (start buffer searchdir errwhere)
+(defun gd--find-next-exception (start buffer searchdir errwhere)
   "Find the next GDScript exception and jump to the code that caused it.
 START is the buffer position in BUFFER from which to begin searching
 for an exception.  SEARCHDIR is a function, either
@@ -8398,7 +7638,7 @@ bottom) of the trackback stack is encountered."
   (let (file line)
     (save-excursion
       (with-current-buffer buffer
-	(goto-char (py--point start))
+	(goto-char (gd--point start))
 	(if (funcall searchdir gd-traceback-line-re nil t)
 	    (setq file (match-string 1)
 		  line (string-to-number (match-string 2))))))
@@ -8415,8 +7655,8 @@ stack."
   (let* ((proc (get-process "GDScript"))
          (buffer (if proc "*GDScript*" gd-output-buffer)))
     (if bottom
-        (py--find-next-exception 'eob buffer 're-search-backward "Bottom")
-      (py--find-next-exception 'eol buffer 're-search-forward "Bottom"))))
+        (gd--find-next-exception 'eob buffer 're-search-backward "Bottom")
+      (gd--find-next-exception 'eol buffer 're-search-forward "Bottom"))))
 
 (defun gd-up-exception (&optional top)
   "Go to the previous line up in the traceback.
@@ -8426,13 +7666,13 @@ jump to the top (outermost) exception in the exception stack."
   (let* ((proc (get-process "GDScript"))
          (buffer (if proc "*GDScript*" gd-output-buffer)))
     (if top
-        (py--find-next-exception 'bob buffer 're-search-forward "Top")
-      (py--find-next-exception 'bol buffer 're-search-backward "Top"))))
+        (gd--find-next-exception 'bob buffer 're-search-forward "Top")
+      (gd--find-next-exception 'bol buffer 're-search-backward "Top"))))
 ;; ;
-;;  obsolete by py--fetch-result
-;;  followed by py--fetch-error
-;;  still used by py--execute-ge24.3
-(defun py--postprocess-intern (buf &optional origline gd-exception-buffer)
+;;  obsolete by gd--fetch-result
+;;  followed by gd--fetch-error
+;;  still used by gd--execute-ge24.3
+(defun gd--postprocess-intern (buf &optional origline gd-exception-buffer)
   "Highlight exceptions found in BUF.
 If an exception occurred return error-string, otherwise return nil.  BUF must exist.
 
@@ -8461,7 +7701,7 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
 				    (skip-chars-forward " \t\r\n\f")(point)) (line-end-position))
 	      (insert (concat "    File " (buffer-name gd-exception-buffer) ", line "
 			      (prin1-to-string origline)))))
-	  ;; Delete links at temporary files created by py--execute-buffer-finally
+	  ;; Delete links at temporary files created by gd--execute-buffer-finally
 	  ;; these are let-bound as `tempbuf'
 	  (and (boundp 'tempbuf)
 	       ;; (message "%s" tempbuf)
@@ -8474,7 +7714,7 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
             ;; (skip-chars-backward "^\t\r\n\f")
             ;; (skip-chars-forward " \t")
             (save-match-data
-              (and (not (py--buffer-filename-remote-maybe
+              (and (not (gd--buffer-filename-remote-maybe
                          (or
                           (get-buffer gd-exception-buffer)
                           (get-buffer (file-name-nondirectory gd-exception-buffer)))))
@@ -8501,7 +7741,7 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
     ;;))
     gd-error))
 
-(defun py--find-next-exception-prepare (direction start)
+(defun gd--find-next-exception-prepare (direction start)
   "Setup exception regexps depending from kind of GDScript shell. "
   (let* ((name (get-process (substring (buffer-name (current-buffer)) 1 -1)))
          (buffer (cond (name (buffer-name (current-buffer)))
@@ -8512,11 +7752,11 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
     (when buffer (set-buffer (get-buffer buffer)))
     (if (eq direction 'up)
         (if (string= start "TOP")
-            (py--find-next-exception 'bob buffer 're-search-forward "Top")
-          (py--find-next-exception 'bol buffer 're-search-backward "Top"))
+            (gd--find-next-exception 'bob buffer 're-search-forward "Top")
+          (gd--find-next-exception 'bol buffer 're-search-backward "Top"))
       (if (string= start "BOTTOM")
-          (py--find-next-exception 'eob buffer 're-search-backward "Bottom")
-        (py--find-next-exception 'eol buffer 're-search-forward "Bottom")))))
+          (gd--find-next-exception 'eob buffer 're-search-backward "Bottom")
+        (gd--find-next-exception 'eol buffer 're-search-forward "Bottom")))))
 
 (defalias 'ipython-send-and-indent 'gd-execute-line-ipython)
 (defalias 'gd-execute-region-in-shell 'gd-execute-region)
@@ -8575,12 +7815,12 @@ Indicate LINE if code wasn't run from a file, thus remember line of source buffe
 (defalias 'gd-python2-shell-complete 'gd-shell-complete)
 (defalias 'gd-python3-shell-complete 'gd-shell-complete)
 
-(defun py--shell-completion-get-completions (input process completion-code)
+(defun gd--shell-completion-get-completions (input process completion-code)
   "Retrieve available completions for INPUT using PROCESS.
 Argument COMPLETION-CODE is the python code used to get
 completions on the current context."
   (let ((erg
-	 (py--send-string-return-output
+	 (gd--send-string-return-output
 	  (format completion-code input) process)))
     (sit-for 0.2 t)
     (when (> (length erg) 2)
@@ -8589,7 +7829,7 @@ completions on the current context."
 
 ;; post-command-hook
 ;; caused insert-file-contents error lp:1293172
-(defun py--after-change-function (beg end len)
+(defun gd--after-change-function (beg end len)
   "Restore window-confiuration after completion. "
   (when
       (and (or
@@ -8609,7 +7849,7 @@ completions on the current context."
 
 (defalias 'ipython-complete 'gd-shell-complete)
 
-(defun py--try-completion-intern (input completion)
+(defun gd--try-completion-intern (input completion)
   (let (erg)
     (when (and (stringp (setq erg (try-completion input completion)))
 	       (looking-back input)
@@ -8618,10 +7858,10 @@ completions on the current context."
       (insert erg))
     erg))
 
-(defun py--try-completion (input completion)
+(defun gd--try-completion (input completion)
   "Repeat `try-completion' as long as matches are found. "
   (let (erg newlist)
-    (setq erg (py--try-completion-intern input completion))
+    (setq erg (gd--try-completion-intern input completion))
     (when erg
       (dolist (elt completion)
 	(unless (string= erg elt)
@@ -8630,21 +7870,21 @@ completions on the current context."
 	  (with-output-to-temp-buffer gd-gdscript-completions
 	    (display-completion-list
 	     (all-completions input (or newlist completion))))
-	(when newlist (py--try-completion erg newlist)))
+	(when newlist (gd--try-completion erg newlist)))
       (skip-chars-forward "^ \t\r\n\f")
       ;; (move-marker orig (point))
       nil)))
 
-(defun py--shell-insert-completion-maybe (completion input)
+(defun gd--shell-insert-completion-maybe (completion input)
   (cond ((eq completion t)
-	 (and gd-verbose-p (message "py--shell-do-completion-at-point %s" "`t' is returned, not completion. Might be a bug."))
+	 (and gd-verbose-p (message "gd--shell-do-completion-at-point %s" "`t' is returned, not completion. Might be a bug."))
 	 nil)
 	((or (null completion)
 	     (and completion (stringp completion)
 		  (or
 		   (string-match "\\`''\\'" completion)
 		   (string= "" completion))))
-	 (and gd-verbose-p (message "py--shell-do-completion-at-point %s" "Don't see a completion"))
+	 (and gd-verbose-p (message "gd--shell-do-completion-at-point %s" "Don't see a completion"))
 	 nil)
 	((and completion
 	      (or (and (listp completion)
@@ -8658,29 +7898,29 @@ completions on the current context."
 		;; (move-marker orig (point))
 		;; minibuffer.el expects a list, a bug IMO
 		nil))
-	(t (py--try-completion input completion)))
+	(t (gd--try-completion input completion)))
 
   nil)
 
-(defun py--shell-do-completion-at-point (process imports input orig gd-exception-buffer code)
+(defun gd--shell-do-completion-at-point (process imports input orig gd-exception-buffer code)
   "Do completion at point for PROCESS."
-  ;; (py--send-string-no-output gd-shell-completion-setup-code process)
+  ;; (gd--send-string-no-output gd-shell-completion-setup-code process)
   (when imports
-    (py--send-string-no-output imports process))
-  ;; (py--delay-process-dependent process)
+    (gd--send-string-no-output imports process))
+  ;; (gd--delay-process-dependent process)
   (sit-for 0.1 t)
   (let* ((completion
-	  (py--shell-completion-get-completions
+	  (gd--shell-completion-get-completions
 	   input process code))
 	 ;; (completion (when completions
 	 ;; (try-completion input completions)))
 	 newlist erg)
     (set-buffer gd-exception-buffer)
-    ;; (py--delay-process-dependent process)
+    ;; (gd--delay-process-dependent process)
     ;; (sit-for 1 t)
-    (py--shell-insert-completion-maybe completion input)))
+    (gd--shell-insert-completion-maybe completion input)))
 
-(defun py--complete-base (shell pos beg end word imports debug gd-exception-buffer)
+(defun gd--complete-base (shell pos beg end word imports debug gd-exception-buffer)
   (let* ((shell (or shell (gd-choose-shell)))
          (proc (or
 		;; completing inside a shell
@@ -8693,9 +7933,9 @@ completions on the current context."
     (code (if (string-match "[Ii][Pp]ython*" shell)
 	      (gd-set-ipython-completion-command-string shell)
 	    gd-shell-module-completion-code)))
-  (py--shell-do-completion-at-point proc imports word pos gd-exception-buffer code)))
+  (gd--shell-do-completion-at-point proc imports word pos gd-exception-buffer code)))
 
-(defun py--complete-prepare (&optional shell debug beg end word fast-complete)
+(defun gd--complete-prepare (&optional shell debug beg end word fast-complete)
   (let* ((gd-exception-buffer (current-buffer))
          (pos (copy-marker (point)))
 	 (pps (parse-partial-sexp (or (ignore-errors (overlay-end comint-last-prompt-overlay))(line-beginning-position)) (point)))
@@ -8723,12 +7963,12 @@ completions on the current context."
 			 (list (replace-regexp-in-string "\n" "" (shell-command-to-string (concat "find / -maxdepth 1 -name " ausdruck))))))
          (imports (gd-find-imports))
          gd-fontify-shell-buffer-p completion-buffer erg)
-    (cond (fast-complete (py--fast-complete-base shell pos beg end word imports debug gd-exception-buffer))
+    (cond (fast-complete (gd--fast-complete-base shell pos beg end word imports debug gd-exception-buffer))
 	  ((and in-string filenames)
 	   (when (setq erg (try-completion (concat "/" word) filenames))
 	     (delete-region beg end)
 	     (insert erg)))
-	  (t (py--complete-base shell pos beg end word imports debug gd-exception-buffer)))
+	  (t (gd--complete-base shell pos beg end word imports debug gd-exception-buffer)))
     nil))
 
 (defun gd-shell-complete (&optional shell debug beg end word)
@@ -8740,7 +7980,7 @@ completions on the current context."
   (setq gd-last-window-configuration
         (current-window-configuration))
   (when debug (setq gd-shell-complete-debug nil))
-  (py--complete-prepare shell debug beg end word nil))
+  (gd--complete-prepare shell debug beg end word nil))
 
 (defun gd-indent-or-complete ()
   "Complete or indent depending on the context.
@@ -8791,7 +8031,7 @@ in (I)GDScript shell-modes `gd-shell-complete'"
 
 (defvar gd-pdbtrack-is-tracking-p nil)
 
-(defun py--pdbtrack-overlay-arrow (activation)
+(defun gd--pdbtrack-overlay-arrow (activation)
   "Activate or de arrow at beginning-of-line in current buffer."
   ;; This was derived/simplified from edebug-overlay-arrow
   (cond (activation
@@ -8803,7 +8043,7 @@ in (I)GDScript shell-modes `gd-shell-complete'"
          (setq overlay-arrow-position nil)
          (setq gd-pdbtrack-is-tracking-p nil))))
 
-(defun py--pdbtrack-track-stack-file (text)
+(defun gd--pdbtrack-track-stack-file (text)
   "Show the file indicated by the pdb stack entry line, in a separate window.
 
 Activity is disabled if the buffer-local variable
@@ -8831,7 +8071,7 @@ script, and set to gdscript-mode, and pdbtrack will find it.)"
          (currproc (get-buffer-process origbuf)))
 
     (if (not (and currproc gd-pdbtrack-do-tracking-p))
-        (py--pdbtrack-overlay-arrow nil)
+        (gd--pdbtrack-overlay-arrow nil)
 
       (let* ((procmark (process-mark currproc))
              (block (buffer-substring (max comint-last-input-end
@@ -8841,9 +8081,9 @@ script, and set to gdscript-mode, and pdbtrack will find it.)"
              target target_fname target_lineno target_buffer)
 
         (if (not (string-match (concat gd-pdbtrack-input-prompt "$") block))
-            (py--pdbtrack-overlay-arrow nil)
+            (gd--pdbtrack-overlay-arrow nil)
 
-          (setq target (py--pdbtrack-get-source-buffer block))
+          (setq target (gd--pdbtrack-get-source-buffer block))
 
           (if (stringp target)
               (message "pdbtrack: %s" target)
@@ -8851,15 +8091,15 @@ script, and set to gdscript-mode, and pdbtrack will find it.)"
             (setq target_lineno (car target))
             (setq target_buffer (cadr target))
             (setq target_fname
-		  (py--buffer-filename-remote-maybe target_buffer))
+		  (gd--buffer-filename-remote-maybe target_buffer))
             (switch-to-buffer-other-window target_buffer)
             (goto-char (point-min))
             (forward-line (1- target_lineno))
             (message "pdbtrack: line %s, file %s" target_lineno target_fname)
-            (py--pdbtrack-overlay-arrow t)
+            (gd--pdbtrack-overlay-arrow t)
             (pop-to-buffer origbuf t)))))))
 
-(defun py--pdbtrack-map-filename (filename)
+(defun gd--pdbtrack-map-filename (filename)
 
   (let
       ((replacement-val (assoc-default
@@ -8873,7 +8113,7 @@ script, and set to gdscript-mode, and pdbtrack will find it.)"
         (replace-match replacement-val 't 't filename)
       filename)))
 
-(defun py--pdbtrack-get-source-buffer (block)
+(defun gd--pdbtrack-get-source-buffer (block)
   "Return line number and buffer of code indicated by block's traceback text.
 
 We look first to visit the file indicated in the trace.
@@ -8901,10 +8141,10 @@ problem as best as we can determine."
       (cond ((file-exists-p filename)
              (list lineno (find-file-noselect filename)))
 
-            ((file-exists-p (py--pdbtrack-map-filename filename))
-             (list lineno (find-file-noselect (py--pdbtrack-map-filename filename))))
+            ((file-exists-p (gd--pdbtrack-map-filename filename))
+             (list lineno (find-file-noselect (gd--pdbtrack-map-filename filename))))
 
-            ((setq funcbuffer (py--pdbtrack-grub-for-buffer funcname lineno))
+            ((setq funcbuffer (gd--pdbtrack-grub-for-buffer funcname lineno))
              (if (string-match "/Script (GDScript)$" filename)
                  ;; Add in number of lines for leading '##' comments:
                  (setq lineno
@@ -8924,7 +8164,7 @@ problem as best as we can determine."
 
             (t (format "Not found: %s(), %s" funcname filename))))))
 
-(defun py--pdbtrack-grub-for-buffer (funcname lineno)
+(defun gd--pdbtrack-grub-for-buffer (funcname lineno)
   "Find most recent buffer itself named or having function funcname.
 
 We walk the buffer-list history for gdscript-mode buffers that are
@@ -8965,9 +8205,9 @@ named for funcname or define a function funcname."
          (setq gd-pdbtrack-do-tracking-p t)))
   (if gd-pdbtrack-do-tracking-p
       (progn
-        (add-hook 'comint-output-filter-functions 'py--pdbtrack-track-stack-file t)
+        (add-hook 'comint-output-filter-functions 'gd--pdbtrack-track-stack-file t)
         (remove-hook 'comint-output-filter-functions 'gdscript-pdbtrack-track-stack-file t))
-    (remove-hook 'comint-output-filter-functions 'py--pdbtrack-track-stack-file t)
+    (remove-hook 'comint-output-filter-functions 'gd--pdbtrack-track-stack-file t)
     )
   (message "%sabled GDScript's pdbtrack"
            (if gd-pdbtrack-do-tracking-p "En" "Dis")))
@@ -9006,7 +8246,7 @@ named for funcname or define a function funcname."
   (gd-execute-string (concat "import pdb;pdb.break('" stm "')")))
 
 
-(defun py--pdb-versioned ()
+(defun gd--pdb-versioned ()
   "Guess existing pdb version from gd-shell-name
 
 Return \"pdb[VERSION]\" if executable found, just \"pdb\" otherwise"
@@ -9027,7 +8267,7 @@ Return \"pdb[VERSION]\" if executable found, just \"pdb\" otherwise"
 The directory containing FILE becomes the initial working directory
 and source-file directory for your debugger.
 
-At GNU Linux systems required pdb version should be detected by `py--pdb-version', at Windows configure `gd-gdscript-ms-pdb-command'
+At GNU Linux systems required pdb version should be detected by `gd--pdb-version', at Windows configure `gd-gdscript-ms-pdb-command'
 
 lp:963253"
   (interactive
@@ -9037,12 +8277,12 @@ lp:963253"
 	    (if (or (eq system-type 'ms-dos)(eq system-type 'windows-nt))
 		(car (read-from-string gd-gdscript-ms-pdb-command))
 	      ;; sys.version_info[0]
-	      ;; (car (read-from-string (py--pdb-version)))
+	      ;; (car (read-from-string (gd--pdb-version)))
 	      'pdb)
-	    (py--buffer-filename-remote-maybe)))))
+	    (gd--buffer-filename-remote-maybe)))))
   (pdb command-line))
 
-(defun py--pdb-current-executable ()
+(defun gd--pdb-current-executable ()
   "When gd-pdb-executable is set, return it.
 
 Otherwise return resuslt from `executable-find' "
@@ -9061,12 +8301,12 @@ Otherwise return resuslt from `executable-find' "
 		       ;; lp:963253
 		       "c:/python27/python\ -i\ c:/python27/Lib/pdb.py")
 		      (t
-		       (py--pdb-current-executable))))
+		       (gd--pdb-current-executable))))
 	 ;; file to debug
          (second (cond ((not (ignore-errors
-			       (py--buffer-filename-remote-maybe)))
+			       (gd--buffer-filename-remote-maybe)))
 			(error "%s" "Buffer must be saved first."))
-		       ((py--buffer-filename-remote-maybe))
+		       ((gd--buffer-filename-remote-maybe))
 		       (t (and gud-pdb-history (stringp (car gud-pdb-history)) (replace-regexp-in-string "^\\([^ ]+\\) +\\(.+\\)$" "\\2" (car gud-pdb-history))))))
          (erg (and first second (concat first " " second))))
     (when erg
@@ -9077,7 +8317,7 @@ Otherwise return resuslt from `executable-find' "
   (interactive
    (list (gud-query-cmdline gd-pdb-path
                             ;; (file-name-nondirectory buffer-file-name)
-			    (file-name-nondirectory (py--buffer-filename-remote-maybe)) 
+			    (file-name-nondirectory (gd--buffer-filename-remote-maybe)) 
 			    ))))
 
 ;; gdscript-components-help
@@ -9186,11 +8426,11 @@ Used with `eval-after-load'."
 ;;  (eval-after-load "info-look" '(gdscript-after-info-look))
 
 ;; ;
-(defun py--warn-tmp-files-left ()
+(defun gd--warn-tmp-files-left ()
   "Detect and warn about file of form \"py11046IoE\" in gd-temp-directory. "
   (let ((erg1 (file-readable-p (concat gd-temp-directory (char-to-string gd-separator-char)  (car (directory-files  gd-temp-directory nil "py[[:alnum:]]+$"))))))
     (when (and gd-verbose-p erg1)
-      (message "py--warn-tmp-files-left: %s ?" (concat gd-temp-directory (char-to-string gd-separator-char) (car (directory-files  gd-temp-directory nil "py[[:alnum:]]*$")))))))
+      (message "gd--warn-tmp-files-left: %s ?" (concat gd-temp-directory (char-to-string gd-separator-char) (car (directory-files  gd-temp-directory nil "py[[:alnum:]]*$")))))))
 
 (defun gd-fetch-docu ()
   "Lookup in current buffer for the doku for the symbol at point.
@@ -9248,13 +8488,13 @@ not inside a defun."
 
 (defalias 'gd-describe-symbol 'gd-help-at-point)
 (defalias 'gd-eldoc-function 'gd-help-at-point)
-(defun py--help-at-point-intern ()
+(defun gd--help-at-point-intern ()
   (let* ((beg (point))
 	 (end (progn (skip-chars-forward "a-zA-Z0-9_." (line-end-position))(point)))
 	 (sym (buffer-substring-no-properties beg end))
-	 (origfile (py--buffer-filename-remote-maybe))
+	 (origfile (gd--buffer-filename-remote-maybe))
 	 (temp (md5 (buffer-name)))
-	 (file (concat (py--normalize-directory gd-temp-directory) temp "-gd-help-at-point.py"))
+	 (file (concat (gd--normalize-directory gd-temp-directory) temp "-gd-help-at-point.py"))
 	 (cmd (gd-find-imports))
 	 ;; if symbol is defined in current buffer, go to
 	 (erg (progn (goto-char (point-min))
@@ -9302,7 +8542,7 @@ If symbol is defined in current buffer, jump to it's definition"
 	  (gd-restore-window-configuration)
 	  (goto-char orig))
       (if (or (< 0 (abs (skip-chars-backward "a-zA-Z0-9_." (line-beginning-position))))(looking-at "\\sw"))
-	  (py--help-at-point-intern)
+	  (gd--help-at-point-intern)
 	(gd-restore-window-configuration)))))
 
 ;;  Documentation functions
@@ -9312,7 +8552,7 @@ If symbol is defined in current buffer, jump to it's definition"
 ;;  out of the right places, along with the keys they're on & current
 ;;  values
 
-(defun py--dump-help-string (str)
+(defun gd--dump-help-string (str)
   (with-output-to-temp-buffer "*Help*"
     (let ((locals (buffer-local-variables))
           (comint-vars-p (eq major-mode 'comint-mode))
@@ -9345,7 +8585,7 @@ If symbol is defined in current buffer, jump to it's definition"
                         "Value: "
                         (prin1-to-string (symbol-value func))))))
          (t                             ; unexpected
-          (error "Error in py--dump-help-string, tag `%s'" funckind)))
+          (error "Error in gd--dump-help-string, tag `%s'" funckind)))
         (princ (format "\n-> %s:\t%s\t%s\n\n"
                        (if (equal funckind "c") "Command" "Variable")
                        funcname keys))
@@ -9361,7 +8601,7 @@ If symbol is defined in current buffer, jump to it's definition"
 (defun gd-describe-mode ()
   "Dump long form of `gdscript-mode' docs."
   (interactive)
-  (py--dump-help-string "Major mode for editing GDScript files.
+  (gd--dump-help-string "Major mode for editing GDScript files.
 Knows about GDScript indentation, tokens, comments and continuation lines.
 Paragraphs are separated by blank lines only.
 
@@ -9619,7 +8859,7 @@ local bindings to gd-newline-and-indent."))
                ("(gdscript-lib)Function-Method-Variable Index")
                ("(gdscript-lib)Miscellaneous Index"))))
 
-(defun py--find-definition-in-source (sourcefile)
+(defun gd--find-definition-in-source (sourcefile)
   (called-interactively-p 'any) (message "sourcefile: %s" sourcefile)
   (when (find-file sourcefile)
     ;; (if (stringp gd-separator-char)
@@ -9639,9 +8879,9 @@ local bindings to gd-newline-and-indent."))
 
 ;;  Find function stuff, lifted from python.el
 (defalias 'gd-find-function 'gd-find-definition)
-(defun py--find-definition-question-type ()
-  (cond ((setq erg (py--send-string-return-output (concat "import inspect;inspect.isbuiltin(\"" symbol "\")"))))
-	(t (setq erg (py--send-string-return-output (concat imports "import inspect;inspect.getmodule(\"" symbol "\")"))))))
+(defun gd--find-definition-question-type ()
+  (cond ((setq erg (gd--send-string-return-output (concat "import inspect;inspect.isbuiltin(\"" symbol "\")"))))
+	(t (setq erg (gd--send-string-return-output (concat imports "import inspect;inspect.getmodule(\"" symbol "\")"))))))
 
 (defun gd-find-definition (&optional symbol)
   "Find source of definition of SYMBOL.
@@ -9665,8 +8905,8 @@ Interactively, prompt for SYMBOL."
             symbol))
          (orig (point))
          (local (or
-                 (py--until-found (concat "class " symbol) imenu--index-alist)
-                 (py--until-found symbol imenu--index-alist)))
+                 (gd--until-found (concat "class " symbol) imenu--index-alist)
+                 (gd--until-found symbol imenu--index-alist)))
          erg sourcefile path)
     ;; ismethod(), isclass(), isfunction() or isbuiltin()
     ;; ismethod isclass isfunction isbuiltin)
@@ -9680,7 +8920,7 @@ Interactively, prompt for SYMBOL."
               (goto-char (match-beginning 0))
               (exchange-point-and-mark))
           (error "%s" "local not a number"))
-      (py--find-definition-question-type)
+      (gd--find-definition-question-type)
       (cond ((string-match "SyntaxError" erg)
              (setq erg (substring-no-properties erg (match-beginning 0)))
              (set-window-configuration last-window-configuration)
@@ -9691,9 +8931,9 @@ Interactively, prompt for SYMBOL."
                (set-window-configuration last-window-configuration)
                ;; (jump-to-register 98888888)
 	       (message "%s" erg)))
-            ((and erg (setq path (replace-regexp-in-string "'" "" (py--send-string-return-output "import os;os.getcwd()")))
-                  (setq sourcefile (replace-regexp-in-string "'" "" (py--send-string-return-output (concat "inspect.getsourcefile(" symbol ")")))))
-	     (py--find-definition-in-source sourcefile)
+            ((and erg (setq path (replace-regexp-in-string "'" "" (gd--send-string-return-output "import os;os.getcwd()")))
+                  (setq sourcefile (replace-regexp-in-string "'" "" (gd--send-string-return-output (concat "inspect.getsourcefile(" symbol ")")))))
+	     (gd--find-definition-in-source sourcefile)
              (display-buffer gd-exception-buffer))))
     erg))
 
@@ -9727,7 +8967,7 @@ Returns imports "
 	(goto-char (point-min))
 	(while (re-search-forward
 		"^import *[A-Za-z_][A-Za-z_0-9].*\\|^from +[A-Za-z_][A-Za-z_0-9.]+ +import .*" nil t)
-	  (unless (py--end-of-statement-p)
+	  (unless (gd--end-of-statement-p)
 	    (gd-forward-statement))
 	  (setq imports
 		(concat
@@ -9765,16 +9005,16 @@ Imports done are displayed in message buffer. "
   "*Run pep8, check formatting - default on the file currently visited."
   (interactive
    (let ((default
-           (if (py--buffer-filename-remote-maybe)
+           (if (gd--buffer-filename-remote-maybe)
                (format "%s %s %s" gd-pep8-command
                        (mapconcat 'identity gd-pep8-command-args " ")
-                       (py--buffer-filename-remote-maybe))
+                       (gd--buffer-filename-remote-maybe))
              (format "%s %s" gd-pep8-command
                      (mapconcat 'identity gd-pep8-command-args " "))))
          (last (when gd-pep8-history
                  (let* ((lastcmd (car gd-pep8-history))
                         (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (py--buffer-filename-remote-maybe) cmd))))
+                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
                    (mapconcat 'identity newcmd " ")))))
 
      (list
@@ -9814,7 +9054,7 @@ Home-page: http://www.logilab.org/project/pylint "
   (interactive
    (let ((default (format "%s %s %s" gd-pylint-command
 			  (mapconcat 'identity gd-pylint-command-args " ")
-			  (py--buffer-filename-remote-maybe)))
+			  (gd--buffer-filename-remote-maybe)))
          (last (and gd-pylint-history (car gd-pylint-history)))
          erg)
 
@@ -9861,16 +9101,16 @@ For help see M-x pyflakes-help resp. M-x pyflakes-long-help.
 Home-page: http://www.logilab.org/project/pyflakes "
   (interactive
    (let ((default
-           (if (py--buffer-filename-remote-maybe)
+           (if (gd--buffer-filename-remote-maybe)
                (format "%s %s %s" gd-pyflakes-command
                        (mapconcat 'identity gd-pyflakes-command-args " ")
-                       (py--buffer-filename-remote-maybe))
+                       (gd--buffer-filename-remote-maybe))
              (format "%s %s" gd-pyflakes-command
                      (mapconcat 'identity gd-pyflakes-command-args " "))))
          (last (when gd-pyflakes-history
                  (let* ((lastcmd (car gd-pyflakes-history))
                         (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (py--buffer-filename-remote-maybe) cmd))))
+                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
                    (mapconcat 'identity newcmd " ")))))
 
      (list
@@ -9936,16 +9176,16 @@ Extracted from http://manpages.ubuntu.com/manpages/natty/man1/pyflakes.1.html"))
 "
   (interactive
    (let ((default
-           (if (py--buffer-filename-remote-maybe)
+           (if (gd--buffer-filename-remote-maybe)
                (format "%s %s %s" gd-pyflakespep8-command
                        (mapconcat 'identity gd-pyflakespep8-command-args " ")
-                       (py--buffer-filename-remote-maybe))
+                       (gd--buffer-filename-remote-maybe))
              (format "%s %s" gd-pyflakespep8-command
                      (mapconcat 'identity gd-pyflakespep8-command-args " "))))
          (last (when gd-pyflakespep8-history
                  (let* ((lastcmd (car gd-pyflakespep8-history))
                         (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (py--buffer-filename-remote-maybe) cmd))))
+                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
                    (mapconcat 'identity newcmd " ")))))
 
      (list
@@ -9984,15 +9224,15 @@ Extracted from http://manpages.ubuntu.com/manpages/natty/man1/pyflakes.1.html"))
   "*Run pychecker (default on the file currently visited)."
   (interactive
    (let ((default
-           (if (py--buffer-filename-remote-maybe)
+           (if (gd--buffer-filename-remote-maybe)
                (format "%s %s %s" gd-pychecker-command
 		       gd-pychecker-command-args
-		       (py--buffer-filename-remote-maybe))
+		       (gd--buffer-filename-remote-maybe))
              (format "%s %s" gd-pychecker-command gd-pychecker-command-args)))
          (last (when gd-pychecker-history
                  (let* ((lastcmd (car gd-pychecker-history))
                         (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (py--buffer-filename-remote-maybe) cmd))))
+                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
                    (mapconcat 'identity newcmd " ")))))
 
      (list
@@ -10023,7 +9263,7 @@ See `gd-check-command' for the default."
   (interactive
    (list (read-string "Checker command: "
                       (concat gd-check-command " "
-                              (let ((name (py--buffer-filename-remote-maybe)))
+                              (let ((name (gd--buffer-filename-remote-maybe)))
                                 (if name
                                     (file-name-nondirectory name)))))))
   (require 'compile)                    ;To define compilation-* variables.
@@ -10056,17 +9296,17 @@ See `gd-check-command' for the default."
 Consider \"pip install flake8\" resp. visit \"pypi.python.org\""))
              gd-flake8-command))
           (default
-            (if (py--buffer-filename-remote-maybe)
+            (if (gd--buffer-filename-remote-maybe)
                 (format "%s %s %s" gd-flake8-command
                         gd-flake8-command-args
-                        (py--buffer-filename-remote-maybe))
+                        (gd--buffer-filename-remote-maybe))
               (format "%s %s" gd-flake8-command
                       gd-flake8-command-args)))
           (last
            (when gd-flake8-history
              (let* ((lastcmd (car gd-flake8-history))
                     (cmd (cdr (reverse (split-string lastcmd))))
-                    (newcmd (reverse (cons (py--buffer-filename-remote-maybe) cmd))))
+                    (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
                (mapconcat 'identity newcmd " ")))))
      (list
       (if (fboundp 'read-shell-command)
@@ -10098,13 +9338,13 @@ Consider \"pip install flake8\" resp. visit \"pypi.python.org\""))
 ;;  from string-strip.el --- Strip CHARS from STRING
 
 (defvar gd-chars-before " \t\n\r\f"
-  "Used by `py--string-strip'")
+  "Used by `gd--string-strip'")
 
 (defvar gd-chars-after " \t\n\r\f"
-    "Used by `py--string-strip'")
+    "Used by `gd--string-strip'")
 
 ;;  (setq strip-chars-before  "[ \t\r\n]*")
-(defun py--string-strip (str &optional chars-before chars-after)
+(defun gd--string-strip (str &optional chars-before chars-after)
   "Return a copy of STR, CHARS removed.
 `CHARS-BEFORE' and `CHARS-AFTER' default is \"[ \t\r\n]*\",
 i.e. spaces, tabs, carriage returns, newlines and newpages. "
@@ -10138,7 +9378,7 @@ i.e. spaces, tabs, carriage returns, newlines and newpages. "
     (if (not process)
         nil
       (let ((module-file
-             (py--send-string-no-output
+             (gd--send-string-no-output
               (format gd-ffap-string-code module) process)))
         (when module-file
           (substring-no-properties module-file 1 -1))))))
@@ -10154,12 +9394,12 @@ i.e. spaces, tabs, carriage returns, newlines and newpages. "
   (unless (string-match "pyflakespep8" name)
     (unless (executable-find name)
       (when gd-verbose-p (message "Don't see %s. Use `easy_install' %s? " name name))))
-  (if (py--buffer-filename-remote-maybe)
+  (if (gd--buffer-filename-remote-maybe)
       (let* ((temp-file (flymake-init-create-temp-buffer-copy
                          'flymake-create-temp-inplace))
              (local-file (file-relative-name
                           temp-file
-                          (file-name-directory (py--buffer-filename-remote-maybe)))))
+                          (file-name-directory (gd--buffer-filename-remote-maybe)))))
         (add-to-list 'flymake-allowed-file-name-masks (car (read-from-string (concat "(\"\\.py\\'\" flymake-" name ")"))))
         (list command (list local-file)))
     (message "%s" "flymake needs a `file-name'. Please save before calling.")))
@@ -10244,7 +9484,7 @@ Maybe call M-x describe-variable RET to query its value. "
 
 (defun variables-base-state (gd-exception-buffer orgname reSTname directory-in directory-out)
   (save-restriction
-    (let ((suffix (file-name-nondirectory (py--buffer-filename-remote-maybe)))
+    (let ((suffix (file-name-nondirectory (gd--buffer-filename-remote-maybe)))
           variableslist)
       ;; (widen)
       (goto-char (point-min))
@@ -10295,7 +9535,7 @@ With \\[universal argument] just indent.
   (let ((orig (point))
         erg)
     (unless (eobp)
-      (if (and (py--in-comment-p)(not gd-indent-comments))
+      (if (and (gd--in-comment-p)(not gd-indent-comments))
           (forward-line 1)
         (gd-indent-line-outmost)
         (unless (eq 4 (prefix-numeric-value arg))
@@ -10344,11 +9584,11 @@ Affected by `gd-dedent-keep-relative-column'. "
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
-(defun py--close-intern (regexp)
+(defun gd--close-intern (regexp)
   "Core function, internal used only. "
-  (let ((cui (car (py--go-to-keyword (symbol-value regexp)))))
+  (let ((cui (car (gd--go-to-keyword (symbol-value regexp)))))
     (message "%s" cui)
-    (py--end-base regexp (point))
+    (gd--end-base regexp (point))
     (forward-line 1)
     (if gd-close-provides-newline
         (unless (empty-line-p) (split-line))
@@ -10361,7 +9601,7 @@ Affected by `gd-dedent-keep-relative-column'. "
 
 If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-def-re)))
+  (let ((erg (gd--close-intern 'gd-def-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10370,7 +9610,7 @@ If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert 
 
 If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-class-re)))
+  (let ((erg (gd--close-intern 'gd-class-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10379,7 +9619,7 @@ If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert 
 
 If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-def-or-class-re)))
+  (let ((erg (gd--close-intern 'gd-def-or-class-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10388,7 +9628,7 @@ If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert 
 
 If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-block-or-clause-re)))
+  (let ((erg (gd--close-intern 'gd-block-or-clause-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10397,7 +9637,7 @@ If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert 
 
 If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-block-re)))
+  (let ((erg (gd--close-intern 'gd-block-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10406,7 +9646,7 @@ If final line isn't empty and `gd-close-block-provides-newline' non-nil, insert 
 
 If final line isn't empty and `gd-close-block-or-clause-provides-newline' non-nil, insert a newline. "
   (interactive "*")
-  (let ((erg (py--close-intern 'gd-block-or-clause-re)))
+  (let ((erg (gd--close-intern 'gd-block-or-clause-re)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -10481,7 +9721,7 @@ With interactive call, send it to the message buffer too. "
         ;; 	(define-key gdscript-mode-map (kbd (concat "<" gd-match-paren-key ">")) 'gd-match-paren))
         (setq gd-match-paren-mode nil))))
 
-(defun py--match-end-finish (cui)
+(defun gd--match-end-finish (cui)
   (let (skipped remain)
     (unless (eq (current-column) cui)
       ;; (unless (empty-line-p)
@@ -10500,42 +9740,42 @@ With interactive call, send it to the message buffer too. "
 	  )
 	(unless (eq (char-before) 32)(insert 32)(forward-char -1))))))
 
-(defun py--match-paren-forward ()
-  (setq py--match-paren-forward-p t)
+(defun gd--match-paren-forward ()
+  (setq gd--match-paren-forward-p t)
   (let ((cui (current-indentation)))
     (cond
-     ((py--beginning-of-top-level-p)
+     ((gd--beginning-of-top-level-p)
       (gd-forward-top-level-bol)
-      (py--match-end-finish cui))
-     ((py--beginning-of-class-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-class-p)
       (gd-forward-class-bol cui)
-      (py--match-end-finish cui))
-     ((py--beginning-of-def-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-def-p)
       (gd-forward-def-bol cui)
-      (py--match-end-finish cui))
-     ((py--beginning-of-if-block-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-if-block-p)
       (gd-forward-if-block-bol cui)
-      (py--match-end-finish cui))
-     ((py--beginning-of-try-block-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-try-block-p)
       (gd-forward-try-block-bol cui)
-      (py--match-end-finish cui))
-     ((py--beginning-of-for-block-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-for-block-p)
       (gd-forward-for-block-bol cui)
-      (py--match-end-finish cui))
-     ((py--beginning-of-block-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-block-p)
       (gd-forward-block-bol)
-      (py--match-end-finish cui))
-     ((py--beginning-of-clause-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-clause-p)
       (gd-forward-clause-bol)
-      (py--match-end-finish cui))
-     ((py--beginning-of-statement-p)
+      (gd--match-end-finish cui))
+     ((gd--beginning-of-statement-p)
       (gd-forward-statement-bol)
-      (py--match-end-finish cui))
+      (gd--match-end-finish cui))
      (t (gd-forward-statement)
-	(py--match-end-finish cui)))))
+	(gd--match-end-finish cui)))))
 
-(defun py--match-paren-backward ()
-  (setq py--match-paren-forward-p nil)
+(defun gd--match-paren-backward ()
+  (setq gd--match-paren-forward-p nil)
   (let* ((cui (current-indentation))
 	 (cuc (current-column))
 	 (cui (min cuc cui)))
@@ -10548,15 +9788,15 @@ With interactive call, send it to the message buffer too. "
 		  (< cui (current-column))
 		  (gd-backward-statement)))))))
 
-(defun py--match-paren-blocks ()
+(defun gd--match-paren-blocks ()
   (cond
-   ((and (looking-back "^[ \t]*")(if (eq last-command 'gd-match-paren)(not py--match-paren-forward-p)t)
+   ((and (looking-back "^[ \t]*")(if (eq last-command 'gd-match-paren)(not gd--match-paren-forward-p)t)
 	 ;; (looking-at gd-extended-block-or-clause-re)
 	 (looking-at "[[:alpha:]_]"))
     ;; from beginning of top-level, block, clause, statement
-    (py--match-paren-forward))
+    (gd--match-paren-forward))
    (t
-    (py--match-paren-backward))))
+    (gd--match-paren-backward))))
 
 (defun gd-match-paren ()
   "If at a beginning, jump to end and vice versa.
@@ -10576,7 +9816,7 @@ Matches lists, but also block, statement, string and comment. "
      ;; at comment start, go to end of commented section
      ((and
        ;; unless comment starts where jumped to some end
-       (not py--match-paren-forward-p)
+       (not gd--match-paren-forward-p)
        (eq 11 (car-safe (syntax-after (point)))))
       (gd-forward-comment))
      ;; at string start, go to end
@@ -10594,7 +9834,7 @@ Matches lists, but also block, statement, string and comment. "
       (goto-char (nth 1 pps)))
      (t
       ;; GDScript specific blocks
-      (py--match-paren-blocks)))))
+      (gd--match-paren-blocks)))))
 
 (unless (boundp 'empty-line-p-chars)
   (defvar empty-line-p-chars "^[ \t\f\r]*$"))
@@ -10661,7 +9901,7 @@ Matches lists, but also block, statement, string and comment. "
 
 With optional \\[universal-argument] print as string"
   (interactive "*P")
-  (let* ((name (py--string-strip (or arg (car kill-ring))))
+  (let* ((name (gd--string-strip (or arg (car kill-ring))))
          ;; guess if doublequotes or parentheses are needed
          (numbered (not (eq 4 (prefix-numeric-value arg))))
          (form (cond ((or (eq major-mode 'gdscript-mode)(eq major-mode 'gd-shell-mode))
@@ -10687,7 +9927,7 @@ With optional \\[universal-argument] print as string"
 I.e. switch it from \"True\" to \"False\" and vice versa"
   (interactive "*")
   (save-excursion
-    (unless (py--end-of-statement-p)
+    (unless (gd--end-of-statement-p)
       (gd-forward-statement))
     (backward-word)
     (cond ((looking-at "True")
@@ -10811,7 +10051,7 @@ information.")
    gd-imenu-method-no-arg-parens)
   "Generic GDScript expression which may be used directly with Imenu.
 Used by setting the variable `imenu-generic-expression' to this value.
-Also, see the function \\[py--imenu-create-index] for a better
+Also, see the function \\[gd--imenu-create-index] for a better
 alternative for finding the index.")
 
 ;; These next two variables are used when searching for the GDScript
@@ -10823,23 +10063,23 @@ alternative for finding the index.")
 (defvar gd-imenu-generic-parens nil)
 
 (defun gd-switch-imenu-index-function ()
-  "Switch between series 5. index machine `py--imenu-create-index' and `py--imenu-create-index-new', which also lists modules variables "
+  "Switch between series 5. index machine `gd--imenu-create-index' and `gd--imenu-create-index-new', which also lists modules variables "
   (interactive)
   (if (eq major-mode 'gdscript-mode)
       (progn
-        (if (eq py--imenu-create-index-function 'py--imenu-create-index-new)
-            (set (make-local-variable 'py--imenu-create-index-function) 'py--imenu-create-index)
-          (set (make-local-variable 'py--imenu-create-index-function) 'py--imenu-create-index-new))
+        (if (eq gd--imenu-create-index-function 'gd--imenu-create-index-new)
+            (set (make-local-variable 'gd--imenu-create-index-function) 'gd--imenu-create-index)
+          (set (make-local-variable 'gd--imenu-create-index-function) 'gd--imenu-create-index-new))
         (when gd-menu
           (easy-menu-add gd-menu))
-        (when gd-verbose-p (message "imenu-create-index-function: %s" (prin1-to-string py--imenu-create-index-function)))
+        (when gd-verbose-p (message "imenu-create-index-function: %s" (prin1-to-string gd--imenu-create-index-function)))
         (funcall imenu-create-index-function))
     (error "%s" "Only available in buffers set to gdscript-mode")))
 
-(defun py--imenu-create-index ()
+(defun gd--imenu-create-index ()
   "GDScript interface function for the Imenu package.
 Finds all GDScript classes and functions/methods. Calls function
-\\[py--imenu-create-index-engine].  See that function for the details
+\\[gd--imenu-create-index-engine].  See that function for the details
 of how this works."
   (setq gd-imenu-generic-regexp (car gd-imenu-generic-expression)
         gd-imenu-generic-parens (if gd-imenu-show-method-args-p
@@ -10849,9 +10089,9 @@ of how this works."
   ;; Warning: When the buffer has no classes or functions, this will
   ;; return nil, which seems proper according to the Imenu API, but
   ;; causes an error in the XEmacs port of Imenu.  Sigh.
-  (setq index-alist (cdr (py--imenu-create-index-engine nil))))
+  (setq index-alist (cdr (gd--imenu-create-index-engine nil))))
 
-(defun py--imenu-create-index-engine (&optional start-indent)
+(defun gd--imenu-create-index-engine (&optional start-indent)
   "Function for finding Imenu definitions in GDScript.
 
 Finds all definitions (classes, methods, or functions) in a GDScript
@@ -10868,7 +10108,7 @@ list as in
 
 This function should not be called directly, as it calls itself
 recursively and requires some setup.  Rather this is the engine for
-the function \\[py--imenu-create-index-function].
+the function \\[gd--imenu-create-index-function].
 
 It works recursively by looking for all definitions at the current
 indention level.  When it finds one, it adds it to the alist.  If it
@@ -10922,7 +10162,7 @@ of the first definition found."
       ;; or shallower indentation
       (cond
        ;; Skip code in comments and strings
-       ((py--in-literal))
+       ((gd--in-literal))
        ;; at the same indent level, add it to the list...
        ((= start-indent cur-indent)
         (push (cons def-name def-pos) index-alist))
@@ -10933,7 +10173,7 @@ of the first definition found."
         ;; call will find this place again and add it to the correct
         ;; list
         (re-search-backward gd-imenu-generic-regexp (point-min) 'move)
-        (setq sub-method-alist (py--imenu-create-index-engine cur-indent))
+        (setq sub-method-alist (gd--imenu-create-index-engine cur-indent))
         (if sub-method-alist
             ;; we put the last element on the index-alist on the start
             ;; of the submethod alist so the user can still get to it.
@@ -10955,19 +10195,19 @@ of the first definition found."
                                     (point-max) 'move))))
     (nreverse index-alist)))
 
-(defun py--imenu-create-index-new-intern (&optional thisend end)
+(defun gd--imenu-create-index-new-intern (&optional thisend end)
   (let* ((pos (match-beginning 0))
          (name (match-string-no-properties 2))
          (classname (concat "class " name))
-         (thisend (or thisend (save-match-data (py--end-of-def-or-class-position))))
+         (thisend (or thisend (save-match-data (gd--end-of-def-or-class-position))))
          sublist)
     (while (and (re-search-forward "^[ \t]*\\(?:\\(def\\|class\\)\\)[ \t]+\\(?:\\(\\sw+\\)\\)" (or thisend end) t 1)(not (nth 8 (parse-partial-sexp (point-min) (point)))))
       (let* ((pos (match-beginning 0))
              (name (match-string-no-properties 2))
              (classname (concat "class " name))
-             (thisend (or thisend (save-match-data (py--end-of-def-or-class-position)))))
+             (thisend (or thisend (save-match-data (gd--end-of-def-or-class-position)))))
         (if (string= "class" (match-string-no-properties 1))
-            (py--imenu-create-index-new-intern (save-match-data (py--end-of-def-or-class-position) end))
+            (gd--imenu-create-index-new-intern (save-match-data (gd--end-of-def-or-class-position) end))
           (push (cons (concat " " name) pos) sublist))))
     (if classname
         (progn
@@ -10976,7 +10216,7 @@ of the first definition found."
           (push (cons classname sublist) index-alist))
       (push sublist index-alist))))
 
-(defun py--imenu-create-index-new (&optional beg end)
+(defun gd--imenu-create-index-new (&optional beg end)
   (interactive)
   "`imenu-create-index-function' for GDScript. "
   (set (make-local-variable 'imenu-max-items) gd-imenu-max-items)
@@ -10991,15 +10231,15 @@ of the first definition found."
             (setq pos (match-beginning 0)
                   name (match-string-no-properties 2)
                   classname (concat "class " name)
-                  thisend (save-match-data (py--end-of-def-or-class-position))
+                  thisend (save-match-data (gd--end-of-def-or-class-position))
                   sublist '())
             (while (and (re-search-forward "^[ \t]*\\(def\\|class\\)[ \t]+\\(\\sw+\\)" (or thisend end) t 1)(not (nth 8 (parse-partial-sexp (point-min) (point)))))
               (let* ((pos (match-beginning 0))
                      (name (match-string-no-properties 2))
                      (classname (concat "class " name))
-                     (thisend (or thisend (save-match-data (py--end-of-def-or-class-position)))))
+                     (thisend (or thisend (save-match-data (gd--end-of-def-or-class-position)))))
                 (if (string= "class" (match-string-no-properties 1))
-                    (py--imenu-create-index-new-intern (save-match-data (py--end-of-def-or-class-position)) end)
+                    (gd--imenu-create-index-new-intern (save-match-data (gd--end-of-def-or-class-position)) end)
                   (push (cons (concat " " name) pos) sublist))))
             (if classname
                 (progn
@@ -11335,7 +10575,7 @@ See also `gd-electric-colon-greedy-p' "
   (interactive "*P")
   (cond ((not gd-electric-colon-active-p)
          (self-insert-command (prefix-numeric-value arg)))
-        ((and gd-electric-colon-bobl-only (save-excursion (gd-backward-statement) (not (py--beginning-of-block-p))))
+        ((and gd-electric-colon-bobl-only (save-excursion (gd-backward-statement) (not (gd--beginning-of-block-p))))
          (self-insert-command (prefix-numeric-value arg)))
         ((eq 4 (prefix-numeric-value arg))
          (self-insert-command 1))
@@ -11346,7 +10586,7 @@ See also `gd-electric-colon-greedy-p' "
                (unless (or (eq (current-indentation) indent)
                            (and gd-electric-colon-greedy-p
                                 (eq indent (save-excursion (gd-backward-statement)(current-indentation))))
-                           (and (py--top-level-form-p)(< (current-indentation) indent)))
+                           (and (gd--top-level-form-p)(< (current-indentation) indent)))
                  (beginning-of-line)
                  (delete-horizontal-space)
                  (indent-to indent))
@@ -11549,8 +10789,8 @@ When `delete-active-region' and (region-active-p), delete region "
     (setq virtualenv-old-exec-path exec-path)
 
     (setenv "VIRTUAL_ENV" dir)
-    (virtualenv-add-to-path (concat (py--normalize-directory dir) "bin"))
-    (add-to-list 'exec-path (concat (py--normalize-directory dir) "bin"))
+    (virtualenv-add-to-path (concat (gd--normalize-directory dir) "bin"))
+    (add-to-list 'exec-path (concat (gd--normalize-directory dir) "bin"))
 
     (setq virtualenv-name dir)))
 
@@ -11583,13 +10823,13 @@ When `delete-active-region' and (region-active-p), delete region "
   "Issue a virtualenvwrapper-like virtualenv-workon command"
   (interactive (list (completing-read "Virtualenv: " (virtualenv-workon-complete))))
   (if (getenv "WORKON_HOME")
-      (virtualenv-activate (concat (py--normalize-directory (getenv "WORKON_HOME")) name))
-    (virtualenv-activate (concat (py--normalize-directory virtualenv-workon-home) name))))
+      (virtualenv-activate (concat (gd--normalize-directory (getenv "WORKON_HOME")) name))
+    (virtualenv-activate (concat (gd--normalize-directory virtualenv-workon-home) name))))
 
 ;; gdscript-components-booleans-beginning-forms
 
 
-(defun py--beginning-of-comment-p ()
+(defun gd--beginning-of-comment-p ()
   "Returns position, if cursor is at the beginning of a `comment', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11601,7 +10841,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-line-p ()
+(defun gd--beginning-of-line-p ()
   "Returns position, if cursor is at the beginning of a `line', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11613,7 +10853,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-paragraph-p ()
+(defun gd--beginning-of-paragraph-p ()
   "Returns position, if cursor is at the beginning of a `paragraph', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11625,7 +10865,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-expression-p ()
+(defun gd--beginning-of-expression-p ()
   "Returns position, if cursor is at the beginning of a `expression', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11638,7 +10878,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-partial-expression-p ()
+(defun gd--beginning-of-partial-expression-p ()
   "Returns position, if cursor is at the beginning of a `partial-expression', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11651,7 +10891,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-section-p ()
+(defun gd--beginning-of-section-p ()
   "Returns position, if cursor is at the beginning of a `section', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11663,7 +10903,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-top-level-p ()
+(defun gd--beginning-of-top-level-p ()
   "Returns position, if cursor is at the beginning of a `top-level', nil otherwise. "
   (let ((orig (point))
         erg)
@@ -11675,7 +10915,7 @@ When `delete-active-region' and (region-active-p), delete region "
           (setq erg orig)))
       erg)))
 
-(defun py--beginning-of-block-bol-p ()
+(defun gd--beginning-of-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11687,7 +10927,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-block-or-clause-bol-p ()
+(defun gd--beginning-of-block-or-clause-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `block-or-clause', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11699,7 +10939,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-class-bol-p ()
+(defun gd--beginning-of-class-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `class', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11711,7 +10951,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-clause-bol-p ()
+(defun gd--beginning-of-clause-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `clause', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11723,7 +10963,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-def-bol-p ()
+(defun gd--beginning-of-def-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `def', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11735,7 +10975,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-def-or-class-bol-p ()
+(defun gd--beginning-of-def-or-class-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `def-or-class', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11747,7 +10987,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-elif-block-bol-p ()
+(defun gd--beginning-of-elif-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `elif-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11759,7 +10999,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-else-block-bol-p ()
+(defun gd--beginning-of-else-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `else-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11771,7 +11011,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-except-block-bol-p ()
+(defun gd--beginning-of-except-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `except-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11783,7 +11023,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-for-block-bol-p ()
+(defun gd--beginning-of-for-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `for-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11795,7 +11035,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-if-block-bol-p ()
+(defun gd--beginning-of-if-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `if-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11807,7 +11047,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-indent-bol-p ()
+(defun gd--beginning-of-indent-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `indent', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11819,7 +11059,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-minor-block-bol-p ()
+(defun gd--beginning-of-minor-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `minor-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11831,7 +11071,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-statement-bol-p ()
+(defun gd--beginning-of-statement-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `statement', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11843,7 +11083,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-top-level-bol-p ()
+(defun gd--beginning-of-top-level-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `top-level', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11855,7 +11095,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-try-block-bol-p ()
+(defun gd--beginning-of-try-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line and the beginning of a `try-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11867,7 +11107,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-block-p ()
+(defun gd--beginning-of-block-p ()
   "Returns position, if cursor is at the beginning of a `block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11879,7 +11119,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-block-or-clause-p ()
+(defun gd--beginning-of-block-or-clause-p ()
   "Returns position, if cursor is at the beginning of a `block-or-clause', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11891,7 +11131,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-class-p ()
+(defun gd--beginning-of-class-p ()
   "Returns position, if cursor is at the beginning of a `class', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11903,7 +11143,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-clause-p ()
+(defun gd--beginning-of-clause-p ()
   "Returns position, if cursor is at the beginning of a `clause', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11915,7 +11155,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-def-p ()
+(defun gd--beginning-of-def-p ()
   "Returns position, if cursor is at the beginning of a `def', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11927,7 +11167,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-def-or-class-p ()
+(defun gd--beginning-of-def-or-class-p ()
   "Returns position, if cursor is at the beginning of a `def-or-class', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11939,7 +11179,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-elif-block-p ()
+(defun gd--beginning-of-elif-block-p ()
   "Returns position, if cursor is at the beginning of a `elif-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11951,7 +11191,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-else-block-p ()
+(defun gd--beginning-of-else-block-p ()
   "Returns position, if cursor is at the beginning of a `else-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11963,7 +11203,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-except-block-p ()
+(defun gd--beginning-of-except-block-p ()
   "Returns position, if cursor is at the beginning of a `except-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11975,7 +11215,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-for-block-p ()
+(defun gd--beginning-of-for-block-p ()
   "Returns position, if cursor is at the beginning of a `for-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11987,7 +11227,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-if-block-p ()
+(defun gd--beginning-of-if-block-p ()
   "Returns position, if cursor is at the beginning of a `if-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -11999,7 +11239,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-indent-p ()
+(defun gd--beginning-of-indent-p ()
   "Returns position, if cursor is at the beginning of a `indent', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -12011,7 +11251,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-minor-block-p ()
+(defun gd--beginning-of-minor-block-p ()
   "Returns position, if cursor is at the beginning of a `minor-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -12023,7 +11263,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-statement-p ()
+(defun gd--beginning-of-statement-p ()
   "Returns position, if cursor is at the beginning of a `statement', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -12035,7 +11275,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-top-level-p ()
+(defun gd--beginning-of-top-level-p ()
   "Returns position, if cursor is at the beginning of a `top-level', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -12047,7 +11287,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--beginning-of-try-block-p ()
+(defun gd--beginning-of-try-block-p ()
   "Returns position, if cursor is at the beginning of a `try-block', nil otherwise. "
   (save-excursion
     (let ((orig (point))
@@ -12062,7 +11302,7 @@ When `delete-active-region' and (region-active-p), delete region "
 ;; gdscript-components-booleans-end-forms
 
 
-(defun py--end-of-comment-p ()
+(defun gd--end-of-comment-p ()
   "Returns position, if cursor is at the end of a comment, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12073,7 +11313,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-line-p ()
+(defun gd--end-of-line-p ()
   "Returns position, if cursor is at the end of a line, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12084,7 +11324,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-paragraph-p ()
+(defun gd--end-of-paragraph-p ()
   "Returns position, if cursor is at the end of a paragraph, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12095,7 +11335,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-expression-p ()
+(defun gd--end-of-expression-p ()
   "Returns position, if cursor is at the end of a expression, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12106,7 +11346,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-partial-expression-p ()
+(defun gd--end-of-partial-expression-p ()
   "Returns position, if cursor is at the end of a partial-expression, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12117,7 +11357,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-section-p ()
+(defun gd--end-of-section-p ()
   "Returns position, if cursor is at the end of a section, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12128,7 +11368,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-top-level-p ()
+(defun gd--end-of-top-level-p ()
   "Returns position, if cursor is at the end of a top-level, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12139,7 +11379,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-block-bol-p ()
+(defun gd--end-of-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12150,7 +11390,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-block-or-clause-bol-p ()
+(defun gd--end-of-block-or-clause-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a block-or-clause, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12161,7 +11401,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-class-bol-p ()
+(defun gd--end-of-class-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a class, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12172,7 +11412,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-clause-bol-p ()
+(defun gd--end-of-clause-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a clause, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12183,7 +11423,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-def-bol-p ()
+(defun gd--end-of-def-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a def, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12194,7 +11434,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-def-or-class-bol-p ()
+(defun gd--end-of-def-or-class-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a def-or-class, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12205,7 +11445,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-elif-block-bol-p ()
+(defun gd--end-of-elif-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a elif-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12216,7 +11456,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-else-block-bol-p ()
+(defun gd--end-of-else-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a else-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12227,7 +11467,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-except-block-bol-p ()
+(defun gd--end-of-except-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a except-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12238,7 +11478,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-for-block-bol-p ()
+(defun gd--end-of-for-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a for-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12249,7 +11489,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-if-block-bol-p ()
+(defun gd--end-of-if-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a if-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12260,7 +11500,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-indent-bol-p ()
+(defun gd--end-of-indent-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a indent, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12271,7 +11511,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-minor-block-bol-p ()
+(defun gd--end-of-minor-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a minor-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12282,7 +11522,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-statement-bol-p ()
+(defun gd--end-of-statement-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a statement, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12293,7 +11533,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-top-level-bol-p ()
+(defun gd--end-of-top-level-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a top-level, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12304,7 +11544,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-try-block-bol-p ()
+(defun gd--end-of-try-block-bol-p ()
   "Returns position, if cursor is at beginning-of-line at the end of a try-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12315,7 +11555,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-block-p ()
+(defun gd--end-of-block-p ()
   "Returns position, if cursor is at the end of a block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12326,7 +11566,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-block-or-clause-p ()
+(defun gd--end-of-block-or-clause-p ()
   "Returns position, if cursor is at the end of a block-or-clause, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12337,7 +11577,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-class-p ()
+(defun gd--end-of-class-p ()
   "Returns position, if cursor is at the end of a class, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12348,7 +11588,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-clause-p ()
+(defun gd--end-of-clause-p ()
   "Returns position, if cursor is at the end of a clause, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12359,7 +11599,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-def-p ()
+(defun gd--end-of-def-p ()
   "Returns position, if cursor is at the end of a def, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12370,7 +11610,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-def-or-class-p ()
+(defun gd--end-of-def-or-class-p ()
   "Returns position, if cursor is at the end of a def-or-class, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12381,7 +11621,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-elif-block-p ()
+(defun gd--end-of-elif-block-p ()
   "Returns position, if cursor is at the end of a elif-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12392,7 +11632,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-else-block-p ()
+(defun gd--end-of-else-block-p ()
   "Returns position, if cursor is at the end of a else-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12403,7 +11643,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-except-block-p ()
+(defun gd--end-of-except-block-p ()
   "Returns position, if cursor is at the end of a except-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12414,7 +11654,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-for-block-p ()
+(defun gd--end-of-for-block-p ()
   "Returns position, if cursor is at the end of a for-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12425,7 +11665,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-if-block-p ()
+(defun gd--end-of-if-block-p ()
   "Returns position, if cursor is at the end of a if-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12436,7 +11676,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-indent-p ()
+(defun gd--end-of-indent-p ()
   "Returns position, if cursor is at the end of a indent, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12447,7 +11687,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-minor-block-p ()
+(defun gd--end-of-minor-block-p ()
   "Returns position, if cursor is at the end of a minor-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12458,7 +11698,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-statement-p ()
+(defun gd--end-of-statement-p ()
   "Returns position, if cursor is at the end of a statement, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12469,7 +11709,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-top-level-p ()
+(defun gd--end-of-top-level-p ()
   "Returns position, if cursor is at the end of a top-level, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12480,7 +11720,7 @@ When `delete-active-region' and (region-active-p), delete region "
 	(setq erg orig))
       erg)))
 
-(defun py--end-of-try-block-p ()
+(defun gd--end-of-try-block-p ()
   "Returns position, if cursor is at the end of a try-block, nil otherwise. "
   (let ((orig (point))
 	erg)
@@ -12494,205 +11734,205 @@ When `delete-active-region' and (region-active-p), delete region "
 ;; gdscript-components-beginning-position-forms
 
 
-(defun py--beginning-of-block-position ()
+(defun gd--beginning-of-block-position ()
   "Returns beginning of block position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-block)))
       erg)))
 
-(defun py--beginning-of-block-or-clause-position ()
+(defun gd--beginning-of-block-or-clause-position ()
   "Returns beginning of block-or-clause position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-block-or-clause)))
       erg)))
 
-(defun py--beginning-of-class-position ()
+(defun gd--beginning-of-class-position ()
   "Returns beginning of class position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-class)))
       erg)))
 
-(defun py--beginning-of-clause-position ()
+(defun gd--beginning-of-clause-position ()
   "Returns beginning of clause position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-clause)))
       erg)))
 
-(defun py--beginning-of-comment-position ()
+(defun gd--beginning-of-comment-position ()
   "Returns beginning of comment position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-comment)))
       erg)))
 
-(defun py--beginning-of-def-position ()
+(defun gd--beginning-of-def-position ()
   "Returns beginning of def position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-def)))
       erg)))
 
-(defun py--beginning-of-def-or-class-position ()
+(defun gd--beginning-of-def-or-class-position ()
   "Returns beginning of def-or-class position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-def-or-class)))
       erg)))
 
-(defun py--beginning-of-expression-position ()
+(defun gd--beginning-of-expression-position ()
   "Returns beginning of expression position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-expression)))
       erg)))
 
-(defun py--beginning-of-except-block-position ()
+(defun gd--beginning-of-except-block-position ()
   "Returns beginning of except-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-except-block)))
       erg)))
 
-(defun py--beginning-of-if-block-position ()
+(defun gd--beginning-of-if-block-position ()
   "Returns beginning of if-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-if-block)))
       erg)))
 
-(defun py--beginning-of-indent-position ()
+(defun gd--beginning-of-indent-position ()
   "Returns beginning of indent position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-indent)))
       erg)))
 
-(defun py--beginning-of-line-position ()
+(defun gd--beginning-of-line-position ()
   "Returns beginning of line position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-line)))
       erg)))
 
-(defun py--beginning-of-minor-block-position ()
+(defun gd--beginning-of-minor-block-position ()
   "Returns beginning of minor-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-minor-block)))
       erg)))
 
-(defun py--beginning-of-partial-expression-position ()
+(defun gd--beginning-of-partial-expression-position ()
   "Returns beginning of partial-expression position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-partial-expression)))
       erg)))
 
-(defun py--beginning-of-paragraph-position ()
+(defun gd--beginning-of-paragraph-position ()
   "Returns beginning of paragraph position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-paragraph)))
       erg)))
 
-(defun py--beginning-of-section-position ()
+(defun gd--beginning-of-section-position ()
   "Returns beginning of section position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-section)))
       erg)))
 
-(defun py--beginning-of-statement-position ()
+(defun gd--beginning-of-statement-position ()
   "Returns beginning of statement position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-statement)))
       erg)))
 
-(defun py--beginning-of-top-level-position ()
+(defun gd--beginning-of-top-level-position ()
   "Returns beginning of top-level position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-top-level)))
       erg)))
 
-(defun py--beginning-of-try-block-position ()
+(defun gd--beginning-of-try-block-position ()
   "Returns beginning of try-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (gd-backward-try-block)))
       erg)))
 
-(defun py--beginning-of-block-position-bol ()
+(defun gd--beginning-of-block-position-bol ()
   "Returns beginning of block position. "
   (save-excursion
     (let ((erg (gd-backward-block-bol)))
       erg)))
 
-(defun py--beginning-of-block-or-clause-position-bol ()
+(defun gd--beginning-of-block-or-clause-position-bol ()
   "Returns beginning of block-or-clause position. "
   (save-excursion
     (let ((erg (gd-backward-block-or-clause-bol)))
       erg)))
 
-(defun py--beginning-of-class-position-bol ()
+(defun gd--beginning-of-class-position-bol ()
   "Returns beginning of class position. "
   (save-excursion
     (let ((erg (gd-backward-class-bol)))
       erg)))
 
-(defun py--beginning-of-clause-position-bol ()
+(defun gd--beginning-of-clause-position-bol ()
   "Returns beginning of clause position. "
   (save-excursion
     (let ((erg (gd-backward-clause-bol)))
       erg)))
 
-(defun py--beginning-of-def-position-bol ()
+(defun gd--beginning-of-def-position-bol ()
   "Returns beginning of def position. "
   (save-excursion
     (let ((erg (gd-backward-def-bol)))
       erg)))
 
-(defun py--beginning-of-def-or-class-position-bol ()
+(defun gd--beginning-of-def-or-class-position-bol ()
   "Returns beginning of def-or-class position. "
   (save-excursion
     (let ((erg (gd-backward-def-or-class-bol)))
       erg)))
 
-(defun py--beginning-of-elif-block-position-bol ()
+(defun gd--beginning-of-elif-block-position-bol ()
   "Returns beginning of elif-block position. "
   (save-excursion
     (let ((erg (gd-backward-elif-block-bol)))
       erg)))
 
-(defun py--beginning-of-else-block-position-bol ()
+(defun gd--beginning-of-else-block-position-bol ()
   "Returns beginning of else-block position. "
   (save-excursion
     (let ((erg (gd-backward-else-block-bol)))
       erg)))
 
-(defun py--beginning-of-except-block-position-bol ()
+(defun gd--beginning-of-except-block-position-bol ()
   "Returns beginning of except-block position. "
   (save-excursion
     (let ((erg (gd-backward-except-block-bol)))
       erg)))
 
-(defun py--beginning-of-for-block-position-bol ()
+(defun gd--beginning-of-for-block-position-bol ()
   "Returns beginning of for-block position. "
   (save-excursion
     (let ((erg (gd-backward-for-block-bol)))
       erg)))
 
-(defun py--beginning-of-if-block-position-bol ()
+(defun gd--beginning-of-if-block-position-bol ()
   "Returns beginning of if-block position. "
   (save-excursion
     (let ((erg (gd-backward-if-block-bol)))
       erg)))
 
-(defun py--beginning-of-indent-position-bol ()
+(defun gd--beginning-of-indent-position-bol ()
   "Returns beginning of indent position. "
   (save-excursion
     (let ((erg (gd-backward-indent-bol)))
       erg)))
 
-(defun py--beginning-of-minor-block-position-bol ()
+(defun gd--beginning-of-minor-block-position-bol ()
   "Returns beginning of minor-block position. "
   (save-excursion
     (let ((erg (gd-backward-minor-block-bol)))
       erg)))
 
-(defun py--beginning-of-statement-position-bol ()
+(defun gd--beginning-of-statement-position-bol ()
   "Returns beginning of statement position. "
   (save-excursion
     (let ((erg (gd-backward-statement-bol)))
       erg)))
 
-(defun py--beginning-of-try-block-position-bol ()
+(defun gd--beginning-of-try-block-position-bol ()
   "Returns beginning of try-block position. "
   (save-excursion
     (let ((erg (gd-backward-try-block-bol)))
@@ -12701,7 +11941,7 @@ When `delete-active-region' and (region-active-p), delete region "
 ;; gdscript-components-end-position-forms
 
 
-(defun py--end-of-block-position ()
+(defun gd--end-of-block-position ()
   "Returns end of block position. "
   (save-excursion
     (let ((erg (progn
@@ -12711,7 +11951,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-block))))
       erg)))
 
-(defun py--end-of-block-or-clause-position ()
+(defun gd--end-of-block-or-clause-position ()
   "Returns end of block-or-clause position. "
   (save-excursion
     (let ((erg (progn
@@ -12721,7 +11961,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-block-or-clause))))
       erg)))
 
-(defun py--end-of-class-position ()
+(defun gd--end-of-class-position ()
   "Returns end of class position. "
   (save-excursion
     (let ((erg (progn
@@ -12731,7 +11971,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-class))))
       erg)))
 
-(defun py--end-of-clause-position ()
+(defun gd--end-of-clause-position ()
   "Returns end of clause position. "
   (save-excursion
     (let ((erg (progn
@@ -12741,7 +11981,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-clause))))
       erg)))
 
-(defun py--end-of-comment-position ()
+(defun gd--end-of-comment-position ()
   "Returns end of comment position. "
   (save-excursion
     (let ((erg (progn
@@ -12751,7 +11991,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-comment))))
       erg)))
 
-(defun py--end-of-def-position ()
+(defun gd--end-of-def-position ()
   "Returns end of def position. "
   (save-excursion
     (let ((erg (progn
@@ -12761,7 +12001,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-def))))
       erg)))
 
-(defun py--end-of-def-or-class-position ()
+(defun gd--end-of-def-or-class-position ()
   "Returns end of def-or-class position. "
   (save-excursion
     (let ((erg (progn
@@ -12771,7 +12011,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-def-or-class))))
       erg)))
 
-(defun py--end-of-expression-position ()
+(defun gd--end-of-expression-position ()
   "Returns end of expression position. "
   (save-excursion
     (let ((erg (progn
@@ -12781,7 +12021,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-expression))))
       erg)))
 
-(defun py--end-of-except-block-position ()
+(defun gd--end-of-except-block-position ()
   "Returns end of except-block position. "
   (save-excursion
     (let ((erg (progn
@@ -12791,7 +12031,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-except-block))))
       erg)))
 
-(defun py--end-of-if-block-position ()
+(defun gd--end-of-if-block-position ()
   "Returns end of if-block position. "
   (save-excursion
     (let ((erg (progn
@@ -12801,7 +12041,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-if-block))))
       erg)))
 
-(defun py--end-of-indent-position ()
+(defun gd--end-of-indent-position ()
   "Returns end of indent position. "
   (save-excursion
     (let ((erg (progn
@@ -12811,7 +12051,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-indent))))
       erg)))
 
-(defun py--end-of-line-position ()
+(defun gd--end-of-line-position ()
   "Returns end of line position. "
   (save-excursion
     (let ((erg (progn
@@ -12821,7 +12061,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-line))))
       erg)))
 
-(defun py--end-of-minor-block-position ()
+(defun gd--end-of-minor-block-position ()
   "Returns end of minor-block position. "
   (save-excursion
     (let ((erg (progn
@@ -12831,7 +12071,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-minor-block))))
       erg)))
 
-(defun py--end-of-partial-expression-position ()
+(defun gd--end-of-partial-expression-position ()
   "Returns end of partial-expression position. "
   (save-excursion
     (let ((erg (progn
@@ -12841,7 +12081,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-partial-expression))))
       erg)))
 
-(defun py--end-of-paragraph-position ()
+(defun gd--end-of-paragraph-position ()
   "Returns end of paragraph position. "
   (save-excursion
     (let ((erg (progn
@@ -12851,7 +12091,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-paragraph))))
       erg)))
 
-(defun py--end-of-section-position ()
+(defun gd--end-of-section-position ()
   "Returns end of section position. "
   (save-excursion
     (let ((erg (progn
@@ -12861,7 +12101,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-section))))
       erg)))
 
-(defun py--end-of-statement-position ()
+(defun gd--end-of-statement-position ()
   "Returns end of statement position. "
   (save-excursion
     (let ((erg (progn
@@ -12871,7 +12111,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-statement))))
       erg)))
 
-(defun py--end-of-top-level-position ()
+(defun gd--end-of-top-level-position ()
   "Returns end of top-level position. "
   (save-excursion
     (let ((erg (progn
@@ -12881,7 +12121,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-top-level))))
       erg)))
 
-(defun py--end-of-try-block-position ()
+(defun gd--end-of-try-block-position ()
   "Returns end of try-block position. "
   (save-excursion
     (let ((erg (progn
@@ -12891,7 +12131,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-try-block))))
       erg)))
 
-(defun py--end-of-block-position-bol ()
+(defun gd--end-of-block-position-bol ()
   "Returns end of block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12901,7 +12141,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-block-bol))))
       erg)))
 
-(defun py--end-of-block-or-clause-position-bol ()
+(defun gd--end-of-block-or-clause-position-bol ()
   "Returns end of block-or-clause position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12911,7 +12151,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-block-or-clause-bol))))
       erg)))
 
-(defun py--end-of-class-position-bol ()
+(defun gd--end-of-class-position-bol ()
   "Returns end of class position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12921,7 +12161,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-class-bol))))
       erg)))
 
-(defun py--end-of-clause-position-bol ()
+(defun gd--end-of-clause-position-bol ()
   "Returns end of clause position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12931,7 +12171,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-clause-bol))))
       erg)))
 
-(defun py--end-of-def-position-bol ()
+(defun gd--end-of-def-position-bol ()
   "Returns end of def position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12941,7 +12181,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-def-bol))))
       erg)))
 
-(defun py--end-of-def-or-class-position-bol ()
+(defun gd--end-of-def-or-class-position-bol ()
   "Returns end of def-or-class position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12951,7 +12191,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-def-or-class-bol))))
       erg)))
 
-(defun py--end-of-elif-block-position-bol ()
+(defun gd--end-of-elif-block-position-bol ()
   "Returns end of elif-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12961,7 +12201,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-elif-block-bol))))
       erg)))
 
-(defun py--end-of-else-block-position-bol ()
+(defun gd--end-of-else-block-position-bol ()
   "Returns end of else-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12971,7 +12211,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-else-block-bol))))
       erg)))
 
-(defun py--end-of-except-block-position-bol ()
+(defun gd--end-of-except-block-position-bol ()
   "Returns end of except-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12981,7 +12221,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-except-block-bol))))
       erg)))
 
-(defun py--end-of-for-block-position-bol ()
+(defun gd--end-of-for-block-position-bol ()
   "Returns end of for-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -12991,7 +12231,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-for-block-bol))))
       erg)))
 
-(defun py--end-of-if-block-position-bol ()
+(defun gd--end-of-if-block-position-bol ()
   "Returns end of if-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -13001,7 +12241,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-if-block-bol))))
       erg)))
 
-(defun py--end-of-indent-position-bol ()
+(defun gd--end-of-indent-position-bol ()
   "Returns end of indent position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -13011,7 +12251,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-indent-bol))))
       erg)))
 
-(defun py--end-of-minor-block-position-bol ()
+(defun gd--end-of-minor-block-position-bol ()
   "Returns end of minor-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -13021,7 +12261,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-minor-block-bol))))
       erg)))
 
-(defun py--end-of-statement-position-bol ()
+(defun gd--end-of-statement-position-bol ()
   "Returns end of statement position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -13031,7 +12271,7 @@ When `delete-active-region' and (region-active-p), delete region "
                  (gd-forward-statement-bol))))
       erg)))
 
-(defun py--end-of-try-block-position-bol ()
+(defun gd--end-of-try-block-position-bol ()
   "Returns end of try-block position at beginning-of-line. "
   (save-excursion
     (let ((erg (progn
@@ -13051,7 +12291,7 @@ Return position if statement found, nil otherwise. "
   (interactive)
   (let ((orig (point))
         erg)
-    (if (py--beginning-of-statement-p)
+    (if (gd--beginning-of-statement-p)
 	(setq erg (gd-backward-statement))
       (setq erg (and (gd-backward-statement) (gd-backward-statement))))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
@@ -13064,7 +12304,7 @@ Return position if statement found, nil otherwise. "
   (interactive)
   (let* ((orig (point))
 	  (erg
-	   (cond ((py--end-of-statement-p)
+	   (cond ((gd--end-of-statement-p)
 		  (setq erg (and (gd-forward-statement) (gd-backward-statement))))
 		 ((< orig (progn (gd-forward-statement) (gd-backward-statement)))
 		  (point))
@@ -13387,7 +12627,7 @@ Return position if section found, nil otherwise "
   "Send try-block at point to GDScript default interpreter. "
   (interactive)
   (let ((beg (prog1
-                 (or (py--beginning-of-try-block-p)
+                 (or (gd--beginning-of-try-block-p)
                      (save-excursion
                        (gd-backward-try-block)))))
         (end (save-excursion
@@ -13398,7 +12638,7 @@ Return position if section found, nil otherwise "
   "Send if-block at point to GDScript default interpreter. "
   (interactive)
   (let ((beg (prog1
-                 (or (py--beginning-of-if-block-p)
+                 (or (gd--beginning-of-if-block-p)
                      (save-excursion
                        (gd-backward-if-block)))))
         (end (save-excursion
@@ -13409,7 +12649,7 @@ Return position if section found, nil otherwise "
   "Send for-block at point to GDScript default interpreter. "
   (interactive)
   (let ((beg (prog1
-                 (or (py--beginning-of-for-block-p)
+                 (or (gd--beginning-of-for-block-p)
                      (save-excursion
                        (gd-backward-for-block)))))
         (end (save-excursion
@@ -13422,154 +12662,154 @@ Return position if section found, nil otherwise "
 (defun gd-execute-block ()
   "Send block at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'block nil  nil nil))
+  (gd--execute-prepare 'block nil  nil nil))
 
 (defun gd-execute-block-switch ()
   "Send block at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block nil  nil 'switch))
+  (gd--execute-prepare 'block nil  nil 'switch))
 
 (defun gd-execute-block-no-switch ()
   "Send block at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block nil  nil 'no-switch))
+  (gd--execute-prepare 'block nil  nil 'no-switch))
 
 (defun gd-execute-block-dedicated ()
   "Send block at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block nil  t nil))
+  (gd--execute-prepare 'block nil  t nil))
 
 (defun gd-execute-block-dedicated-switch ()
   "Send block at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block nil  t 'switch))
+  (gd--execute-prepare 'block nil  t 'switch))
 
 (defun gd-execute-block-ipython ()
   "Send block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython nil nil))
+  (gd--execute-prepare 'block 'ipython nil nil))
 
 (defun gd-execute-block-ipython-switch ()
   "Send block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'ipython nil 'switch))
+  (gd--execute-prepare 'block 'ipython nil 'switch))
 
 (defun gd-execute-block-ipython-no-switch ()
   "Send block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'ipython nil 'no-switch))
+  (gd--execute-prepare 'block 'ipython nil 'no-switch))
 
 (defun gd-execute-block-ipython-dedicated ()
   "Send block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython t nil))
+  (gd--execute-prepare 'block 'ipython t nil))
 
 (defun gd-execute-block-ipython-dedicated-switch ()
   "Send block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'ipython t 'switch))
+  (gd--execute-prepare 'block 'ipython t 'switch))
 
 (defun gd-execute-block-ipython2.7 ()
   "Send block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython2.7 nil nil))
+  (gd--execute-prepare 'block 'ipython2.7 nil nil))
 
 (defun gd-execute-block-ipython2.7-switch ()
   "Send block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'block 'ipython2.7 nil 'switch))
 
 (defun gd-execute-block-ipython2.7-no-switch ()
   "Send block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'block 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-block-ipython2.7-dedicated ()
   "Send block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython2.7 t nil))
+  (gd--execute-prepare 'block 'ipython2.7 t nil))
 
 (defun gd-execute-block-ipython2.7-dedicated-switch ()
   "Send block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'block 'ipython2.7 t 'switch))
 
 (defun gd-execute-block-ipython3 ()
   "Send block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython3 nil nil))
+  (gd--execute-prepare 'block 'ipython3 nil nil))
 
 (defun gd-execute-block-ipython3-switch ()
   "Send block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'ipython3 nil 'switch))
+  (gd--execute-prepare 'block 'ipython3 nil 'switch))
 
 (defun gd-execute-block-ipython3-no-switch ()
   "Send block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'block 'ipython3 nil 'no-switch))
 
 (defun gd-execute-block-ipython3-dedicated ()
   "Send block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'ipython3 t nil))
+  (gd--execute-prepare 'block 'ipython3 t nil))
 
 (defun gd-execute-block-ipython3-dedicated-switch ()
   "Send block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'ipython3 t 'switch))
+  (gd--execute-prepare 'block 'ipython3 t 'switch))
 
 (defun gd-execute-block-jython ()
   "Send block at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'jython nil nil))
+  (gd--execute-prepare 'block 'jython nil nil))
 
 (defun gd-execute-block-jython-switch ()
   "Send block at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'jython nil 'switch))
+  (gd--execute-prepare 'block 'jython nil 'switch))
 
 (defun gd-execute-block-jython-no-switch ()
   "Send block at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'jython nil 'no-switch))
+  (gd--execute-prepare 'block 'jython nil 'no-switch))
 
 (defun gd-execute-block-jython-dedicated ()
   "Send block at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'jython t nil))
+  (gd--execute-prepare 'block 'jython t nil))
 
 (defun gd-execute-block-jython-dedicated-switch ()
   "Send block at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'jython t 'switch))
+  (gd--execute-prepare 'block 'jython t 'switch))
 
 (defun gd-execute-block-python ()
   "Send block at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block 'python nil nil))
+  (gd--execute-prepare 'block 'python nil nil))
 
 (defun gd-execute-block-gdscript-switch ()
   "Send block at point to default interpreter. 
@@ -13578,7 +12818,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block 'python nil 'switch))
+  (gd--execute-prepare 'block 'python nil 'switch))
 
 (defun gd-execute-block-gdscript-no-switch ()
   "Send block at point to default interpreter. 
@@ -13587,231 +12827,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block 'python nil 'no-switch))
+  (gd--execute-prepare 'block 'python nil 'no-switch))
 
 (defun gd-execute-block-gdscript-dedicated ()
   "Send block at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block 'python t nil))
+  (gd--execute-prepare 'block 'python t nil))
 
 (defun gd-execute-block-gdscript-dedicated-switch ()
   "Send block at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block 'python t 'switch))
+  (gd--execute-prepare 'block 'python t 'switch))
 
 (defun gd-execute-block-python2 ()
   "Send block at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'python2 nil nil))
+  (gd--execute-prepare 'block 'python2 nil nil))
 
 (defun gd-execute-block-python2-switch ()
   "Send block at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'python2 nil 'switch))
+  (gd--execute-prepare 'block 'python2 nil 'switch))
 
 (defun gd-execute-block-python2-no-switch ()
   "Send block at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'python2 nil 'no-switch))
+  (gd--execute-prepare 'block 'python2 nil 'no-switch))
 
 (defun gd-execute-block-python2-dedicated ()
   "Send block at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'python2 t nil))
+  (gd--execute-prepare 'block 'python2 t nil))
 
 (defun gd-execute-block-python2-dedicated-switch ()
   "Send block at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'python2 t 'switch))
+  (gd--execute-prepare 'block 'python2 t 'switch))
 
 (defun gd-execute-block-python3 ()
   "Send block at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'python3 nil nil))
+  (gd--execute-prepare 'block 'python3 nil nil))
 
 (defun gd-execute-block-python3-switch ()
   "Send block at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block 'python3 nil 'switch))
+  (gd--execute-prepare 'block 'python3 nil 'switch))
 
 (defun gd-execute-block-python3-no-switch ()
   "Send block at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block 'python3 nil 'no-switch))
+  (gd--execute-prepare 'block 'python3 nil 'no-switch))
 
 (defun gd-execute-block-python3-dedicated ()
   "Send block at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block 'python3 t nil))
+  (gd--execute-prepare 'block 'python3 t nil))
 
 (defun gd-execute-block-python3-dedicated-switch ()
   "Send block at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block 'python3 t 'switch))
+  (gd--execute-prepare 'block 'python3 t 'switch))
 
 (defun gd-execute-block-or-clause ()
   "Send block-or-clause at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause nil  nil nil))
+  (gd--execute-prepare 'block-or-clause nil  nil nil))
 
 (defun gd-execute-block-or-clause-switch ()
   "Send block-or-clause at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause nil  nil 'switch))
+  (gd--execute-prepare 'block-or-clause nil  nil 'switch))
 
 (defun gd-execute-block-or-clause-no-switch ()
   "Send block-or-clause at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause nil  nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause nil  nil 'no-switch))
 
 (defun gd-execute-block-or-clause-dedicated ()
   "Send block-or-clause at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause nil  t nil))
+  (gd--execute-prepare 'block-or-clause nil  t nil))
 
 (defun gd-execute-block-or-clause-dedicated-switch ()
   "Send block-or-clause at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause nil  t 'switch))
+  (gd--execute-prepare 'block-or-clause nil  t 'switch))
 
 (defun gd-execute-block-or-clause-ipython ()
   "Send block-or-clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython nil nil))
+  (gd--execute-prepare 'block-or-clause 'ipython nil nil))
 
 (defun gd-execute-block-or-clause-ipython-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython nil 'switch))
 
 (defun gd-execute-block-or-clause-ipython-no-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'ipython nil 'no-switch))
 
 (defun gd-execute-block-or-clause-ipython-dedicated ()
   "Send block-or-clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython t nil))
+  (gd--execute-prepare 'block-or-clause 'ipython t nil))
 
 (defun gd-execute-block-or-clause-ipython-dedicated-switch ()
   "Send block-or-clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython t 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython t 'switch))
 
 (defun gd-execute-block-or-clause-ipython2.7 ()
   "Send block-or-clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython2.7 nil nil))
+  (gd--execute-prepare 'block-or-clause 'ipython2.7 nil nil))
 
 (defun gd-execute-block-or-clause-ipython2.7-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython2.7 nil 'switch))
 
 (defun gd-execute-block-or-clause-ipython2.7-no-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-block-or-clause-ipython2.7-dedicated ()
   "Send block-or-clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython2.7 t nil))
+  (gd--execute-prepare 'block-or-clause 'ipython2.7 t nil))
 
 (defun gd-execute-block-or-clause-ipython2.7-dedicated-switch ()
   "Send block-or-clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython2.7 t 'switch))
 
 (defun gd-execute-block-or-clause-ipython3 ()
   "Send block-or-clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython3 nil nil))
+  (gd--execute-prepare 'block-or-clause 'ipython3 nil nil))
 
 (defun gd-execute-block-or-clause-ipython3-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython3 nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython3 nil 'switch))
 
 (defun gd-execute-block-or-clause-ipython3-no-switch ()
   "Send block-or-clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'ipython3 nil 'no-switch))
 
 (defun gd-execute-block-or-clause-ipython3-dedicated ()
   "Send block-or-clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython3 t nil))
+  (gd--execute-prepare 'block-or-clause 'ipython3 t nil))
 
 (defun gd-execute-block-or-clause-ipython3-dedicated-switch ()
   "Send block-or-clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'ipython3 t 'switch))
+  (gd--execute-prepare 'block-or-clause 'ipython3 t 'switch))
 
 (defun gd-execute-block-or-clause-jython ()
   "Send block-or-clause at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'jython nil nil))
+  (gd--execute-prepare 'block-or-clause 'jython nil nil))
 
 (defun gd-execute-block-or-clause-jython-switch ()
   "Send block-or-clause at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'jython nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'jython nil 'switch))
 
 (defun gd-execute-block-or-clause-jython-no-switch ()
   "Send block-or-clause at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'jython nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'jython nil 'no-switch))
 
 (defun gd-execute-block-or-clause-jython-dedicated ()
   "Send block-or-clause at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'jython t nil))
+  (gd--execute-prepare 'block-or-clause 'jython t nil))
 
 (defun gd-execute-block-or-clause-jython-dedicated-switch ()
   "Send block-or-clause at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'jython t 'switch))
+  (gd--execute-prepare 'block-or-clause 'jython t 'switch))
 
 (defun gd-execute-block-or-clause-python ()
   "Send block-or-clause at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python nil nil))
+  (gd--execute-prepare 'block-or-clause 'python nil nil))
 
 (defun gd-execute-block-or-clause-gdscript-switch ()
   "Send block-or-clause at point to default interpreter. 
@@ -13820,7 +13060,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'python nil 'switch))
 
 (defun gd-execute-block-or-clause-gdscript-no-switch ()
   "Send block-or-clause at point to default interpreter. 
@@ -13829,79 +13069,79 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'python nil 'no-switch))
 
 (defun gd-execute-block-or-clause-gdscript-dedicated ()
   "Send block-or-clause at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python t nil))
+  (gd--execute-prepare 'block-or-clause 'python t nil))
 
 (defun gd-execute-block-or-clause-gdscript-dedicated-switch ()
   "Send block-or-clause at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python t 'switch))
+  (gd--execute-prepare 'block-or-clause 'python t 'switch))
 
 (defun gd-execute-block-or-clause-python2 ()
   "Send block-or-clause at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python2 nil nil))
+  (gd--execute-prepare 'block-or-clause 'python2 nil nil))
 
 (defun gd-execute-block-or-clause-python2-switch ()
   "Send block-or-clause at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python2 nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'python2 nil 'switch))
 
 (defun gd-execute-block-or-clause-python2-no-switch ()
   "Send block-or-clause at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python2 nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'python2 nil 'no-switch))
 
 (defun gd-execute-block-or-clause-python2-dedicated ()
   "Send block-or-clause at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python2 t nil))
+  (gd--execute-prepare 'block-or-clause 'python2 t nil))
 
 (defun gd-execute-block-or-clause-python2-dedicated-switch ()
   "Send block-or-clause at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python2 t 'switch))
+  (gd--execute-prepare 'block-or-clause 'python2 t 'switch))
 
 (defun gd-execute-block-or-clause-python3 ()
   "Send block-or-clause at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python3 nil nil))
+  (gd--execute-prepare 'block-or-clause 'python3 nil nil))
 
 (defun gd-execute-block-or-clause-python3-switch ()
   "Send block-or-clause at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python3 nil 'switch))
+  (gd--execute-prepare 'block-or-clause 'python3 nil 'switch))
 
 (defun gd-execute-block-or-clause-python3-no-switch ()
   "Send block-or-clause at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python3 nil 'no-switch))
+  (gd--execute-prepare 'block-or-clause 'python3 nil 'no-switch))
 
 (defun gd-execute-block-or-clause-python3-dedicated ()
   "Send block-or-clause at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python3 t nil))
+  (gd--execute-prepare 'block-or-clause 'python3 t nil))
 
 (defun gd-execute-block-or-clause-python3-dedicated-switch ()
   "Send block-or-clause at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'block-or-clause 'python3 t 'switch))
+  (gd--execute-prepare 'block-or-clause 'python3 t 'switch))
 
 (defun gd-execute-buffer ()
   "Send buffer at point to  interpreter. "
@@ -13914,7 +13154,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer nil  nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer nil  nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-switch ()
   "Send buffer at point to  interpreter. 
@@ -13929,7 +13169,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer nil  nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer nil  nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-no-switch ()
   "Send buffer at point to  interpreter. 
@@ -13944,7 +13184,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer nil  nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer nil  nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-dedicated ()
   "Send buffer at point to  unique interpreter. "
@@ -13957,7 +13197,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer nil  t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer nil  t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-dedicated-switch ()
   "Send buffer at point to  unique interpreter and switch to result. "
@@ -13970,7 +13210,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer nil  t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer nil  t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython ()
   "Send buffer at point to IPython interpreter. "
@@ -13983,7 +13223,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -13998,7 +13238,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython-no-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -14013,7 +13253,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython-dedicated ()
   "Send buffer at point to IPython unique interpreter. "
@@ -14026,7 +13266,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython-dedicated-switch ()
   "Send buffer at point to IPython unique interpreter and switch to result. "
@@ -14039,7 +13279,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython2.7 ()
   "Send buffer at point to IPython interpreter. "
@@ -14052,7 +13292,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython2.7 nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython2.7 nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython2.7-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -14067,7 +13307,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython2.7 nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython2.7 nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython2.7-no-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -14082,7 +13322,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython2.7 nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython2.7 nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython2.7-dedicated ()
   "Send buffer at point to IPython unique interpreter. "
@@ -14095,7 +13335,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython2.7 t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython2.7 t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython2.7-dedicated-switch ()
   "Send buffer at point to IPython unique interpreter and switch to result. "
@@ -14108,7 +13348,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython2.7 t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython2.7 t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython3 ()
   "Send buffer at point to IPython interpreter. "
@@ -14121,7 +13361,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython3 nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython3 nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython3-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -14136,7 +13376,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython3 nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython3 nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython3-no-switch ()
   "Send buffer at point to IPython interpreter. 
@@ -14151,7 +13391,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython3 nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython3 nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython3-dedicated ()
   "Send buffer at point to IPython unique interpreter. "
@@ -14164,7 +13404,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython3 t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython3 t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-ipython3-dedicated-switch ()
   "Send buffer at point to IPython unique interpreter and switch to result. "
@@ -14177,7 +13417,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'ipython3 t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'ipython3 t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-jython ()
   "Send buffer at point to Jython interpreter. "
@@ -14190,7 +13430,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'jython nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'jython nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-jython-switch ()
   "Send buffer at point to Jython interpreter. 
@@ -14205,7 +13445,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'jython nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'jython nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-jython-no-switch ()
   "Send buffer at point to Jython interpreter. 
@@ -14220,7 +13460,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'jython nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'jython nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-jython-dedicated ()
   "Send buffer at point to Jython unique interpreter. "
@@ -14233,7 +13473,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'jython t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'jython t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-jython-dedicated-switch ()
   "Send buffer at point to Jython unique interpreter and switch to result. "
@@ -14246,7 +13486,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'jython t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'jython t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python ()
   "Send buffer at point to default interpreter. 
@@ -14261,7 +13501,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-gdscript-switch ()
   "Send buffer at point to default interpreter. 
@@ -14278,7 +13518,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-gdscript-no-switch ()
   "Send buffer at point to default interpreter. 
@@ -14295,7 +13535,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-gdscript-dedicated ()
   "Send buffer at point to default unique interpreter. 
@@ -14310,7 +13550,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-gdscript-dedicated-switch ()
   "Send buffer at point to default unique interpreter and switch to result. 
@@ -14325,7 +13565,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python2 ()
   "Send buffer at point to Python2 interpreter. "
@@ -14338,7 +13578,7 @@ For `default' see value of `gd-shell-name'"
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python2 nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python2 nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-python2-switch ()
   "Send buffer at point to Python2 interpreter. 
@@ -14353,7 +13593,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python2 nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python2 nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python2-no-switch ()
   "Send buffer at point to Python2 interpreter. 
@@ -14368,7 +13608,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python2 nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python2 nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python2-dedicated ()
   "Send buffer at point to Python2 unique interpreter. "
@@ -14381,7 +13621,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python2 t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python2 t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-python2-dedicated-switch ()
   "Send buffer at point to Python2 unique interpreter and switch to result. "
@@ -14394,7 +13634,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python2 t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python2 t 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python3 ()
   "Send buffer at point to Python3 interpreter. "
@@ -14407,7 +13647,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python3 nil nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python3 nil nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-python3-switch ()
   "Send buffer at point to Python3 interpreter. 
@@ -14422,7 +13662,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python3 nil 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python3 nil 'switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python3-no-switch ()
   "Send buffer at point to Python3 interpreter. 
@@ -14437,7 +13677,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python3 nil 'no-switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python3 nil 'no-switch (point-min) (point-max)))
 
 (defun gd-execute-buffer-python3-dedicated ()
   "Send buffer at point to Python3 unique interpreter. "
@@ -14450,7 +13690,7 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python3 t nil (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python3 t nil (point-min) (point-max)))
 
 (defun gd-execute-buffer-python3-dedicated-switch ()
   "Send buffer at point to Python3 unique interpreter and switch to result. "
@@ -14463,159 +13703,159 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
 	     (buffer (or (get-file-buffer filename)
 			 (find-file-noselect filename))))
 	(set-buffer buffer))))
-  (py--execute-prepare 'buffer 'python3 t 'switch (point-min) (point-max)))
+  (gd--execute-prepare 'buffer 'python3 t 'switch (point-min) (point-max)))
 
 (defun gd-execute-class ()
   "Send class at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'class nil  nil nil))
+  (gd--execute-prepare 'class nil  nil nil))
 
 (defun gd-execute-class-switch ()
   "Send class at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class nil  nil 'switch))
+  (gd--execute-prepare 'class nil  nil 'switch))
 
 (defun gd-execute-class-no-switch ()
   "Send class at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class nil  nil 'no-switch))
+  (gd--execute-prepare 'class nil  nil 'no-switch))
 
 (defun gd-execute-class-dedicated ()
   "Send class at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class nil  t nil))
+  (gd--execute-prepare 'class nil  t nil))
 
 (defun gd-execute-class-dedicated-switch ()
   "Send class at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class nil  t 'switch))
+  (gd--execute-prepare 'class nil  t 'switch))
 
 (defun gd-execute-class-ipython ()
   "Send class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython nil nil))
+  (gd--execute-prepare 'class 'ipython nil nil))
 
 (defun gd-execute-class-ipython-switch ()
   "Send class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'ipython nil 'switch))
+  (gd--execute-prepare 'class 'ipython nil 'switch))
 
 (defun gd-execute-class-ipython-no-switch ()
   "Send class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'ipython nil 'no-switch))
+  (gd--execute-prepare 'class 'ipython nil 'no-switch))
 
 (defun gd-execute-class-ipython-dedicated ()
   "Send class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython t nil))
+  (gd--execute-prepare 'class 'ipython t nil))
 
 (defun gd-execute-class-ipython-dedicated-switch ()
   "Send class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'ipython t 'switch))
+  (gd--execute-prepare 'class 'ipython t 'switch))
 
 (defun gd-execute-class-ipython2.7 ()
   "Send class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython2.7 nil nil))
+  (gd--execute-prepare 'class 'ipython2.7 nil nil))
 
 (defun gd-execute-class-ipython2.7-switch ()
   "Send class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'class 'ipython2.7 nil 'switch))
 
 (defun gd-execute-class-ipython2.7-no-switch ()
   "Send class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'class 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-class-ipython2.7-dedicated ()
   "Send class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython2.7 t nil))
+  (gd--execute-prepare 'class 'ipython2.7 t nil))
 
 (defun gd-execute-class-ipython2.7-dedicated-switch ()
   "Send class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'class 'ipython2.7 t 'switch))
 
 (defun gd-execute-class-ipython3 ()
   "Send class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython3 nil nil))
+  (gd--execute-prepare 'class 'ipython3 nil nil))
 
 (defun gd-execute-class-ipython3-switch ()
   "Send class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'ipython3 nil 'switch))
+  (gd--execute-prepare 'class 'ipython3 nil 'switch))
 
 (defun gd-execute-class-ipython3-no-switch ()
   "Send class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'class 'ipython3 nil 'no-switch))
 
 (defun gd-execute-class-ipython3-dedicated ()
   "Send class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'ipython3 t nil))
+  (gd--execute-prepare 'class 'ipython3 t nil))
 
 (defun gd-execute-class-ipython3-dedicated-switch ()
   "Send class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'ipython3 t 'switch))
+  (gd--execute-prepare 'class 'ipython3 t 'switch))
 
 (defun gd-execute-class-jython ()
   "Send class at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'jython nil nil))
+  (gd--execute-prepare 'class 'jython nil nil))
 
 (defun gd-execute-class-jython-switch ()
   "Send class at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'jython nil 'switch))
+  (gd--execute-prepare 'class 'jython nil 'switch))
 
 (defun gd-execute-class-jython-no-switch ()
   "Send class at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'jython nil 'no-switch))
+  (gd--execute-prepare 'class 'jython nil 'no-switch))
 
 (defun gd-execute-class-jython-dedicated ()
   "Send class at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'jython t nil))
+  (gd--execute-prepare 'class 'jython t nil))
 
 (defun gd-execute-class-jython-dedicated-switch ()
   "Send class at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'jython t 'switch))
+  (gd--execute-prepare 'class 'jython t 'switch))
 
 (defun gd-execute-class-python ()
   "Send class at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'class 'python nil nil))
+  (gd--execute-prepare 'class 'python nil nil))
 
 (defun gd-execute-class-gdscript-switch ()
   "Send class at point to default interpreter. 
@@ -14624,7 +13864,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'class 'python nil 'switch))
+  (gd--execute-prepare 'class 'python nil 'switch))
 
 (defun gd-execute-class-gdscript-no-switch ()
   "Send class at point to default interpreter. 
@@ -14633,231 +13873,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'class 'python nil 'no-switch))
+  (gd--execute-prepare 'class 'python nil 'no-switch))
 
 (defun gd-execute-class-gdscript-dedicated ()
   "Send class at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'class 'python t nil))
+  (gd--execute-prepare 'class 'python t nil))
 
 (defun gd-execute-class-gdscript-dedicated-switch ()
   "Send class at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'class 'python t 'switch))
+  (gd--execute-prepare 'class 'python t 'switch))
 
 (defun gd-execute-class-python2 ()
   "Send class at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'python2 nil nil))
+  (gd--execute-prepare 'class 'python2 nil nil))
 
 (defun gd-execute-class-python2-switch ()
   "Send class at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'python2 nil 'switch))
+  (gd--execute-prepare 'class 'python2 nil 'switch))
 
 (defun gd-execute-class-python2-no-switch ()
   "Send class at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'python2 nil 'no-switch))
+  (gd--execute-prepare 'class 'python2 nil 'no-switch))
 
 (defun gd-execute-class-python2-dedicated ()
   "Send class at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'python2 t nil))
+  (gd--execute-prepare 'class 'python2 t nil))
 
 (defun gd-execute-class-python2-dedicated-switch ()
   "Send class at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'python2 t 'switch))
+  (gd--execute-prepare 'class 'python2 t 'switch))
 
 (defun gd-execute-class-python3 ()
   "Send class at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'python3 nil nil))
+  (gd--execute-prepare 'class 'python3 nil nil))
 
 (defun gd-execute-class-python3-switch ()
   "Send class at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'class 'python3 nil 'switch))
+  (gd--execute-prepare 'class 'python3 nil 'switch))
 
 (defun gd-execute-class-python3-no-switch ()
   "Send class at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'class 'python3 nil 'no-switch))
+  (gd--execute-prepare 'class 'python3 nil 'no-switch))
 
 (defun gd-execute-class-python3-dedicated ()
   "Send class at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'class 'python3 t nil))
+  (gd--execute-prepare 'class 'python3 t nil))
 
 (defun gd-execute-class-python3-dedicated-switch ()
   "Send class at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'class 'python3 t 'switch))
+  (gd--execute-prepare 'class 'python3 t 'switch))
 
 (defun gd-execute-clause ()
   "Send clause at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'clause nil  nil nil))
+  (gd--execute-prepare 'clause nil  nil nil))
 
 (defun gd-execute-clause-switch ()
   "Send clause at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause nil  nil 'switch))
+  (gd--execute-prepare 'clause nil  nil 'switch))
 
 (defun gd-execute-clause-no-switch ()
   "Send clause at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause nil  nil 'no-switch))
+  (gd--execute-prepare 'clause nil  nil 'no-switch))
 
 (defun gd-execute-clause-dedicated ()
   "Send clause at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause nil  t nil))
+  (gd--execute-prepare 'clause nil  t nil))
 
 (defun gd-execute-clause-dedicated-switch ()
   "Send clause at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause nil  t 'switch))
+  (gd--execute-prepare 'clause nil  t 'switch))
 
 (defun gd-execute-clause-ipython ()
   "Send clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython nil nil))
+  (gd--execute-prepare 'clause 'ipython nil nil))
 
 (defun gd-execute-clause-ipython-switch ()
   "Send clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython nil 'switch))
+  (gd--execute-prepare 'clause 'ipython nil 'switch))
 
 (defun gd-execute-clause-ipython-no-switch ()
   "Send clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'ipython nil 'no-switch))
+  (gd--execute-prepare 'clause 'ipython nil 'no-switch))
 
 (defun gd-execute-clause-ipython-dedicated ()
   "Send clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython t nil))
+  (gd--execute-prepare 'clause 'ipython t nil))
 
 (defun gd-execute-clause-ipython-dedicated-switch ()
   "Send clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython t 'switch))
+  (gd--execute-prepare 'clause 'ipython t 'switch))
 
 (defun gd-execute-clause-ipython2.7 ()
   "Send clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython2.7 nil nil))
+  (gd--execute-prepare 'clause 'ipython2.7 nil nil))
 
 (defun gd-execute-clause-ipython2.7-switch ()
   "Send clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'clause 'ipython2.7 nil 'switch))
 
 (defun gd-execute-clause-ipython2.7-no-switch ()
   "Send clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'clause 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-clause-ipython2.7-dedicated ()
   "Send clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython2.7 t nil))
+  (gd--execute-prepare 'clause 'ipython2.7 t nil))
 
 (defun gd-execute-clause-ipython2.7-dedicated-switch ()
   "Send clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'clause 'ipython2.7 t 'switch))
 
 (defun gd-execute-clause-ipython3 ()
   "Send clause at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython3 nil nil))
+  (gd--execute-prepare 'clause 'ipython3 nil nil))
 
 (defun gd-execute-clause-ipython3-switch ()
   "Send clause at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython3 nil 'switch))
+  (gd--execute-prepare 'clause 'ipython3 nil 'switch))
 
 (defun gd-execute-clause-ipython3-no-switch ()
   "Send clause at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'clause 'ipython3 nil 'no-switch))
 
 (defun gd-execute-clause-ipython3-dedicated ()
   "Send clause at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython3 t nil))
+  (gd--execute-prepare 'clause 'ipython3 t nil))
 
 (defun gd-execute-clause-ipython3-dedicated-switch ()
   "Send clause at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'ipython3 t 'switch))
+  (gd--execute-prepare 'clause 'ipython3 t 'switch))
 
 (defun gd-execute-clause-jython ()
   "Send clause at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'jython nil nil))
+  (gd--execute-prepare 'clause 'jython nil nil))
 
 (defun gd-execute-clause-jython-switch ()
   "Send clause at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'jython nil 'switch))
+  (gd--execute-prepare 'clause 'jython nil 'switch))
 
 (defun gd-execute-clause-jython-no-switch ()
   "Send clause at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'jython nil 'no-switch))
+  (gd--execute-prepare 'clause 'jython nil 'no-switch))
 
 (defun gd-execute-clause-jython-dedicated ()
   "Send clause at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'jython t nil))
+  (gd--execute-prepare 'clause 'jython t nil))
 
 (defun gd-execute-clause-jython-dedicated-switch ()
   "Send clause at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'jython t 'switch))
+  (gd--execute-prepare 'clause 'jython t 'switch))
 
 (defun gd-execute-clause-python ()
   "Send clause at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'clause 'python nil nil))
+  (gd--execute-prepare 'clause 'python nil nil))
 
 (defun gd-execute-clause-gdscript-switch ()
   "Send clause at point to default interpreter. 
@@ -14866,7 +14106,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'clause 'python nil 'switch))
+  (gd--execute-prepare 'clause 'python nil 'switch))
 
 (defun gd-execute-clause-gdscript-no-switch ()
   "Send clause at point to default interpreter. 
@@ -14875,231 +14115,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'clause 'python nil 'no-switch))
+  (gd--execute-prepare 'clause 'python nil 'no-switch))
 
 (defun gd-execute-clause-gdscript-dedicated ()
   "Send clause at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'clause 'python t nil))
+  (gd--execute-prepare 'clause 'python t nil))
 
 (defun gd-execute-clause-gdscript-dedicated-switch ()
   "Send clause at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'clause 'python t 'switch))
+  (gd--execute-prepare 'clause 'python t 'switch))
 
 (defun gd-execute-clause-python2 ()
   "Send clause at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'python2 nil nil))
+  (gd--execute-prepare 'clause 'python2 nil nil))
 
 (defun gd-execute-clause-python2-switch ()
   "Send clause at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'python2 nil 'switch))
+  (gd--execute-prepare 'clause 'python2 nil 'switch))
 
 (defun gd-execute-clause-python2-no-switch ()
   "Send clause at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'python2 nil 'no-switch))
+  (gd--execute-prepare 'clause 'python2 nil 'no-switch))
 
 (defun gd-execute-clause-python2-dedicated ()
   "Send clause at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'python2 t nil))
+  (gd--execute-prepare 'clause 'python2 t nil))
 
 (defun gd-execute-clause-python2-dedicated-switch ()
   "Send clause at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'python2 t 'switch))
+  (gd--execute-prepare 'clause 'python2 t 'switch))
 
 (defun gd-execute-clause-python3 ()
   "Send clause at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'python3 nil nil))
+  (gd--execute-prepare 'clause 'python3 nil nil))
 
 (defun gd-execute-clause-python3-switch ()
   "Send clause at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'clause 'python3 nil 'switch))
+  (gd--execute-prepare 'clause 'python3 nil 'switch))
 
 (defun gd-execute-clause-python3-no-switch ()
   "Send clause at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'clause 'python3 nil 'no-switch))
+  (gd--execute-prepare 'clause 'python3 nil 'no-switch))
 
 (defun gd-execute-clause-python3-dedicated ()
   "Send clause at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'clause 'python3 t nil))
+  (gd--execute-prepare 'clause 'python3 t nil))
 
 (defun gd-execute-clause-python3-dedicated-switch ()
   "Send clause at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'clause 'python3 t 'switch))
+  (gd--execute-prepare 'clause 'python3 t 'switch))
 
 (defun gd-execute-def ()
   "Send def at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'def nil  nil nil))
+  (gd--execute-prepare 'def nil  nil nil))
 
 (defun gd-execute-def-switch ()
   "Send def at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def nil  nil 'switch))
+  (gd--execute-prepare 'def nil  nil 'switch))
 
 (defun gd-execute-def-no-switch ()
   "Send def at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def nil  nil 'no-switch))
+  (gd--execute-prepare 'def nil  nil 'no-switch))
 
 (defun gd-execute-def-dedicated ()
   "Send def at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def nil  t nil))
+  (gd--execute-prepare 'def nil  t nil))
 
 (defun gd-execute-def-dedicated-switch ()
   "Send def at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def nil  t 'switch))
+  (gd--execute-prepare 'def nil  t 'switch))
 
 (defun gd-execute-def-ipython ()
   "Send def at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython nil nil))
+  (gd--execute-prepare 'def 'ipython nil nil))
 
 (defun gd-execute-def-ipython-switch ()
   "Send def at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'ipython nil 'switch))
+  (gd--execute-prepare 'def 'ipython nil 'switch))
 
 (defun gd-execute-def-ipython-no-switch ()
   "Send def at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'ipython nil 'no-switch))
+  (gd--execute-prepare 'def 'ipython nil 'no-switch))
 
 (defun gd-execute-def-ipython-dedicated ()
   "Send def at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython t nil))
+  (gd--execute-prepare 'def 'ipython t nil))
 
 (defun gd-execute-def-ipython-dedicated-switch ()
   "Send def at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'ipython t 'switch))
+  (gd--execute-prepare 'def 'ipython t 'switch))
 
 (defun gd-execute-def-ipython2.7 ()
   "Send def at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython2.7 nil nil))
+  (gd--execute-prepare 'def 'ipython2.7 nil nil))
 
 (defun gd-execute-def-ipython2.7-switch ()
   "Send def at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'def 'ipython2.7 nil 'switch))
 
 (defun gd-execute-def-ipython2.7-no-switch ()
   "Send def at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'def 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-def-ipython2.7-dedicated ()
   "Send def at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython2.7 t nil))
+  (gd--execute-prepare 'def 'ipython2.7 t nil))
 
 (defun gd-execute-def-ipython2.7-dedicated-switch ()
   "Send def at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'def 'ipython2.7 t 'switch))
 
 (defun gd-execute-def-ipython3 ()
   "Send def at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython3 nil nil))
+  (gd--execute-prepare 'def 'ipython3 nil nil))
 
 (defun gd-execute-def-ipython3-switch ()
   "Send def at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'ipython3 nil 'switch))
+  (gd--execute-prepare 'def 'ipython3 nil 'switch))
 
 (defun gd-execute-def-ipython3-no-switch ()
   "Send def at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'def 'ipython3 nil 'no-switch))
 
 (defun gd-execute-def-ipython3-dedicated ()
   "Send def at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'ipython3 t nil))
+  (gd--execute-prepare 'def 'ipython3 t nil))
 
 (defun gd-execute-def-ipython3-dedicated-switch ()
   "Send def at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'ipython3 t 'switch))
+  (gd--execute-prepare 'def 'ipython3 t 'switch))
 
 (defun gd-execute-def-jython ()
   "Send def at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'jython nil nil))
+  (gd--execute-prepare 'def 'jython nil nil))
 
 (defun gd-execute-def-jython-switch ()
   "Send def at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'jython nil 'switch))
+  (gd--execute-prepare 'def 'jython nil 'switch))
 
 (defun gd-execute-def-jython-no-switch ()
   "Send def at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'jython nil 'no-switch))
+  (gd--execute-prepare 'def 'jython nil 'no-switch))
 
 (defun gd-execute-def-jython-dedicated ()
   "Send def at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'jython t nil))
+  (gd--execute-prepare 'def 'jython t nil))
 
 (defun gd-execute-def-jython-dedicated-switch ()
   "Send def at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'jython t 'switch))
+  (gd--execute-prepare 'def 'jython t 'switch))
 
 (defun gd-execute-def-python ()
   "Send def at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def 'python nil nil))
+  (gd--execute-prepare 'def 'python nil nil))
 
 (defun gd-execute-def-gdscript-switch ()
   "Send def at point to default interpreter. 
@@ -15108,7 +14348,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def 'python nil 'switch))
+  (gd--execute-prepare 'def 'python nil 'switch))
 
 (defun gd-execute-def-gdscript-no-switch ()
   "Send def at point to default interpreter. 
@@ -15117,231 +14357,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def 'python nil 'no-switch))
+  (gd--execute-prepare 'def 'python nil 'no-switch))
 
 (defun gd-execute-def-gdscript-dedicated ()
   "Send def at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def 'python t nil))
+  (gd--execute-prepare 'def 'python t nil))
 
 (defun gd-execute-def-gdscript-dedicated-switch ()
   "Send def at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def 'python t 'switch))
+  (gd--execute-prepare 'def 'python t 'switch))
 
 (defun gd-execute-def-python2 ()
   "Send def at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'python2 nil nil))
+  (gd--execute-prepare 'def 'python2 nil nil))
 
 (defun gd-execute-def-python2-switch ()
   "Send def at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'python2 nil 'switch))
+  (gd--execute-prepare 'def 'python2 nil 'switch))
 
 (defun gd-execute-def-python2-no-switch ()
   "Send def at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'python2 nil 'no-switch))
+  (gd--execute-prepare 'def 'python2 nil 'no-switch))
 
 (defun gd-execute-def-python2-dedicated ()
   "Send def at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'python2 t nil))
+  (gd--execute-prepare 'def 'python2 t nil))
 
 (defun gd-execute-def-python2-dedicated-switch ()
   "Send def at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'python2 t 'switch))
+  (gd--execute-prepare 'def 'python2 t 'switch))
 
 (defun gd-execute-def-python3 ()
   "Send def at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'python3 nil nil))
+  (gd--execute-prepare 'def 'python3 nil nil))
 
 (defun gd-execute-def-python3-switch ()
   "Send def at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def 'python3 nil 'switch))
+  (gd--execute-prepare 'def 'python3 nil 'switch))
 
 (defun gd-execute-def-python3-no-switch ()
   "Send def at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def 'python3 nil 'no-switch))
+  (gd--execute-prepare 'def 'python3 nil 'no-switch))
 
 (defun gd-execute-def-python3-dedicated ()
   "Send def at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def 'python3 t nil))
+  (gd--execute-prepare 'def 'python3 t nil))
 
 (defun gd-execute-def-python3-dedicated-switch ()
   "Send def at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def 'python3 t 'switch))
+  (gd--execute-prepare 'def 'python3 t 'switch))
 
 (defun gd-execute-def-or-class ()
   "Send def-or-class at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class nil  nil nil))
+  (gd--execute-prepare 'def-or-class nil  nil nil))
 
 (defun gd-execute-def-or-class-switch ()
   "Send def-or-class at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class nil  nil 'switch))
+  (gd--execute-prepare 'def-or-class nil  nil 'switch))
 
 (defun gd-execute-def-or-class-no-switch ()
   "Send def-or-class at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class nil  nil 'no-switch))
+  (gd--execute-prepare 'def-or-class nil  nil 'no-switch))
 
 (defun gd-execute-def-or-class-dedicated ()
   "Send def-or-class at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class nil  t nil))
+  (gd--execute-prepare 'def-or-class nil  t nil))
 
 (defun gd-execute-def-or-class-dedicated-switch ()
   "Send def-or-class at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class nil  t 'switch))
+  (gd--execute-prepare 'def-or-class nil  t 'switch))
 
 (defun gd-execute-def-or-class-ipython ()
   "Send def-or-class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython nil nil))
+  (gd--execute-prepare 'def-or-class 'ipython nil nil))
 
 (defun gd-execute-def-or-class-ipython-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython nil 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython nil 'switch))
 
 (defun gd-execute-def-or-class-ipython-no-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'ipython nil 'no-switch))
 
 (defun gd-execute-def-or-class-ipython-dedicated ()
   "Send def-or-class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython t nil))
+  (gd--execute-prepare 'def-or-class 'ipython t nil))
 
 (defun gd-execute-def-or-class-ipython-dedicated-switch ()
   "Send def-or-class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython t 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython t 'switch))
 
 (defun gd-execute-def-or-class-ipython2.7 ()
   "Send def-or-class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython2.7 nil nil))
+  (gd--execute-prepare 'def-or-class 'ipython2.7 nil nil))
 
 (defun gd-execute-def-or-class-ipython2.7-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython2.7 nil 'switch))
 
 (defun gd-execute-def-or-class-ipython2.7-no-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-def-or-class-ipython2.7-dedicated ()
   "Send def-or-class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython2.7 t nil))
+  (gd--execute-prepare 'def-or-class 'ipython2.7 t nil))
 
 (defun gd-execute-def-or-class-ipython2.7-dedicated-switch ()
   "Send def-or-class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython2.7 t 'switch))
 
 (defun gd-execute-def-or-class-ipython3 ()
   "Send def-or-class at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython3 nil nil))
+  (gd--execute-prepare 'def-or-class 'ipython3 nil nil))
 
 (defun gd-execute-def-or-class-ipython3-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython3 nil 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython3 nil 'switch))
 
 (defun gd-execute-def-or-class-ipython3-no-switch ()
   "Send def-or-class at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'ipython3 nil 'no-switch))
 
 (defun gd-execute-def-or-class-ipython3-dedicated ()
   "Send def-or-class at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython3 t nil))
+  (gd--execute-prepare 'def-or-class 'ipython3 t nil))
 
 (defun gd-execute-def-or-class-ipython3-dedicated-switch ()
   "Send def-or-class at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'ipython3 t 'switch))
+  (gd--execute-prepare 'def-or-class 'ipython3 t 'switch))
 
 (defun gd-execute-def-or-class-jython ()
   "Send def-or-class at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'jython nil nil))
+  (gd--execute-prepare 'def-or-class 'jython nil nil))
 
 (defun gd-execute-def-or-class-jython-switch ()
   "Send def-or-class at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'jython nil 'switch))
+  (gd--execute-prepare 'def-or-class 'jython nil 'switch))
 
 (defun gd-execute-def-or-class-jython-no-switch ()
   "Send def-or-class at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'jython nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'jython nil 'no-switch))
 
 (defun gd-execute-def-or-class-jython-dedicated ()
   "Send def-or-class at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'jython t nil))
+  (gd--execute-prepare 'def-or-class 'jython t nil))
 
 (defun gd-execute-def-or-class-jython-dedicated-switch ()
   "Send def-or-class at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'jython t 'switch))
+  (gd--execute-prepare 'def-or-class 'jython t 'switch))
 
 (defun gd-execute-def-or-class-python ()
   "Send def-or-class at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def-or-class 'python nil nil))
+  (gd--execute-prepare 'def-or-class 'python nil nil))
 
 (defun gd-execute-def-or-class-gdscript-switch ()
   "Send def-or-class at point to default interpreter. 
@@ -15350,7 +14590,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def-or-class 'python nil 'switch))
+  (gd--execute-prepare 'def-or-class 'python nil 'switch))
 
 (defun gd-execute-def-or-class-gdscript-no-switch ()
   "Send def-or-class at point to default interpreter. 
@@ -15359,231 +14599,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def-or-class 'python nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'python nil 'no-switch))
 
 (defun gd-execute-def-or-class-gdscript-dedicated ()
   "Send def-or-class at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def-or-class 'python t nil))
+  (gd--execute-prepare 'def-or-class 'python t nil))
 
 (defun gd-execute-def-or-class-gdscript-dedicated-switch ()
   "Send def-or-class at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'def-or-class 'python t 'switch))
+  (gd--execute-prepare 'def-or-class 'python t 'switch))
 
 (defun gd-execute-def-or-class-python2 ()
   "Send def-or-class at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python2 nil nil))
+  (gd--execute-prepare 'def-or-class 'python2 nil nil))
 
 (defun gd-execute-def-or-class-python2-switch ()
   "Send def-or-class at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python2 nil 'switch))
+  (gd--execute-prepare 'def-or-class 'python2 nil 'switch))
 
 (defun gd-execute-def-or-class-python2-no-switch ()
   "Send def-or-class at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python2 nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'python2 nil 'no-switch))
 
 (defun gd-execute-def-or-class-python2-dedicated ()
   "Send def-or-class at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python2 t nil))
+  (gd--execute-prepare 'def-or-class 'python2 t nil))
 
 (defun gd-execute-def-or-class-python2-dedicated-switch ()
   "Send def-or-class at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python2 t 'switch))
+  (gd--execute-prepare 'def-or-class 'python2 t 'switch))
 
 (defun gd-execute-def-or-class-python3 ()
   "Send def-or-class at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python3 nil nil))
+  (gd--execute-prepare 'def-or-class 'python3 nil nil))
 
 (defun gd-execute-def-or-class-python3-switch ()
   "Send def-or-class at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python3 nil 'switch))
+  (gd--execute-prepare 'def-or-class 'python3 nil 'switch))
 
 (defun gd-execute-def-or-class-python3-no-switch ()
   "Send def-or-class at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python3 nil 'no-switch))
+  (gd--execute-prepare 'def-or-class 'python3 nil 'no-switch))
 
 (defun gd-execute-def-or-class-python3-dedicated ()
   "Send def-or-class at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python3 t nil))
+  (gd--execute-prepare 'def-or-class 'python3 t nil))
 
 (defun gd-execute-def-or-class-python3-dedicated-switch ()
   "Send def-or-class at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'def-or-class 'python3 t 'switch))
+  (gd--execute-prepare 'def-or-class 'python3 t 'switch))
 
 (defun gd-execute-expression ()
   "Send expression at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'expression nil  nil nil))
+  (gd--execute-prepare 'expression nil  nil nil))
 
 (defun gd-execute-expression-switch ()
   "Send expression at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression nil  nil 'switch))
+  (gd--execute-prepare 'expression nil  nil 'switch))
 
 (defun gd-execute-expression-no-switch ()
   "Send expression at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression nil  nil 'no-switch))
+  (gd--execute-prepare 'expression nil  nil 'no-switch))
 
 (defun gd-execute-expression-dedicated ()
   "Send expression at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression nil  t nil))
+  (gd--execute-prepare 'expression nil  t nil))
 
 (defun gd-execute-expression-dedicated-switch ()
   "Send expression at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression nil  t 'switch))
+  (gd--execute-prepare 'expression nil  t 'switch))
 
 (defun gd-execute-expression-ipython ()
   "Send expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython nil nil))
+  (gd--execute-prepare 'expression 'ipython nil nil))
 
 (defun gd-execute-expression-ipython-switch ()
   "Send expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython nil 'switch))
+  (gd--execute-prepare 'expression 'ipython nil 'switch))
 
 (defun gd-execute-expression-ipython-no-switch ()
   "Send expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'ipython nil 'no-switch))
+  (gd--execute-prepare 'expression 'ipython nil 'no-switch))
 
 (defun gd-execute-expression-ipython-dedicated ()
   "Send expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython t nil))
+  (gd--execute-prepare 'expression 'ipython t nil))
 
 (defun gd-execute-expression-ipython-dedicated-switch ()
   "Send expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython t 'switch))
+  (gd--execute-prepare 'expression 'ipython t 'switch))
 
 (defun gd-execute-expression-ipython2.7 ()
   "Send expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython2.7 nil nil))
+  (gd--execute-prepare 'expression 'ipython2.7 nil nil))
 
 (defun gd-execute-expression-ipython2.7-switch ()
   "Send expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'expression 'ipython2.7 nil 'switch))
 
 (defun gd-execute-expression-ipython2.7-no-switch ()
   "Send expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'expression 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-expression-ipython2.7-dedicated ()
   "Send expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython2.7 t nil))
+  (gd--execute-prepare 'expression 'ipython2.7 t nil))
 
 (defun gd-execute-expression-ipython2.7-dedicated-switch ()
   "Send expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'expression 'ipython2.7 t 'switch))
 
 (defun gd-execute-expression-ipython3 ()
   "Send expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython3 nil nil))
+  (gd--execute-prepare 'expression 'ipython3 nil nil))
 
 (defun gd-execute-expression-ipython3-switch ()
   "Send expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython3 nil 'switch))
+  (gd--execute-prepare 'expression 'ipython3 nil 'switch))
 
 (defun gd-execute-expression-ipython3-no-switch ()
   "Send expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'expression 'ipython3 nil 'no-switch))
 
 (defun gd-execute-expression-ipython3-dedicated ()
   "Send expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython3 t nil))
+  (gd--execute-prepare 'expression 'ipython3 t nil))
 
 (defun gd-execute-expression-ipython3-dedicated-switch ()
   "Send expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'ipython3 t 'switch))
+  (gd--execute-prepare 'expression 'ipython3 t 'switch))
 
 (defun gd-execute-expression-jython ()
   "Send expression at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'jython nil nil))
+  (gd--execute-prepare 'expression 'jython nil nil))
 
 (defun gd-execute-expression-jython-switch ()
   "Send expression at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'jython nil 'switch))
+  (gd--execute-prepare 'expression 'jython nil 'switch))
 
 (defun gd-execute-expression-jython-no-switch ()
   "Send expression at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'jython nil 'no-switch))
+  (gd--execute-prepare 'expression 'jython nil 'no-switch))
 
 (defun gd-execute-expression-jython-dedicated ()
   "Send expression at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'jython t nil))
+  (gd--execute-prepare 'expression 'jython t nil))
 
 (defun gd-execute-expression-jython-dedicated-switch ()
   "Send expression at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'jython t 'switch))
+  (gd--execute-prepare 'expression 'jython t 'switch))
 
 (defun gd-execute-expression-python ()
   "Send expression at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'expression 'python nil nil))
+  (gd--execute-prepare 'expression 'python nil nil))
 
 (defun gd-execute-expression-gdscript-switch ()
   "Send expression at point to default interpreter. 
@@ -15592,7 +14832,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'expression 'python nil 'switch))
+  (gd--execute-prepare 'expression 'python nil 'switch))
 
 (defun gd-execute-expression-gdscript-no-switch ()
   "Send expression at point to default interpreter. 
@@ -15601,231 +14841,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'expression 'python nil 'no-switch))
+  (gd--execute-prepare 'expression 'python nil 'no-switch))
 
 (defun gd-execute-expression-gdscript-dedicated ()
   "Send expression at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'expression 'python t nil))
+  (gd--execute-prepare 'expression 'python t nil))
 
 (defun gd-execute-expression-gdscript-dedicated-switch ()
   "Send expression at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'expression 'python t 'switch))
+  (gd--execute-prepare 'expression 'python t 'switch))
 
 (defun gd-execute-expression-python2 ()
   "Send expression at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'python2 nil nil))
+  (gd--execute-prepare 'expression 'python2 nil nil))
 
 (defun gd-execute-expression-python2-switch ()
   "Send expression at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'python2 nil 'switch))
+  (gd--execute-prepare 'expression 'python2 nil 'switch))
 
 (defun gd-execute-expression-python2-no-switch ()
   "Send expression at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'python2 nil 'no-switch))
+  (gd--execute-prepare 'expression 'python2 nil 'no-switch))
 
 (defun gd-execute-expression-python2-dedicated ()
   "Send expression at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'python2 t nil))
+  (gd--execute-prepare 'expression 'python2 t nil))
 
 (defun gd-execute-expression-python2-dedicated-switch ()
   "Send expression at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'python2 t 'switch))
+  (gd--execute-prepare 'expression 'python2 t 'switch))
 
 (defun gd-execute-expression-python3 ()
   "Send expression at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'python3 nil nil))
+  (gd--execute-prepare 'expression 'python3 nil nil))
 
 (defun gd-execute-expression-python3-switch ()
   "Send expression at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'expression 'python3 nil 'switch))
+  (gd--execute-prepare 'expression 'python3 nil 'switch))
 
 (defun gd-execute-expression-python3-no-switch ()
   "Send expression at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'expression 'python3 nil 'no-switch))
+  (gd--execute-prepare 'expression 'python3 nil 'no-switch))
 
 (defun gd-execute-expression-python3-dedicated ()
   "Send expression at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'expression 'python3 t nil))
+  (gd--execute-prepare 'expression 'python3 t nil))
 
 (defun gd-execute-expression-python3-dedicated-switch ()
   "Send expression at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'expression 'python3 t 'switch))
+  (gd--execute-prepare 'expression 'python3 t 'switch))
 
 (defun gd-execute-indent ()
   "Send indent at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'indent nil  nil nil))
+  (gd--execute-prepare 'indent nil  nil nil))
 
 (defun gd-execute-indent-switch ()
   "Send indent at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent nil  nil 'switch))
+  (gd--execute-prepare 'indent nil  nil 'switch))
 
 (defun gd-execute-indent-no-switch ()
   "Send indent at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent nil  nil 'no-switch))
+  (gd--execute-prepare 'indent nil  nil 'no-switch))
 
 (defun gd-execute-indent-dedicated ()
   "Send indent at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent nil  t nil))
+  (gd--execute-prepare 'indent nil  t nil))
 
 (defun gd-execute-indent-dedicated-switch ()
   "Send indent at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent nil  t 'switch))
+  (gd--execute-prepare 'indent nil  t 'switch))
 
 (defun gd-execute-indent-ipython ()
   "Send indent at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython nil nil))
+  (gd--execute-prepare 'indent 'ipython nil nil))
 
 (defun gd-execute-indent-ipython-switch ()
   "Send indent at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython nil 'switch))
+  (gd--execute-prepare 'indent 'ipython nil 'switch))
 
 (defun gd-execute-indent-ipython-no-switch ()
   "Send indent at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'ipython nil 'no-switch))
+  (gd--execute-prepare 'indent 'ipython nil 'no-switch))
 
 (defun gd-execute-indent-ipython-dedicated ()
   "Send indent at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython t nil))
+  (gd--execute-prepare 'indent 'ipython t nil))
 
 (defun gd-execute-indent-ipython-dedicated-switch ()
   "Send indent at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython t 'switch))
+  (gd--execute-prepare 'indent 'ipython t 'switch))
 
 (defun gd-execute-indent-ipython2.7 ()
   "Send indent at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython2.7 nil nil))
+  (gd--execute-prepare 'indent 'ipython2.7 nil nil))
 
 (defun gd-execute-indent-ipython2.7-switch ()
   "Send indent at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'indent 'ipython2.7 nil 'switch))
 
 (defun gd-execute-indent-ipython2.7-no-switch ()
   "Send indent at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'indent 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-indent-ipython2.7-dedicated ()
   "Send indent at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython2.7 t nil))
+  (gd--execute-prepare 'indent 'ipython2.7 t nil))
 
 (defun gd-execute-indent-ipython2.7-dedicated-switch ()
   "Send indent at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'indent 'ipython2.7 t 'switch))
 
 (defun gd-execute-indent-ipython3 ()
   "Send indent at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython3 nil nil))
+  (gd--execute-prepare 'indent 'ipython3 nil nil))
 
 (defun gd-execute-indent-ipython3-switch ()
   "Send indent at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython3 nil 'switch))
+  (gd--execute-prepare 'indent 'ipython3 nil 'switch))
 
 (defun gd-execute-indent-ipython3-no-switch ()
   "Send indent at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'indent 'ipython3 nil 'no-switch))
 
 (defun gd-execute-indent-ipython3-dedicated ()
   "Send indent at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython3 t nil))
+  (gd--execute-prepare 'indent 'ipython3 t nil))
 
 (defun gd-execute-indent-ipython3-dedicated-switch ()
   "Send indent at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'ipython3 t 'switch))
+  (gd--execute-prepare 'indent 'ipython3 t 'switch))
 
 (defun gd-execute-indent-jython ()
   "Send indent at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'jython nil nil))
+  (gd--execute-prepare 'indent 'jython nil nil))
 
 (defun gd-execute-indent-jython-switch ()
   "Send indent at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'jython nil 'switch))
+  (gd--execute-prepare 'indent 'jython nil 'switch))
 
 (defun gd-execute-indent-jython-no-switch ()
   "Send indent at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'jython nil 'no-switch))
+  (gd--execute-prepare 'indent 'jython nil 'no-switch))
 
 (defun gd-execute-indent-jython-dedicated ()
   "Send indent at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'jython t nil))
+  (gd--execute-prepare 'indent 'jython t nil))
 
 (defun gd-execute-indent-jython-dedicated-switch ()
   "Send indent at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'jython t 'switch))
+  (gd--execute-prepare 'indent 'jython t 'switch))
 
 (defun gd-execute-indent-python ()
   "Send indent at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'indent 'python nil nil))
+  (gd--execute-prepare 'indent 'python nil nil))
 
 (defun gd-execute-indent-gdscript-switch ()
   "Send indent at point to default interpreter. 
@@ -15834,7 +15074,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'indent 'python nil 'switch))
+  (gd--execute-prepare 'indent 'python nil 'switch))
 
 (defun gd-execute-indent-gdscript-no-switch ()
   "Send indent at point to default interpreter. 
@@ -15843,231 +15083,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'indent 'python nil 'no-switch))
+  (gd--execute-prepare 'indent 'python nil 'no-switch))
 
 (defun gd-execute-indent-gdscript-dedicated ()
   "Send indent at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'indent 'python t nil))
+  (gd--execute-prepare 'indent 'python t nil))
 
 (defun gd-execute-indent-gdscript-dedicated-switch ()
   "Send indent at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'indent 'python t 'switch))
+  (gd--execute-prepare 'indent 'python t 'switch))
 
 (defun gd-execute-indent-python2 ()
   "Send indent at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'python2 nil nil))
+  (gd--execute-prepare 'indent 'python2 nil nil))
 
 (defun gd-execute-indent-python2-switch ()
   "Send indent at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'python2 nil 'switch))
+  (gd--execute-prepare 'indent 'python2 nil 'switch))
 
 (defun gd-execute-indent-python2-no-switch ()
   "Send indent at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'python2 nil 'no-switch))
+  (gd--execute-prepare 'indent 'python2 nil 'no-switch))
 
 (defun gd-execute-indent-python2-dedicated ()
   "Send indent at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'python2 t nil))
+  (gd--execute-prepare 'indent 'python2 t nil))
 
 (defun gd-execute-indent-python2-dedicated-switch ()
   "Send indent at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'python2 t 'switch))
+  (gd--execute-prepare 'indent 'python2 t 'switch))
 
 (defun gd-execute-indent-python3 ()
   "Send indent at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'python3 nil nil))
+  (gd--execute-prepare 'indent 'python3 nil nil))
 
 (defun gd-execute-indent-python3-switch ()
   "Send indent at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'indent 'python3 nil 'switch))
+  (gd--execute-prepare 'indent 'python3 nil 'switch))
 
 (defun gd-execute-indent-python3-no-switch ()
   "Send indent at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'indent 'python3 nil 'no-switch))
+  (gd--execute-prepare 'indent 'python3 nil 'no-switch))
 
 (defun gd-execute-indent-python3-dedicated ()
   "Send indent at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'indent 'python3 t nil))
+  (gd--execute-prepare 'indent 'python3 t nil))
 
 (defun gd-execute-indent-python3-dedicated-switch ()
   "Send indent at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'indent 'python3 t 'switch))
+  (gd--execute-prepare 'indent 'python3 t 'switch))
 
 (defun gd-execute-line ()
   "Send line at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'line nil  nil nil))
+  (gd--execute-prepare 'line nil  nil nil))
 
 (defun gd-execute-line-switch ()
   "Send line at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line nil  nil 'switch))
+  (gd--execute-prepare 'line nil  nil 'switch))
 
 (defun gd-execute-line-no-switch ()
   "Send line at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line nil  nil 'no-switch))
+  (gd--execute-prepare 'line nil  nil 'no-switch))
 
 (defun gd-execute-line-dedicated ()
   "Send line at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line nil  t nil))
+  (gd--execute-prepare 'line nil  t nil))
 
 (defun gd-execute-line-dedicated-switch ()
   "Send line at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line nil  t 'switch))
+  (gd--execute-prepare 'line nil  t 'switch))
 
 (defun gd-execute-line-ipython ()
   "Send line at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython nil nil))
+  (gd--execute-prepare 'line 'ipython nil nil))
 
 (defun gd-execute-line-ipython-switch ()
   "Send line at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'ipython nil 'switch))
+  (gd--execute-prepare 'line 'ipython nil 'switch))
 
 (defun gd-execute-line-ipython-no-switch ()
   "Send line at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'ipython nil 'no-switch))
+  (gd--execute-prepare 'line 'ipython nil 'no-switch))
 
 (defun gd-execute-line-ipython-dedicated ()
   "Send line at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython t nil))
+  (gd--execute-prepare 'line 'ipython t nil))
 
 (defun gd-execute-line-ipython-dedicated-switch ()
   "Send line at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'ipython t 'switch))
+  (gd--execute-prepare 'line 'ipython t 'switch))
 
 (defun gd-execute-line-ipython2.7 ()
   "Send line at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython2.7 nil nil))
+  (gd--execute-prepare 'line 'ipython2.7 nil nil))
 
 (defun gd-execute-line-ipython2.7-switch ()
   "Send line at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'line 'ipython2.7 nil 'switch))
 
 (defun gd-execute-line-ipython2.7-no-switch ()
   "Send line at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'line 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-line-ipython2.7-dedicated ()
   "Send line at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython2.7 t nil))
+  (gd--execute-prepare 'line 'ipython2.7 t nil))
 
 (defun gd-execute-line-ipython2.7-dedicated-switch ()
   "Send line at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'line 'ipython2.7 t 'switch))
 
 (defun gd-execute-line-ipython3 ()
   "Send line at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython3 nil nil))
+  (gd--execute-prepare 'line 'ipython3 nil nil))
 
 (defun gd-execute-line-ipython3-switch ()
   "Send line at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'ipython3 nil 'switch))
+  (gd--execute-prepare 'line 'ipython3 nil 'switch))
 
 (defun gd-execute-line-ipython3-no-switch ()
   "Send line at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'line 'ipython3 nil 'no-switch))
 
 (defun gd-execute-line-ipython3-dedicated ()
   "Send line at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'ipython3 t nil))
+  (gd--execute-prepare 'line 'ipython3 t nil))
 
 (defun gd-execute-line-ipython3-dedicated-switch ()
   "Send line at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'ipython3 t 'switch))
+  (gd--execute-prepare 'line 'ipython3 t 'switch))
 
 (defun gd-execute-line-jython ()
   "Send line at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'jython nil nil))
+  (gd--execute-prepare 'line 'jython nil nil))
 
 (defun gd-execute-line-jython-switch ()
   "Send line at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'jython nil 'switch))
+  (gd--execute-prepare 'line 'jython nil 'switch))
 
 (defun gd-execute-line-jython-no-switch ()
   "Send line at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'jython nil 'no-switch))
+  (gd--execute-prepare 'line 'jython nil 'no-switch))
 
 (defun gd-execute-line-jython-dedicated ()
   "Send line at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'jython t nil))
+  (gd--execute-prepare 'line 'jython t nil))
 
 (defun gd-execute-line-jython-dedicated-switch ()
   "Send line at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'jython t 'switch))
+  (gd--execute-prepare 'line 'jython t 'switch))
 
 (defun gd-execute-line-python ()
   "Send line at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'line 'python nil nil))
+  (gd--execute-prepare 'line 'python nil nil))
 
 (defun gd-execute-line-gdscript-switch ()
   "Send line at point to default interpreter. 
@@ -16076,7 +15316,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'line 'python nil 'switch))
+  (gd--execute-prepare 'line 'python nil 'switch))
 
 (defun gd-execute-line-gdscript-no-switch ()
   "Send line at point to default interpreter. 
@@ -16085,231 +15325,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'line 'python nil 'no-switch))
+  (gd--execute-prepare 'line 'python nil 'no-switch))
 
 (defun gd-execute-line-gdscript-dedicated ()
   "Send line at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'line 'python t nil))
+  (gd--execute-prepare 'line 'python t nil))
 
 (defun gd-execute-line-gdscript-dedicated-switch ()
   "Send line at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'line 'python t 'switch))
+  (gd--execute-prepare 'line 'python t 'switch))
 
 (defun gd-execute-line-python2 ()
   "Send line at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'python2 nil nil))
+  (gd--execute-prepare 'line 'python2 nil nil))
 
 (defun gd-execute-line-python2-switch ()
   "Send line at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'python2 nil 'switch))
+  (gd--execute-prepare 'line 'python2 nil 'switch))
 
 (defun gd-execute-line-python2-no-switch ()
   "Send line at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'python2 nil 'no-switch))
+  (gd--execute-prepare 'line 'python2 nil 'no-switch))
 
 (defun gd-execute-line-python2-dedicated ()
   "Send line at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'python2 t nil))
+  (gd--execute-prepare 'line 'python2 t nil))
 
 (defun gd-execute-line-python2-dedicated-switch ()
   "Send line at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'python2 t 'switch))
+  (gd--execute-prepare 'line 'python2 t 'switch))
 
 (defun gd-execute-line-python3 ()
   "Send line at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'python3 nil nil))
+  (gd--execute-prepare 'line 'python3 nil nil))
 
 (defun gd-execute-line-python3-switch ()
   "Send line at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'line 'python3 nil 'switch))
+  (gd--execute-prepare 'line 'python3 nil 'switch))
 
 (defun gd-execute-line-python3-no-switch ()
   "Send line at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'line 'python3 nil 'no-switch))
+  (gd--execute-prepare 'line 'python3 nil 'no-switch))
 
 (defun gd-execute-line-python3-dedicated ()
   "Send line at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'line 'python3 t nil))
+  (gd--execute-prepare 'line 'python3 t nil))
 
 (defun gd-execute-line-python3-dedicated-switch ()
   "Send line at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'line 'python3 t 'switch))
+  (gd--execute-prepare 'line 'python3 t 'switch))
 
 (defun gd-execute-minor-block ()
   "Send minor-block at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block nil  nil nil))
+  (gd--execute-prepare 'minor-block nil  nil nil))
 
 (defun gd-execute-minor-block-switch ()
   "Send minor-block at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block nil  nil 'switch))
+  (gd--execute-prepare 'minor-block nil  nil 'switch))
 
 (defun gd-execute-minor-block-no-switch ()
   "Send minor-block at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block nil  nil 'no-switch))
+  (gd--execute-prepare 'minor-block nil  nil 'no-switch))
 
 (defun gd-execute-minor-block-dedicated ()
   "Send minor-block at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block nil  t nil))
+  (gd--execute-prepare 'minor-block nil  t nil))
 
 (defun gd-execute-minor-block-dedicated-switch ()
   "Send minor-block at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block nil  t 'switch))
+  (gd--execute-prepare 'minor-block nil  t 'switch))
 
 (defun gd-execute-minor-block-ipython ()
   "Send minor-block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython nil nil))
+  (gd--execute-prepare 'minor-block 'ipython nil nil))
 
 (defun gd-execute-minor-block-ipython-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython nil 'switch))
+  (gd--execute-prepare 'minor-block 'ipython nil 'switch))
 
 (defun gd-execute-minor-block-ipython-no-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'ipython nil 'no-switch))
 
 (defun gd-execute-minor-block-ipython-dedicated ()
   "Send minor-block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython t nil))
+  (gd--execute-prepare 'minor-block 'ipython t nil))
 
 (defun gd-execute-minor-block-ipython-dedicated-switch ()
   "Send minor-block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython t 'switch))
+  (gd--execute-prepare 'minor-block 'ipython t 'switch))
 
 (defun gd-execute-minor-block-ipython2.7 ()
   "Send minor-block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython2.7 nil nil))
+  (gd--execute-prepare 'minor-block 'ipython2.7 nil nil))
 
 (defun gd-execute-minor-block-ipython2.7-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'minor-block 'ipython2.7 nil 'switch))
 
 (defun gd-execute-minor-block-ipython2.7-no-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-minor-block-ipython2.7-dedicated ()
   "Send minor-block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython2.7 t nil))
+  (gd--execute-prepare 'minor-block 'ipython2.7 t nil))
 
 (defun gd-execute-minor-block-ipython2.7-dedicated-switch ()
   "Send minor-block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'minor-block 'ipython2.7 t 'switch))
 
 (defun gd-execute-minor-block-ipython3 ()
   "Send minor-block at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython3 nil nil))
+  (gd--execute-prepare 'minor-block 'ipython3 nil nil))
 
 (defun gd-execute-minor-block-ipython3-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython3 nil 'switch))
+  (gd--execute-prepare 'minor-block 'ipython3 nil 'switch))
 
 (defun gd-execute-minor-block-ipython3-no-switch ()
   "Send minor-block at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'ipython3 nil 'no-switch))
 
 (defun gd-execute-minor-block-ipython3-dedicated ()
   "Send minor-block at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython3 t nil))
+  (gd--execute-prepare 'minor-block 'ipython3 t nil))
 
 (defun gd-execute-minor-block-ipython3-dedicated-switch ()
   "Send minor-block at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'ipython3 t 'switch))
+  (gd--execute-prepare 'minor-block 'ipython3 t 'switch))
 
 (defun gd-execute-minor-block-jython ()
   "Send minor-block at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'jython nil nil))
+  (gd--execute-prepare 'minor-block 'jython nil nil))
 
 (defun gd-execute-minor-block-jython-switch ()
   "Send minor-block at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'jython nil 'switch))
+  (gd--execute-prepare 'minor-block 'jython nil 'switch))
 
 (defun gd-execute-minor-block-jython-no-switch ()
   "Send minor-block at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'jython nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'jython nil 'no-switch))
 
 (defun gd-execute-minor-block-jython-dedicated ()
   "Send minor-block at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'jython t nil))
+  (gd--execute-prepare 'minor-block 'jython t nil))
 
 (defun gd-execute-minor-block-jython-dedicated-switch ()
   "Send minor-block at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'jython t 'switch))
+  (gd--execute-prepare 'minor-block 'jython t 'switch))
 
 (defun gd-execute-minor-block-python ()
   "Send minor-block at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'minor-block 'python nil nil))
+  (gd--execute-prepare 'minor-block 'python nil nil))
 
 (defun gd-execute-minor-block-gdscript-switch ()
   "Send minor-block at point to default interpreter. 
@@ -16318,7 +15558,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'minor-block 'python nil 'switch))
+  (gd--execute-prepare 'minor-block 'python nil 'switch))
 
 (defun gd-execute-minor-block-gdscript-no-switch ()
   "Send minor-block at point to default interpreter. 
@@ -16327,231 +15567,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'minor-block 'python nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'python nil 'no-switch))
 
 (defun gd-execute-minor-block-gdscript-dedicated ()
   "Send minor-block at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'minor-block 'python t nil))
+  (gd--execute-prepare 'minor-block 'python t nil))
 
 (defun gd-execute-minor-block-gdscript-dedicated-switch ()
   "Send minor-block at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'minor-block 'python t 'switch))
+  (gd--execute-prepare 'minor-block 'python t 'switch))
 
 (defun gd-execute-minor-block-python2 ()
   "Send minor-block at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python2 nil nil))
+  (gd--execute-prepare 'minor-block 'python2 nil nil))
 
 (defun gd-execute-minor-block-python2-switch ()
   "Send minor-block at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python2 nil 'switch))
+  (gd--execute-prepare 'minor-block 'python2 nil 'switch))
 
 (defun gd-execute-minor-block-python2-no-switch ()
   "Send minor-block at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'python2 nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'python2 nil 'no-switch))
 
 (defun gd-execute-minor-block-python2-dedicated ()
   "Send minor-block at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python2 t nil))
+  (gd--execute-prepare 'minor-block 'python2 t nil))
 
 (defun gd-execute-minor-block-python2-dedicated-switch ()
   "Send minor-block at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python2 t 'switch))
+  (gd--execute-prepare 'minor-block 'python2 t 'switch))
 
 (defun gd-execute-minor-block-python3 ()
   "Send minor-block at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python3 nil nil))
+  (gd--execute-prepare 'minor-block 'python3 nil nil))
 
 (defun gd-execute-minor-block-python3-switch ()
   "Send minor-block at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python3 nil 'switch))
+  (gd--execute-prepare 'minor-block 'python3 nil 'switch))
 
 (defun gd-execute-minor-block-python3-no-switch ()
   "Send minor-block at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'minor-block 'python3 nil 'no-switch))
+  (gd--execute-prepare 'minor-block 'python3 nil 'no-switch))
 
 (defun gd-execute-minor-block-python3-dedicated ()
   "Send minor-block at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python3 t nil))
+  (gd--execute-prepare 'minor-block 'python3 t nil))
 
 (defun gd-execute-minor-block-python3-dedicated-switch ()
   "Send minor-block at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'minor-block 'python3 t 'switch))
+  (gd--execute-prepare 'minor-block 'python3 t 'switch))
 
 (defun gd-execute-paragraph ()
   "Send paragraph at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph nil  nil nil))
+  (gd--execute-prepare 'paragraph nil  nil nil))
 
 (defun gd-execute-paragraph-switch ()
   "Send paragraph at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph nil  nil 'switch))
+  (gd--execute-prepare 'paragraph nil  nil 'switch))
 
 (defun gd-execute-paragraph-no-switch ()
   "Send paragraph at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph nil  nil 'no-switch))
+  (gd--execute-prepare 'paragraph nil  nil 'no-switch))
 
 (defun gd-execute-paragraph-dedicated ()
   "Send paragraph at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph nil  t nil))
+  (gd--execute-prepare 'paragraph nil  t nil))
 
 (defun gd-execute-paragraph-dedicated-switch ()
   "Send paragraph at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph nil  t 'switch))
+  (gd--execute-prepare 'paragraph nil  t 'switch))
 
 (defun gd-execute-paragraph-ipython ()
   "Send paragraph at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython nil nil))
+  (gd--execute-prepare 'paragraph 'ipython nil nil))
 
 (defun gd-execute-paragraph-ipython-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython nil 'switch))
+  (gd--execute-prepare 'paragraph 'ipython nil 'switch))
 
 (defun gd-execute-paragraph-ipython-no-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'ipython nil 'no-switch))
 
 (defun gd-execute-paragraph-ipython-dedicated ()
   "Send paragraph at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython t nil))
+  (gd--execute-prepare 'paragraph 'ipython t nil))
 
 (defun gd-execute-paragraph-ipython-dedicated-switch ()
   "Send paragraph at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython t 'switch))
+  (gd--execute-prepare 'paragraph 'ipython t 'switch))
 
 (defun gd-execute-paragraph-ipython2.7 ()
   "Send paragraph at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython2.7 nil nil))
+  (gd--execute-prepare 'paragraph 'ipython2.7 nil nil))
 
 (defun gd-execute-paragraph-ipython2.7-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'paragraph 'ipython2.7 nil 'switch))
 
 (defun gd-execute-paragraph-ipython2.7-no-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-paragraph-ipython2.7-dedicated ()
   "Send paragraph at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython2.7 t nil))
+  (gd--execute-prepare 'paragraph 'ipython2.7 t nil))
 
 (defun gd-execute-paragraph-ipython2.7-dedicated-switch ()
   "Send paragraph at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'paragraph 'ipython2.7 t 'switch))
 
 (defun gd-execute-paragraph-ipython3 ()
   "Send paragraph at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython3 nil nil))
+  (gd--execute-prepare 'paragraph 'ipython3 nil nil))
 
 (defun gd-execute-paragraph-ipython3-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython3 nil 'switch))
+  (gd--execute-prepare 'paragraph 'ipython3 nil 'switch))
 
 (defun gd-execute-paragraph-ipython3-no-switch ()
   "Send paragraph at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'ipython3 nil 'no-switch))
 
 (defun gd-execute-paragraph-ipython3-dedicated ()
   "Send paragraph at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython3 t nil))
+  (gd--execute-prepare 'paragraph 'ipython3 t nil))
 
 (defun gd-execute-paragraph-ipython3-dedicated-switch ()
   "Send paragraph at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'ipython3 t 'switch))
+  (gd--execute-prepare 'paragraph 'ipython3 t 'switch))
 
 (defun gd-execute-paragraph-jython ()
   "Send paragraph at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'jython nil nil))
+  (gd--execute-prepare 'paragraph 'jython nil nil))
 
 (defun gd-execute-paragraph-jython-switch ()
   "Send paragraph at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'jython nil 'switch))
+  (gd--execute-prepare 'paragraph 'jython nil 'switch))
 
 (defun gd-execute-paragraph-jython-no-switch ()
   "Send paragraph at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'jython nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'jython nil 'no-switch))
 
 (defun gd-execute-paragraph-jython-dedicated ()
   "Send paragraph at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'jython t nil))
+  (gd--execute-prepare 'paragraph 'jython t nil))
 
 (defun gd-execute-paragraph-jython-dedicated-switch ()
   "Send paragraph at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'jython t 'switch))
+  (gd--execute-prepare 'paragraph 'jython t 'switch))
 
 (defun gd-execute-paragraph-python ()
   "Send paragraph at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'paragraph 'python nil nil))
+  (gd--execute-prepare 'paragraph 'python nil nil))
 
 (defun gd-execute-paragraph-gdscript-switch ()
   "Send paragraph at point to default interpreter. 
@@ -16560,7 +15800,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'paragraph 'python nil 'switch))
+  (gd--execute-prepare 'paragraph 'python nil 'switch))
 
 (defun gd-execute-paragraph-gdscript-no-switch ()
   "Send paragraph at point to default interpreter. 
@@ -16569,231 +15809,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'paragraph 'python nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'python nil 'no-switch))
 
 (defun gd-execute-paragraph-gdscript-dedicated ()
   "Send paragraph at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'paragraph 'python t nil))
+  (gd--execute-prepare 'paragraph 'python t nil))
 
 (defun gd-execute-paragraph-gdscript-dedicated-switch ()
   "Send paragraph at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'paragraph 'python t 'switch))
+  (gd--execute-prepare 'paragraph 'python t 'switch))
 
 (defun gd-execute-paragraph-python2 ()
   "Send paragraph at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python2 nil nil))
+  (gd--execute-prepare 'paragraph 'python2 nil nil))
 
 (defun gd-execute-paragraph-python2-switch ()
   "Send paragraph at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python2 nil 'switch))
+  (gd--execute-prepare 'paragraph 'python2 nil 'switch))
 
 (defun gd-execute-paragraph-python2-no-switch ()
   "Send paragraph at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'python2 nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'python2 nil 'no-switch))
 
 (defun gd-execute-paragraph-python2-dedicated ()
   "Send paragraph at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python2 t nil))
+  (gd--execute-prepare 'paragraph 'python2 t nil))
 
 (defun gd-execute-paragraph-python2-dedicated-switch ()
   "Send paragraph at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python2 t 'switch))
+  (gd--execute-prepare 'paragraph 'python2 t 'switch))
 
 (defun gd-execute-paragraph-python3 ()
   "Send paragraph at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python3 nil nil))
+  (gd--execute-prepare 'paragraph 'python3 nil nil))
 
 (defun gd-execute-paragraph-python3-switch ()
   "Send paragraph at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python3 nil 'switch))
+  (gd--execute-prepare 'paragraph 'python3 nil 'switch))
 
 (defun gd-execute-paragraph-python3-no-switch ()
   "Send paragraph at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'paragraph 'python3 nil 'no-switch))
+  (gd--execute-prepare 'paragraph 'python3 nil 'no-switch))
 
 (defun gd-execute-paragraph-python3-dedicated ()
   "Send paragraph at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python3 t nil))
+  (gd--execute-prepare 'paragraph 'python3 t nil))
 
 (defun gd-execute-paragraph-python3-dedicated-switch ()
   "Send paragraph at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'paragraph 'python3 t 'switch))
+  (gd--execute-prepare 'paragraph 'python3 t 'switch))
 
 (defun gd-execute-partial-expression ()
   "Send partial-expression at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression nil  nil nil))
+  (gd--execute-prepare 'partial-expression nil  nil nil))
 
 (defun gd-execute-partial-expression-switch ()
   "Send partial-expression at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression nil  nil 'switch))
+  (gd--execute-prepare 'partial-expression nil  nil 'switch))
 
 (defun gd-execute-partial-expression-no-switch ()
   "Send partial-expression at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression nil  nil 'no-switch))
+  (gd--execute-prepare 'partial-expression nil  nil 'no-switch))
 
 (defun gd-execute-partial-expression-dedicated ()
   "Send partial-expression at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression nil  t nil))
+  (gd--execute-prepare 'partial-expression nil  t nil))
 
 (defun gd-execute-partial-expression-dedicated-switch ()
   "Send partial-expression at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression nil  t 'switch))
+  (gd--execute-prepare 'partial-expression nil  t 'switch))
 
 (defun gd-execute-partial-expression-ipython ()
   "Send partial-expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython nil nil))
+  (gd--execute-prepare 'partial-expression 'ipython nil nil))
 
 (defun gd-execute-partial-expression-ipython-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython nil 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython nil 'switch))
 
 (defun gd-execute-partial-expression-ipython-no-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'ipython nil 'no-switch))
 
 (defun gd-execute-partial-expression-ipython-dedicated ()
   "Send partial-expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython t nil))
+  (gd--execute-prepare 'partial-expression 'ipython t nil))
 
 (defun gd-execute-partial-expression-ipython-dedicated-switch ()
   "Send partial-expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython t 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython t 'switch))
 
 (defun gd-execute-partial-expression-ipython2.7 ()
   "Send partial-expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython2.7 nil nil))
+  (gd--execute-prepare 'partial-expression 'ipython2.7 nil nil))
 
 (defun gd-execute-partial-expression-ipython2.7-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython2.7 nil 'switch))
 
 (defun gd-execute-partial-expression-ipython2.7-no-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-partial-expression-ipython2.7-dedicated ()
   "Send partial-expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython2.7 t nil))
+  (gd--execute-prepare 'partial-expression 'ipython2.7 t nil))
 
 (defun gd-execute-partial-expression-ipython2.7-dedicated-switch ()
   "Send partial-expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython2.7 t 'switch))
 
 (defun gd-execute-partial-expression-ipython3 ()
   "Send partial-expression at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython3 nil nil))
+  (gd--execute-prepare 'partial-expression 'ipython3 nil nil))
 
 (defun gd-execute-partial-expression-ipython3-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython3 nil 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython3 nil 'switch))
 
 (defun gd-execute-partial-expression-ipython3-no-switch ()
   "Send partial-expression at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'ipython3 nil 'no-switch))
 
 (defun gd-execute-partial-expression-ipython3-dedicated ()
   "Send partial-expression at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython3 t nil))
+  (gd--execute-prepare 'partial-expression 'ipython3 t nil))
 
 (defun gd-execute-partial-expression-ipython3-dedicated-switch ()
   "Send partial-expression at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'ipython3 t 'switch))
+  (gd--execute-prepare 'partial-expression 'ipython3 t 'switch))
 
 (defun gd-execute-partial-expression-jython ()
   "Send partial-expression at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'jython nil nil))
+  (gd--execute-prepare 'partial-expression 'jython nil nil))
 
 (defun gd-execute-partial-expression-jython-switch ()
   "Send partial-expression at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'jython nil 'switch))
+  (gd--execute-prepare 'partial-expression 'jython nil 'switch))
 
 (defun gd-execute-partial-expression-jython-no-switch ()
   "Send partial-expression at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'jython nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'jython nil 'no-switch))
 
 (defun gd-execute-partial-expression-jython-dedicated ()
   "Send partial-expression at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'jython t nil))
+  (gd--execute-prepare 'partial-expression 'jython t nil))
 
 (defun gd-execute-partial-expression-jython-dedicated-switch ()
   "Send partial-expression at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'jython t 'switch))
+  (gd--execute-prepare 'partial-expression 'jython t 'switch))
 
 (defun gd-execute-partial-expression-python ()
   "Send partial-expression at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'partial-expression 'python nil nil))
+  (gd--execute-prepare 'partial-expression 'python nil nil))
 
 (defun gd-execute-partial-expression-gdscript-switch ()
   "Send partial-expression at point to default interpreter. 
@@ -16802,7 +16042,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'partial-expression 'python nil 'switch))
+  (gd--execute-prepare 'partial-expression 'python nil 'switch))
 
 (defun gd-execute-partial-expression-gdscript-no-switch ()
   "Send partial-expression at point to default interpreter. 
@@ -16811,231 +16051,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'partial-expression 'python nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'python nil 'no-switch))
 
 (defun gd-execute-partial-expression-gdscript-dedicated ()
   "Send partial-expression at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'partial-expression 'python t nil))
+  (gd--execute-prepare 'partial-expression 'python t nil))
 
 (defun gd-execute-partial-expression-gdscript-dedicated-switch ()
   "Send partial-expression at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'partial-expression 'python t 'switch))
+  (gd--execute-prepare 'partial-expression 'python t 'switch))
 
 (defun gd-execute-partial-expression-python2 ()
   "Send partial-expression at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python2 nil nil))
+  (gd--execute-prepare 'partial-expression 'python2 nil nil))
 
 (defun gd-execute-partial-expression-python2-switch ()
   "Send partial-expression at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python2 nil 'switch))
+  (gd--execute-prepare 'partial-expression 'python2 nil 'switch))
 
 (defun gd-execute-partial-expression-python2-no-switch ()
   "Send partial-expression at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python2 nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'python2 nil 'no-switch))
 
 (defun gd-execute-partial-expression-python2-dedicated ()
   "Send partial-expression at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python2 t nil))
+  (gd--execute-prepare 'partial-expression 'python2 t nil))
 
 (defun gd-execute-partial-expression-python2-dedicated-switch ()
   "Send partial-expression at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python2 t 'switch))
+  (gd--execute-prepare 'partial-expression 'python2 t 'switch))
 
 (defun gd-execute-partial-expression-python3 ()
   "Send partial-expression at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python3 nil nil))
+  (gd--execute-prepare 'partial-expression 'python3 nil nil))
 
 (defun gd-execute-partial-expression-python3-switch ()
   "Send partial-expression at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python3 nil 'switch))
+  (gd--execute-prepare 'partial-expression 'python3 nil 'switch))
 
 (defun gd-execute-partial-expression-python3-no-switch ()
   "Send partial-expression at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python3 nil 'no-switch))
+  (gd--execute-prepare 'partial-expression 'python3 nil 'no-switch))
 
 (defun gd-execute-partial-expression-python3-dedicated ()
   "Send partial-expression at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python3 t nil))
+  (gd--execute-prepare 'partial-expression 'python3 t nil))
 
 (defun gd-execute-partial-expression-python3-dedicated-switch ()
   "Send partial-expression at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'partial-expression 'python3 t 'switch))
+  (gd--execute-prepare 'partial-expression 'python3 t 'switch))
 
 (defun gd-execute-region (beg end)
   "Send region at point to  interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region nil  nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region nil  nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-switch (beg end)
   "Send region at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region nil  nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region nil  nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-no-switch (beg end)
   "Send region at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region nil  nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region nil  nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-dedicated (beg end)
   "Send region at point to  unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region nil  t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region nil  t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-dedicated-switch (beg end)
   "Send region at point to  unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region nil  t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region nil  t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython (beg end)
   "Send region at point to IPython interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython-no-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython-dedicated (beg end)
   "Send region at point to IPython unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython-dedicated-switch (beg end)
   "Send region at point to IPython unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython2.7 (beg end)
   "Send region at point to IPython interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython2.7 nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython2.7 nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython2.7-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython2.7 nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython2.7 nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython2.7-no-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython2.7 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython2.7 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython2.7-dedicated (beg end)
   "Send region at point to IPython unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython2.7 t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython2.7 t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython2.7-dedicated-switch (beg end)
   "Send region at point to IPython unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython2.7 t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython2.7 t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython3 (beg end)
   "Send region at point to IPython interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython3 nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython3 nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython3-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython3 nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython3 nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython3-no-switch (beg end)
   "Send region at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython3 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython3 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython3-dedicated (beg end)
   "Send region at point to IPython unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython3 t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython3 t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-ipython3-dedicated-switch (beg end)
   "Send region at point to IPython unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'ipython3 t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'ipython3 t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-jython (beg end)
   "Send region at point to Jython interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'jython nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'jython nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-jython-switch (beg end)
   "Send region at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'jython nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'jython nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-jython-no-switch (beg end)
   "Send region at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'jython nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'jython nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-jython-dedicated (beg end)
   "Send region at point to Jython unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'jython t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'jython t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-jython-dedicated-switch (beg end)
   "Send region at point to Jython unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'jython t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'jython t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python (beg end)
   "Send region at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive "r")
-  (py--execute-prepare 'region 'python nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-gdscript-switch (beg end)
   "Send region at point to default interpreter. 
@@ -17044,7 +16284,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive "r")
-  (py--execute-prepare 'region 'python nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-gdscript-no-switch (beg end)
   "Send region at point to default interpreter. 
@@ -17053,231 +16293,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive "r")
-  (py--execute-prepare 'region 'python nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-gdscript-dedicated (beg end)
   "Send region at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive "r")
-  (py--execute-prepare 'region 'python t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-gdscript-dedicated-switch (beg end)
   "Send region at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive "r")
-  (py--execute-prepare 'region 'python t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python2 (beg end)
   "Send region at point to Python2 interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'python2 nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python2 nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python2-switch (beg end)
   "Send region at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'python2 nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python2 nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python2-no-switch (beg end)
   "Send region at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'python2 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python2 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python2-dedicated (beg end)
   "Send region at point to Python2 unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'python2 t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python2 t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python2-dedicated-switch (beg end)
   "Send region at point to Python2 unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'python2 t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python2 t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python3 (beg end)
   "Send region at point to Python3 interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'python3 nil nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python3 nil nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python3-switch (beg end)
   "Send region at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive "r")
-  (py--execute-prepare 'region 'python3 nil 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python3 nil 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python3-no-switch (beg end)
   "Send region at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive "r")
-  (py--execute-prepare 'region 'python3 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python3 nil 'no-switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python3-dedicated (beg end)
   "Send region at point to Python3 unique interpreter. "
   (interactive "r")
-  (py--execute-prepare 'region 'python3 t nil (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python3 t nil (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-region-python3-dedicated-switch (beg end)
   "Send region at point to Python3 unique interpreter and switch to result. "
   (interactive "r")
-  (py--execute-prepare 'region 'python3 t 'switch (or beg (region-beginning)) (or end (region-end))))
+  (gd--execute-prepare 'region 'python3 t 'switch (or beg (region-beginning)) (or end (region-end))))
 
 (defun gd-execute-statement ()
   "Send statement at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'statement nil  nil nil))
+  (gd--execute-prepare 'statement nil  nil nil))
 
 (defun gd-execute-statement-switch ()
   "Send statement at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement nil  nil 'switch))
+  (gd--execute-prepare 'statement nil  nil 'switch))
 
 (defun gd-execute-statement-no-switch ()
   "Send statement at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement nil  nil 'no-switch))
+  (gd--execute-prepare 'statement nil  nil 'no-switch))
 
 (defun gd-execute-statement-dedicated ()
   "Send statement at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement nil  t nil))
+  (gd--execute-prepare 'statement nil  t nil))
 
 (defun gd-execute-statement-dedicated-switch ()
   "Send statement at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement nil  t 'switch))
+  (gd--execute-prepare 'statement nil  t 'switch))
 
 (defun gd-execute-statement-ipython ()
   "Send statement at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython nil nil))
+  (gd--execute-prepare 'statement 'ipython nil nil))
 
 (defun gd-execute-statement-ipython-switch ()
   "Send statement at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython nil 'switch))
+  (gd--execute-prepare 'statement 'ipython nil 'switch))
 
 (defun gd-execute-statement-ipython-no-switch ()
   "Send statement at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'ipython nil 'no-switch))
+  (gd--execute-prepare 'statement 'ipython nil 'no-switch))
 
 (defun gd-execute-statement-ipython-dedicated ()
   "Send statement at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython t nil))
+  (gd--execute-prepare 'statement 'ipython t nil))
 
 (defun gd-execute-statement-ipython-dedicated-switch ()
   "Send statement at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython t 'switch))
+  (gd--execute-prepare 'statement 'ipython t 'switch))
 
 (defun gd-execute-statement-ipython2.7 ()
   "Send statement at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython2.7 nil nil))
+  (gd--execute-prepare 'statement 'ipython2.7 nil nil))
 
 (defun gd-execute-statement-ipython2.7-switch ()
   "Send statement at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'statement 'ipython2.7 nil 'switch))
 
 (defun gd-execute-statement-ipython2.7-no-switch ()
   "Send statement at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'statement 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-statement-ipython2.7-dedicated ()
   "Send statement at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython2.7 t nil))
+  (gd--execute-prepare 'statement 'ipython2.7 t nil))
 
 (defun gd-execute-statement-ipython2.7-dedicated-switch ()
   "Send statement at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'statement 'ipython2.7 t 'switch))
 
 (defun gd-execute-statement-ipython3 ()
   "Send statement at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython3 nil nil))
+  (gd--execute-prepare 'statement 'ipython3 nil nil))
 
 (defun gd-execute-statement-ipython3-switch ()
   "Send statement at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython3 nil 'switch))
+  (gd--execute-prepare 'statement 'ipython3 nil 'switch))
 
 (defun gd-execute-statement-ipython3-no-switch ()
   "Send statement at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'statement 'ipython3 nil 'no-switch))
 
 (defun gd-execute-statement-ipython3-dedicated ()
   "Send statement at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython3 t nil))
+  (gd--execute-prepare 'statement 'ipython3 t nil))
 
 (defun gd-execute-statement-ipython3-dedicated-switch ()
   "Send statement at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'ipython3 t 'switch))
+  (gd--execute-prepare 'statement 'ipython3 t 'switch))
 
 (defun gd-execute-statement-jython ()
   "Send statement at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'jython nil nil))
+  (gd--execute-prepare 'statement 'jython nil nil))
 
 (defun gd-execute-statement-jython-switch ()
   "Send statement at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'jython nil 'switch))
+  (gd--execute-prepare 'statement 'jython nil 'switch))
 
 (defun gd-execute-statement-jython-no-switch ()
   "Send statement at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'jython nil 'no-switch))
+  (gd--execute-prepare 'statement 'jython nil 'no-switch))
 
 (defun gd-execute-statement-jython-dedicated ()
   "Send statement at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'jython t nil))
+  (gd--execute-prepare 'statement 'jython t nil))
 
 (defun gd-execute-statement-jython-dedicated-switch ()
   "Send statement at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'jython t 'switch))
+  (gd--execute-prepare 'statement 'jython t 'switch))
 
 (defun gd-execute-statement-python ()
   "Send statement at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'statement 'python nil nil))
+  (gd--execute-prepare 'statement 'python nil nil))
 
 (defun gd-execute-statement-gdscript-switch ()
   "Send statement at point to default interpreter. 
@@ -17286,7 +16526,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'statement 'python nil 'switch))
+  (gd--execute-prepare 'statement 'python nil 'switch))
 
 (defun gd-execute-statement-gdscript-no-switch ()
   "Send statement at point to default interpreter. 
@@ -17295,231 +16535,231 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'statement 'python nil 'no-switch))
+  (gd--execute-prepare 'statement 'python nil 'no-switch))
 
 (defun gd-execute-statement-gdscript-dedicated ()
   "Send statement at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'statement 'python t nil))
+  (gd--execute-prepare 'statement 'python t nil))
 
 (defun gd-execute-statement-gdscript-dedicated-switch ()
   "Send statement at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'statement 'python t 'switch))
+  (gd--execute-prepare 'statement 'python t 'switch))
 
 (defun gd-execute-statement-python2 ()
   "Send statement at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'python2 nil nil))
+  (gd--execute-prepare 'statement 'python2 nil nil))
 
 (defun gd-execute-statement-python2-switch ()
   "Send statement at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'python2 nil 'switch))
+  (gd--execute-prepare 'statement 'python2 nil 'switch))
 
 (defun gd-execute-statement-python2-no-switch ()
   "Send statement at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'python2 nil 'no-switch))
+  (gd--execute-prepare 'statement 'python2 nil 'no-switch))
 
 (defun gd-execute-statement-python2-dedicated ()
   "Send statement at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'python2 t nil))
+  (gd--execute-prepare 'statement 'python2 t nil))
 
 (defun gd-execute-statement-python2-dedicated-switch ()
   "Send statement at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'python2 t 'switch))
+  (gd--execute-prepare 'statement 'python2 t 'switch))
 
 (defun gd-execute-statement-python3 ()
   "Send statement at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'python3 nil nil))
+  (gd--execute-prepare 'statement 'python3 nil nil))
 
 (defun gd-execute-statement-python3-switch ()
   "Send statement at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'statement 'python3 nil 'switch))
+  (gd--execute-prepare 'statement 'python3 nil 'switch))
 
 (defun gd-execute-statement-python3-no-switch ()
   "Send statement at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'statement 'python3 nil 'no-switch))
+  (gd--execute-prepare 'statement 'python3 nil 'no-switch))
 
 (defun gd-execute-statement-python3-dedicated ()
   "Send statement at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'statement 'python3 t nil))
+  (gd--execute-prepare 'statement 'python3 t nil))
 
 (defun gd-execute-statement-python3-dedicated-switch ()
   "Send statement at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'statement 'python3 t 'switch))
+  (gd--execute-prepare 'statement 'python3 t 'switch))
 
 (defun gd-execute-top-level ()
   "Send top-level at point to  interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level nil  nil nil))
+  (gd--execute-prepare 'top-level nil  nil nil))
 
 (defun gd-execute-top-level-switch ()
   "Send top-level at point to  interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level nil  nil 'switch))
+  (gd--execute-prepare 'top-level nil  nil 'switch))
 
 (defun gd-execute-top-level-no-switch ()
   "Send top-level at point to  interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level nil  nil 'no-switch))
+  (gd--execute-prepare 'top-level nil  nil 'no-switch))
 
 (defun gd-execute-top-level-dedicated ()
   "Send top-level at point to  unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level nil  t nil))
+  (gd--execute-prepare 'top-level nil  t nil))
 
 (defun gd-execute-top-level-dedicated-switch ()
   "Send top-level at point to  unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level nil  t 'switch))
+  (gd--execute-prepare 'top-level nil  t 'switch))
 
 (defun gd-execute-top-level-ipython ()
   "Send top-level at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython nil nil))
+  (gd--execute-prepare 'top-level 'ipython nil nil))
 
 (defun gd-execute-top-level-ipython-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython nil 'switch))
+  (gd--execute-prepare 'top-level 'ipython nil 'switch))
 
 (defun gd-execute-top-level-ipython-no-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython nil 'no-switch))
+  (gd--execute-prepare 'top-level 'ipython nil 'no-switch))
 
 (defun gd-execute-top-level-ipython-dedicated ()
   "Send top-level at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython t nil))
+  (gd--execute-prepare 'top-level 'ipython t nil))
 
 (defun gd-execute-top-level-ipython-dedicated-switch ()
   "Send top-level at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython t 'switch))
+  (gd--execute-prepare 'top-level 'ipython t 'switch))
 
 (defun gd-execute-top-level-ipython2.7 ()
   "Send top-level at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython2.7 nil nil))
+  (gd--execute-prepare 'top-level 'ipython2.7 nil nil))
 
 (defun gd-execute-top-level-ipython2.7-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython2.7 nil 'switch))
+  (gd--execute-prepare 'top-level 'ipython2.7 nil 'switch))
 
 (defun gd-execute-top-level-ipython2.7-no-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython2.7 nil 'no-switch))
+  (gd--execute-prepare 'top-level 'ipython2.7 nil 'no-switch))
 
 (defun gd-execute-top-level-ipython2.7-dedicated ()
   "Send top-level at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython2.7 t nil))
+  (gd--execute-prepare 'top-level 'ipython2.7 t nil))
 
 (defun gd-execute-top-level-ipython2.7-dedicated-switch ()
   "Send top-level at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython2.7 t 'switch))
+  (gd--execute-prepare 'top-level 'ipython2.7 t 'switch))
 
 (defun gd-execute-top-level-ipython3 ()
   "Send top-level at point to IPython interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython3 nil nil))
+  (gd--execute-prepare 'top-level 'ipython3 nil nil))
 
 (defun gd-execute-top-level-ipython3-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython3 nil 'switch))
+  (gd--execute-prepare 'top-level 'ipython3 nil 'switch))
 
 (defun gd-execute-top-level-ipython3-no-switch ()
   "Send top-level at point to IPython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython3 nil 'no-switch))
+  (gd--execute-prepare 'top-level 'ipython3 nil 'no-switch))
 
 (defun gd-execute-top-level-ipython3-dedicated ()
   "Send top-level at point to IPython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython3 t nil))
+  (gd--execute-prepare 'top-level 'ipython3 t nil))
 
 (defun gd-execute-top-level-ipython3-dedicated-switch ()
   "Send top-level at point to IPython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'ipython3 t 'switch))
+  (gd--execute-prepare 'top-level 'ipython3 t 'switch))
 
 (defun gd-execute-top-level-jython ()
   "Send top-level at point to Jython interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'jython nil nil))
+  (gd--execute-prepare 'top-level 'jython nil nil))
 
 (defun gd-execute-top-level-jython-switch ()
   "Send top-level at point to Jython interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'jython nil 'switch))
+  (gd--execute-prepare 'top-level 'jython nil 'switch))
 
 (defun gd-execute-top-level-jython-no-switch ()
   "Send top-level at point to Jython interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'jython nil 'no-switch))
+  (gd--execute-prepare 'top-level 'jython nil 'no-switch))
 
 (defun gd-execute-top-level-jython-dedicated ()
   "Send top-level at point to Jython unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'jython t nil))
+  (gd--execute-prepare 'top-level 'jython t nil))
 
 (defun gd-execute-top-level-jython-dedicated-switch ()
   "Send top-level at point to Jython unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'jython t 'switch))
+  (gd--execute-prepare 'top-level 'jython t 'switch))
 
 (defun gd-execute-top-level-python ()
   "Send top-level at point to default interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'top-level 'python nil nil))
+  (gd--execute-prepare 'top-level 'python nil nil))
 
 (defun gd-execute-top-level-gdscript-switch ()
   "Send top-level at point to default interpreter. 
@@ -17528,7 +16768,7 @@ Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'.
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'top-level 'python nil 'switch))
+  (gd--execute-prepare 'top-level 'python nil 'switch))
 
 (defun gd-execute-top-level-gdscript-no-switch ()
   "Send top-level at point to default interpreter. 
@@ -17537,79 +16777,79 @@ Keep current buffer. Ignores `gd-switch-buffers-on-execute-p'
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'top-level 'python nil 'no-switch))
+  (gd--execute-prepare 'top-level 'python nil 'no-switch))
 
 (defun gd-execute-top-level-gdscript-dedicated ()
   "Send top-level at point to default unique interpreter. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'top-level 'python t nil))
+  (gd--execute-prepare 'top-level 'python t nil))
 
 (defun gd-execute-top-level-gdscript-dedicated-switch ()
   "Send top-level at point to default unique interpreter and switch to result. 
 
 For `default' see value of `gd-shell-name'"
   (interactive)
-  (py--execute-prepare 'top-level 'python t 'switch))
+  (gd--execute-prepare 'top-level 'python t 'switch))
 
 (defun gd-execute-top-level-python2 ()
   "Send top-level at point to Python2 interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'python2 nil nil))
+  (gd--execute-prepare 'top-level 'python2 nil nil))
 
 (defun gd-execute-top-level-python2-switch ()
   "Send top-level at point to Python2 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'python2 nil 'switch))
+  (gd--execute-prepare 'top-level 'python2 nil 'switch))
 
 (defun gd-execute-top-level-python2-no-switch ()
   "Send top-level at point to Python2 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'python2 nil 'no-switch))
+  (gd--execute-prepare 'top-level 'python2 nil 'no-switch))
 
 (defun gd-execute-top-level-python2-dedicated ()
   "Send top-level at point to Python2 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'python2 t nil))
+  (gd--execute-prepare 'top-level 'python2 t nil))
 
 (defun gd-execute-top-level-python2-dedicated-switch ()
   "Send top-level at point to Python2 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'python2 t 'switch))
+  (gd--execute-prepare 'top-level 'python2 t 'switch))
 
 (defun gd-execute-top-level-python3 ()
   "Send top-level at point to Python3 interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'python3 nil nil))
+  (gd--execute-prepare 'top-level 'python3 nil nil))
 
 (defun gd-execute-top-level-python3-switch ()
   "Send top-level at point to Python3 interpreter. 
 
 Switch to output buffer. Ignores `gd-switch-buffers-on-execute-p'. "
   (interactive)
-  (py--execute-prepare 'top-level 'python3 nil 'switch))
+  (gd--execute-prepare 'top-level 'python3 nil 'switch))
 
 (defun gd-execute-top-level-python3-no-switch ()
   "Send top-level at point to Python3 interpreter. 
 
 Keep current buffer. Ignores `gd-switch-buffers-on-execute-p' "
   (interactive)
-  (py--execute-prepare 'top-level 'python3 nil 'no-switch))
+  (gd--execute-prepare 'top-level 'python3 nil 'no-switch))
 
 (defun gd-execute-top-level-python3-dedicated ()
   "Send top-level at point to Python3 unique interpreter. "
   (interactive)
-  (py--execute-prepare 'top-level 'python3 t nil))
+  (gd--execute-prepare 'top-level 'python3 t nil))
 
 (defun gd-execute-top-level-python3-dedicated-switch ()
   "Send top-level at point to Python3 unique interpreter and switch to result. "
   (interactive)
-  (py--execute-prepare 'top-level 'python3 t 'switch))
+  (gd--execute-prepare 'top-level 'python3 t 'switch))
 
 ;; gdscript-abbrev-propose
 
@@ -17633,7 +16873,7 @@ or may be omitted (it is usually omitted).  "
       (goto-char (point-min))
       (search-forward (concat "(" (format "%s" mat))))))
 
-(defun py--add-abbrev-propose (table type arg &optional dont-ask)
+(defun gd--add-abbrev-propose (table type arg &optional dont-ask)
   (save-excursion
     (let ((orig (point))
           proposal exp name)
@@ -17668,7 +16908,7 @@ expansion.
 Don't use this function in a Lisp program; use `define-abbrev' instead."
   (interactive "p")
   (save-excursion
-    (py--add-abbrev-propose
+    (gd--add-abbrev-propose
      (if only-global-abbrevs
          global-abbrev-table
        (or local-abbrev-table
@@ -17895,7 +17135,7 @@ See lp:1066489 "
                 (setq this-beg (line-beginning-position))
                 (goto-char (match-end 0)))))))))
 
-(defun py--in-or-behind-or-before-a-docstring ()
+(defun gd--in-or-behind-or-before-a-docstring ()
   (interactive "*")
   (save-excursion
     (let* ((raw-pps (nth 8 (parse-partial-sexp (point-min) (point))))
@@ -17911,9 +17151,9 @@ See lp:1066489 "
 			(and
 			  (< 0 (skip-chars-forward "\"'"))
 			  (nth 8 (parse-partial-sexp (point-min) (point))))))))
-      (and n8pps (py--docstring-p n8pps)))))
+      (and n8pps (gd--docstring-p n8pps)))))
 
-(defun py--string-fence-delete-spaces (&optional start)
+(defun gd--string-fence-delete-spaces (&optional start)
   "Delete spaces following or preceding delimiters of string at point. "
   (interactive "*")
   (let ((beg (or start (nth 8 (parse-partial-sexp (point-min) (point))))))
@@ -17928,13 +17168,13 @@ See lp:1066489 "
       ;; (delete-region (point) (progn (skip-chars-backward " \t\r\n\f")(point)))
 )))
 
-(defun py--skip-raw-string-front-fence ()
+(defun gd--skip-raw-string-front-fence ()
   "Skip forward chars u, U, r, R followed by string-delimiters. "
   (when (member (char-after) (list ?u ?U ?r ?R))
     (forward-char 1))
   (skip-chars-forward "\'\""))
 
-(defun py--fill-fix-end (thisend orig docstring delimiters-style)
+(defun gd--fill-fix-end (thisend orig docstring delimiters-style)
   ;; Add the number of newlines indicated by the selected style
   ;; at the end.
   ;; (widen)
@@ -17948,7 +17188,7 @@ See lp:1066489 "
   (gd-indent-region docstring thisend)
   (goto-char orig))
 
-(defun py--fill-docstring-base (thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring)
+(defun gd--fill-docstring-base (thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring)
   ;; (widen)
   ;; fill-paragraph causes wrong indent, lp:1397936
   ;; (narrow-to-region thisbeg thisend)
@@ -17969,7 +17209,7 @@ See lp:1066489 "
       ;; Add the number of newlines indicated by the selected style
       ;; at the start.
       (goto-char thisbeg)
-      (py--skip-raw-string-front-fence)
+      (gd--skip-raw-string-front-fence)
       (skip-chars-forward "\'\"")
       (when
 	  (car delimiters-style)
@@ -17978,14 +17218,14 @@ See lp:1066489 "
       (indent-region beg end gd-current-indent))
     (when multi-line-p
       (goto-char thisbeg)
-      (py--skip-raw-string-front-fence) 
+      (gd--skip-raw-string-front-fence) 
       (skip-chars-forward " \t\r\n\f")
       (forward-line 1)
       (beginning-of-line)
       (unless (empty-line-p) (newline)))
-    (py--fill-fix-end thisend orig docstring delimiters-style)))
+    (gd--fill-fix-end thisend orig docstring delimiters-style)))
 
-(defun py--fill-docstring-last-line (thisbeg thisend beg end style orig first-line-p gd-current-indent)
+(defun gd--fill-docstring-last-line (thisbeg thisend beg end style orig first-line-p gd-current-indent)
   (widen)
   ;; (narrow-to-region thisbeg thisend)
   (goto-char thisend)
@@ -17997,10 +17237,10 @@ See lp:1066489 "
   (when multi-line-p
     ;; adjust the region to fill according to style
     (goto-char end)
-    (py--fill-docstring-base thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring))
+    (gd--fill-docstring-base thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring))
   (goto-char orig))
 
-(defun py--fill-docstring-first-line (beg end thisbeg thisend style)
+(defun gd--fill-docstring-first-line (beg end thisbeg thisend style)
   "Refill first line after newline maybe. "
   (fill-region beg (line-end-position))
   (forward-line 1)
@@ -18019,18 +17259,18 @@ See lp:1066489 "
 	;; if TQS is at a single line, re-fill remaining line
 	(fill-region (point) end)))))
 
-(defun py--fill-docstring (justify style docstring orig gd-current-indent)
+(defun gd--fill-docstring (justify style docstring orig gd-current-indent)
   ;; Delete spaces after/before string fence
-  (py--string-fence-delete-spaces docstring)
+  (gd--string-fence-delete-spaces docstring)
   (let* ((thisbeg (copy-marker docstring))
          (thisend (copy-marker
                    (progn
                      (goto-char thisbeg)
-		     (py--skip-raw-string-front-fence)
+		     (gd--skip-raw-string-front-fence)
 		     (skip-syntax-forward "^\|")
                      (point))))
-         (parabeg (progn (goto-char orig) (py--beginning-of-paragraph-position)))
-         (paraend (progn (goto-char orig) (py--end-of-paragraph-position)))
+         (parabeg (progn (goto-char orig) (gd--beginning-of-paragraph-position)))
+         (paraend (progn (goto-char orig) (gd--end-of-paragraph-position)))
          ;; if paragraph is a substring, take it
          (beg (copy-marker (if (< thisbeg parabeg) parabeg thisbeg)))
          (end (copy-marker (if (< thisend paraend) thisend paraend)))
@@ -18043,14 +17283,14 @@ See lp:1066489 "
     (cond ((string-match (concat "^" gd-labelled-re) (buffer-substring-no-properties beg end))
            (gd-fill-labelled-string beg end))
           (first-line-p
-           (py--fill-docstring-first-line beg end thisbeg thisend style))
+           (gd--fill-docstring-first-line beg end thisbeg thisend style))
           ((save-excursion (goto-char end)
 			   (or (member (char-after) (list ?\" ?\'))
 			       (member (char-before) (list ?\" ?\'))))
-           (py--fill-docstring-last-line thisbeg thisend beg end style orig first-line-p gd-current-indent))
+           (gd--fill-docstring-last-line thisbeg thisend beg end style orig first-line-p gd-current-indent))
           (t ;; (narrow-to-region beg end)
 	     (fill-region beg end justify)))
-    (py--fill-docstring-base thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring)))
+    (gd--fill-docstring-base thisbeg thisend style multi-line-p first-line-p beg end gd-current-indent orig docstring)))
 
 (defun gd-fill-string (&optional justify style docstring)
   "String fill function for `gd-fill-paragraph'.
@@ -18063,15 +17303,15 @@ Fill according to `gd-docstring-style' "
       (barf-if-buffer-read-only)
       (list (if current-prefix-arg 'full) t))
     gd-docstring-style
-    (or docstring (py--in-or-behind-or-before-a-docstring))))
-  (let ((gd-current-indent (save-excursion (or (py--beginning-of-statement-p) (gd-backward-statement)) (current-indentation)))
+    (or docstring (gd--in-or-behind-or-before-a-docstring))))
+  (let ((gd-current-indent (save-excursion (or (gd--beginning-of-statement-p) (gd-backward-statement)) (current-indentation)))
 	;; fill-paragraph sets orig
 	(orig (if (boundp 'orig) (copy-marker orig) (copy-marker (point))))
 	(docstring (if (and docstring (not (number-or-marker-p docstring)))
-		       (py--in-or-behind-or-before-a-docstring)
+		       (gd--in-or-behind-or-before-a-docstring)
 		     docstring)))
     (if docstring
-	(py--fill-docstring justify style docstring orig gd-current-indent)
+	(gd--fill-docstring justify style docstring orig gd-current-indent)
       (fill-paragraph justify))))
 
 (defun gd-fill-paragraph (&optional justify)
@@ -18083,7 +17323,7 @@ Fill according to `gd-docstring-style' "
 	      (and (bolp) (looking-at "[ \t]*#[# \t]*")))
 	  (gd-fill-comment)
 	(let* ((orig (copy-marker (point)))
-	       (docstring (unless (not gd-docstring-style)(py--in-or-behind-or-before-a-docstring))))
+	       (docstring (unless (not gd-docstring-style)(gd--in-or-behind-or-before-a-docstring))))
 	  (cond (docstring
 		 (setq fill-column gd-docstring-fill-column)
 		 (gd-fill-string justify gd-docstring-style docstring))
@@ -18107,7 +17347,7 @@ Fill according to `gd-docstring-style' "
 If no region is active, current line is dedented.
 Returns indentation reached. "
   (interactive "p")
-  (let ((erg (py--shift-intern (- count) start end)))
+  (let ((erg (gd--shift-intern (- count) start end)))
     (when (and (called-interactively-p 'any) gd-verbose-p) (message "%s" erg))
     erg))
 
@@ -18118,11 +17358,11 @@ Returns indentation reached. "
 If no region is active, current line is indented.
 Returns indentation reached. "
   (interactive "p")
-  (let ((erg (py--shift-intern count beg end)))
+  (let ((erg (gd--shift-intern count beg end)))
     (when (and (called-interactively-p 'any) gd-verbose-p) (message "%s" erg))
     erg))
 
-(defun py--shift-intern (count &optional start end)
+(defun gd--shift-intern (count &optional start end)
   (save-excursion
     (let* ((inhibit-point-motion-hooks t)
            deactivate-mark
@@ -18149,7 +17389,7 @@ Returns indentation reached. "
       (skip-chars-backward " \t\r\n\f"))
     (gd-indentation-of-statement)))
 
-(defun py--shift-forms-base (form arg &optional beg end)
+(defun gd--shift-forms-base (form arg &optional beg end)
   (let* ((begform (intern-soft (concat "gd-backward-" form)))
          (endform (intern-soft (concat "gd-forward-" form)))
          (orig (copy-marker (point)))
@@ -18165,7 +17405,7 @@ Returns indentation reached. "
                     ((region-active-p)
                      (region-end))
                     (t (funcall endform))))
-         (erg (py--shift-intern arg beg end)))
+         (erg (gd--shift-intern arg beg end)))
     (goto-char orig)
     erg))
 
@@ -18177,7 +17417,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "block" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "block" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18189,7 +17429,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "block" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "block" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18201,7 +17441,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "block-or-clause" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "block-or-clause" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18213,7 +17453,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "block-or-clause" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "block-or-clause" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18225,7 +17465,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "class" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "class" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18237,7 +17477,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "class" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "class" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18249,7 +17489,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "clause" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "clause" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18261,7 +17501,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "clause" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "clause" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18273,7 +17513,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "comment" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "comment" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18285,7 +17525,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "comment" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "comment" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18297,7 +17537,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "def" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "def" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18309,7 +17549,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "def" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "def" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18321,7 +17561,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "def-or-class" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "def-or-class" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18333,7 +17573,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "def-or-class" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "def-or-class" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18345,7 +17585,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "indent" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "indent" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18357,7 +17597,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "indent" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "indent" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18369,7 +17609,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "minor-block" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "minor-block" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18381,7 +17621,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "minor-block" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "minor-block" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18393,7 +17633,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "paragraph" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "paragraph" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18405,7 +17645,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "paragraph" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "paragraph" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18417,7 +17657,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "region" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "region" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18429,7 +17669,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "region" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "region" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18441,7 +17681,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "statement" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "statement" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18453,7 +17693,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "statement" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "statement" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18465,7 +17705,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "top-level" (or arg gd-indent-offset))))
+  (let ((erg (gd--shift-forms-base "top-level" (or arg gd-indent-offset))))
         (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18477,7 +17717,7 @@ use \[universal-argument] to specify a different value.
 
 Returns outmost indentation reached. "
   (interactive "*P")
-  (let ((erg (py--shift-forms-base "top-level" (- (or arg gd-indent-offset)))))
+  (let ((erg (gd--shift-forms-base "top-level" (- (or arg gd-indent-offset)))))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
@@ -18488,26 +17728,26 @@ Returns outmost indentation reached. "
 (defun gd-execute-file-python (&optional filename)
   "Send file to GDScript default interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python" nil nil nil nil t))
+  (gd--execute-prepare filename "python" nil nil nil nil t))
 
 (defun gd-execute-file-gdscript-switch (&optional filename)
   "Send file to GDScript default interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python" nil 'switch nil nil t))
 
 (defun gd-execute-file-gdscript-no-switch (&optional filename)
   "Send file to GDScript default interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-gdscript-dedicated (&optional filename)
   "Send file to GDScript default interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-gdscript-dedicated-switch (&optional filename)
   "Send file to GDScript default interpreter.
@@ -18515,31 +17755,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-ipython (&optional filename)
   "Send file to a Ipython interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "ipython" nil nil nil nil t))
+  (gd--execute-prepare filename "ipython" nil nil nil nil t))
 
 (defun gd-execute-file-ipython-switch (&optional filename)
   "Send file to a Ipython interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "ipython" nil 'switch nil nil t))
+  (gd--execute-prepare filename "ipython" nil 'switch nil nil t))
 
 (defun gd-execute-file-ipython-no-switch (&optional filename)
   "Send file to a Ipython interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "ipython" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "ipython" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-ipython-dedicated (&optional filename)
   "Send file to a Ipython interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "ipython" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "ipython" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-ipython-dedicated-switch (&optional filename)
   "Send file to a Ipython interpreter.
@@ -18547,31 +17787,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "ipython" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "ipython" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-python3 (&optional filename)
   "Send file to a Python3 interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3" nil nil nil nil t))
+  (gd--execute-prepare filename "python3" nil nil nil nil t))
 
 (defun gd-execute-file-python3-switch (&optional filename)
   "Send file to a Python3 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python3" nil 'switch nil nil t))
 
 (defun gd-execute-file-python3-no-switch (&optional filename)
   "Send file to a Python3 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python3" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-python3-dedicated (&optional filename)
   "Send file to a Python3 interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python3" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-python3-dedicated-switch (&optional filename)
   "Send file to a Python3 interpreter.
@@ -18579,31 +17819,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python3" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-python2 (&optional filename)
   "Send file to a Python2 interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2" nil nil nil nil t))
+  (gd--execute-prepare filename "python2" nil nil nil nil t))
 
 (defun gd-execute-file-python2-switch (&optional filename)
   "Send file to a Python2 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python2" nil 'switch nil nil t))
 
 (defun gd-execute-file-python2-no-switch (&optional filename)
   "Send file to a Python2 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python2" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-python2-dedicated (&optional filename)
   "Send file to a Python2 interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python2" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-python2-dedicated-switch (&optional filename)
   "Send file to a Python2 interpreter.
@@ -18611,31 +17851,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python2" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-python2.7 (&optional filename)
   "Send file to a Python2.7 interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2.7" nil nil nil nil t))
+  (gd--execute-prepare filename "python2.7" nil nil nil nil t))
 
 (defun gd-execute-file-python2.7-switch (&optional filename)
   "Send file to a Python2.7 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2.7" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python2.7" nil 'switch nil nil t))
 
 (defun gd-execute-file-python2.7-no-switch (&optional filename)
   "Send file to a Python2.7 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2.7" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python2.7" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-python2.7-dedicated (&optional filename)
   "Send file to a Python2.7 interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2.7" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python2.7" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-python2.7-dedicated-switch (&optional filename)
   "Send file to a Python2.7 interpreter.
@@ -18643,31 +17883,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python2.7" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python2.7" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-jython (&optional filename)
   "Send file to a Jython interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "jython" nil nil nil nil t))
+  (gd--execute-prepare filename "jython" nil nil nil nil t))
 
 (defun gd-execute-file-jython-switch (&optional filename)
   "Send file to a Jython interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "jython" nil 'switch nil nil t))
+  (gd--execute-prepare filename "jython" nil 'switch nil nil t))
 
 (defun gd-execute-file-jython-no-switch (&optional filename)
   "Send file to a Jython interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "jython" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "jython" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-jython-dedicated (&optional filename)
   "Send file to a Jython interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "jython" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "jython" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-jython-dedicated-switch (&optional filename)
   "Send file to a Jython interpreter.
@@ -18675,31 +17915,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "jython" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "jython" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-python3.2 (&optional filename)
   "Send file to a Python3.2 interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.2" nil nil nil nil t))
+  (gd--execute-prepare filename "python3.2" nil nil nil nil t))
 
 (defun gd-execute-file-python3.2-switch (&optional filename)
   "Send file to a Python3.2 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.2" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python3.2" nil 'switch nil nil t))
 
 (defun gd-execute-file-python3.2-no-switch (&optional filename)
   "Send file to a Python3.2 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.2" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python3.2" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-python3.2-dedicated (&optional filename)
   "Send file to a Python3.2 interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.2" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python3.2" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-python3.2-dedicated-switch (&optional filename)
   "Send file to a Python3.2 interpreter.
@@ -18707,31 +17947,31 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.2" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python3.2" 'dedicated 'switch nil nil t))
 
 (defun gd-execute-file-python3.3 (&optional filename)
   "Send file to a Python3.3 interpreter."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.3" nil nil nil nil t))
+  (gd--execute-prepare filename "python3.3" nil nil nil nil t))
 
 (defun gd-execute-file-python3.3-switch (&optional filename)
   "Send file to a Python3.3 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.3" nil 'switch nil nil t))
+  (gd--execute-prepare filename "python3.3" nil 'switch nil nil t))
 
 (defun gd-execute-file-python3.3-no-switch (&optional filename)
   "Send file to a Python3.3 interpreter.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.3" nil 'no-switch nil nil t))
+  (gd--execute-prepare filename "python3.3" nil 'no-switch nil nil t))
 
 (defun gd-execute-file-python3.3-dedicated (&optional filename)
   "Send file to a Python3.3 interpreter.
 
 Uses a dedicated shell."
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.3" 'dedicated nil nil nil t))
+  (gd--execute-prepare filename "python3.3" 'dedicated nil nil nil t))
 
 (defun gd-execute-file-python3.3-dedicated-switch (&optional filename)
   "Send file to a Python3.3 interpreter.
@@ -18739,7 +17979,7 @@ Uses a dedicated shell."
 Uses a dedicated shell.
 Ignores default of `gd-switch-buffers-on-execute-p', uses it with value \"non-nil\""
   (interactive "fFile: ")
-  (py--execute-prepare filename "python3.3" 'dedicated 'switch nil nil t))
+  (gd--execute-prepare filename "python3.3" 'dedicated 'switch nil nil t))
 
 ;; gdscript-components-section-forms
 
@@ -18991,128 +18231,128 @@ the default"
 
 Return code of `gd-block' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "block")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "block")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-block-or-clause ()
   "Block-Or-Clause at point.
 
 Return code of `gd-block-or-clause' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "block-or-clause")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "block-or-clause")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-buffer ()
   "Buffer at point.
 
 Return code of `gd-buffer' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "buffer")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "buffer")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-class ()
   "Class at point.
 
 Return code of `gd-class' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "class")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "class")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-clause ()
   "Clause at point.
 
 Return code of `gd-clause' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "clause")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "clause")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-def ()
   "Def at point.
 
 Return code of `gd-def' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "def")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "def")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-def-or-class ()
   "Def-Or-Class at point.
 
 Return code of `gd-def-or-class' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "def-or-class")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "def-or-class")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-expression ()
   "Expression at point.
 
 Return code of `gd-expression' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "expression")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "expression")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-indent ()
   "Indent at point.
 
 Return code of `gd-indent' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "indent")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "indent")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-line ()
   "Line at point.
 
 Return code of `gd-line' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "line")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "line")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-minor-block ()
   "Minor-Block at point.
 
 Return code of `gd-minor-block' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "minor-block")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "minor-block")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-paragraph ()
   "Paragraph at point.
 
 Return code of `gd-paragraph' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "paragraph")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "paragraph")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-partial-expression ()
   "Partial-Expression at point.
 
 Return code of `gd-partial-expression' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "partial-expression")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "partial-expression")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-region ()
   "Region at point.
 
 Return code of `gd-region' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "region")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "region")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-statement ()
   "Statement at point.
 
 Return code of `gd-statement' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "statement")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "statement")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 (defun gd-top-level ()
   "Top-Level at point.
 
 Return code of `gd-top-level' at point, a string. "
   (interactive)
-  (let ((erg (py--mark-base "top-level")))
-    (py--forms-report-result erg (called-interactively-p 'any))))
+  (let ((erg (gd--mark-base "top-level")))
+    (gd--forms-report-result erg (called-interactively-p 'any))))
 
 ;; gdscript-components-forms-code.el ends here
 ;; gdscript-components-fast-forms
@@ -19135,7 +18375,7 @@ It is not in interactive, i.e. comint-mode, as its bookkeepings seem linked to t
         (erase-buffer))
       proc)))
 
-(defun py--fast-send-string-no-output (string proc output-buffer)
+(defun gd--fast-send-string-no-output (string proc output-buffer)
   (with-current-buffer output-buffer
     ;; in comint-mode, prompt might be read-only
     ;; delete-region would fail
@@ -19149,19 +18389,19 @@ It is not in interactive, i.e. comint-mode, as its bookkeepings seem linked to t
       (process-send-string proc "\n")
       (accept-process-output proc 5)
       (sit-for 1 t)
-      ;; (when gd-verbose-p (message "py--fast-send-string-intern comint-prompt-read-only: %s" comint-prompt-read-only))
+      ;; (when gd-verbose-p (message "gd--fast-send-string-intern comint-prompt-read-only: %s" comint-prompt-read-only))
       (delete-region orig (point-max))
       ;; (setq comint-prompt-read-only comint-prompt-read-only-old)
       ;;)
       )))
 
-(defun py--filter-result (string)
+(defun gd--filter-result (string)
   "Set `gd-result' according to `gd-fast-filter-re'.
 
 Remove trailing newline"
     (replace-regexp-in-string (format "[ \n]*%s[ \n]*" gd-fast-filter-re) "" (ansi-color-filter-apply string)))
 
-(defun py--fast-send-string-intern (string proc output-buffer store return)
+(defun gd--fast-send-string-intern (string proc output-buffer store return)
   (with-current-buffer output-buffer
     (process-send-string proc "\n")
     (let ((orig (point)))
@@ -19171,11 +18411,11 @@ Remove trailing newline"
       (sit-for gd-fast-completion-delay t)
       ;; sets gd-result
       (unless gd-ignore-result-p
-	(setq gd-result (py--filter-result (py--fetch-result orig))))
+	(setq gd-result (gd--filter-result (gd--fetch-result orig))))
       (when return
 	gd-result))))
 
-(defun py--fast-send-string (string)
+(defun gd--fast-send-string (string)
   "Process GDScript strings, being prepared for large output.
 
 Output buffer displays \"Fast\"  by default
@@ -19207,7 +18447,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'block)))
+    (gd--execute-prepare 'block)))
 
 (defun gd-execute-block-or-clause-fast ()
   "Process block-or-clause at point by a GDScript interpreter.
@@ -19216,7 +18456,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'block-or-clause)))
+    (gd--execute-prepare 'block-or-clause)))
 
 (defun gd-execute-class-fast ()
   "Process class at point by a GDScript interpreter.
@@ -19225,7 +18465,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'class)))
+    (gd--execute-prepare 'class)))
 
 (defun gd-execute-clause-fast ()
   "Process clause at point by a GDScript interpreter.
@@ -19234,7 +18474,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'clause)))
+    (gd--execute-prepare 'clause)))
 
 (defun gd-execute-def-fast ()
   "Process def at point by a GDScript interpreter.
@@ -19243,7 +18483,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'def)))
+    (gd--execute-prepare 'def)))
 
 (defun gd-execute-def-or-class-fast ()
   "Process def-or-class at point by a GDScript interpreter.
@@ -19252,7 +18492,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'def-or-class)))
+    (gd--execute-prepare 'def-or-class)))
 
 (defun gd-execute-expression-fast ()
   "Process expression at point by a GDScript interpreter.
@@ -19261,7 +18501,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'expression)))
+    (gd--execute-prepare 'expression)))
 
 (defun gd-execute-partial-expression-fast ()
   "Process partial-expression at point by a GDScript interpreter.
@@ -19270,7 +18510,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'partial-expression)))
+    (gd--execute-prepare 'partial-expression)))
 
 (defun gd-execute-section-fast ()
   "Process section at point by a GDScript interpreter.
@@ -19279,7 +18519,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'section)))
+    (gd--execute-prepare 'section)))
 
 (defun gd-execute-statement-fast ()
   "Process statement at point by a GDScript interpreter.
@@ -19288,7 +18528,7 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'statement)))
+    (gd--execute-prepare 'statement)))
 
 (defun gd-execute-top-level-fast ()
   "Process top-level at point by a GDScript interpreter.
@@ -19297,44 +18537,44 @@ Suitable for large output, doesn't mess up interactive shell.
 Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (let ((gd-fast-process-p t))
-    (py--execute-prepare 'top-level)))
+    (gd--execute-prepare 'top-level)))
 
 ;; gdscript-components-narrow
 
 (defun gd-narrow-to-block ()
   "Narrow to block at point."
   (interactive)
-  (py--narrow-prepare "block"))
+  (gd--narrow-prepare "block"))
 
 (defun gd-narrow-to-block-or-clause ()
   "Narrow to block-or-clause at point."
   (interactive)
-  (py--narrow-prepare "block-or-clause"))
+  (gd--narrow-prepare "block-or-clause"))
 
 (defun gd-narrow-to-class ()
   "Narrow to class at point."
   (interactive)
-  (py--narrow-prepare "class"))
+  (gd--narrow-prepare "class"))
 
 (defun gd-narrow-to-clause ()
   "Narrow to clause at point."
   (interactive)
-  (py--narrow-prepare "clause"))
+  (gd--narrow-prepare "clause"))
 
 (defun gd-narrow-to-def ()
   "Narrow to def at point."
   (interactive)
-  (py--narrow-prepare "def"))
+  (gd--narrow-prepare "def"))
 
 (defun gd-narrow-to-def-or-class ()
   "Narrow to def-or-class at point."
   (interactive)
-  (py--narrow-prepare "def-or-class"))
+  (gd--narrow-prepare "def-or-class"))
 
 (defun gd-narrow-to-statement ()
   "Narrow to statement at point."
   (interactive)
-  (py--narrow-prepare "statement"))
+  (gd--narrow-prepare "statement"))
 
 ;; gdscript-components-auto-fill
 
@@ -19375,7 +18615,7 @@ Output buffer not in comint-mode, displays \"Fast\"  by default"
   (hs-minor-mode 1)
   (save-excursion
     (let* ((form (prin1-to-string form))
-           (beg (or beg (or (funcall (intern-soft (concat "py--beginning-of-" form "-p")))
+           (beg (or beg (or (funcall (intern-soft (concat "gd--beginning-of-" form "-p")))
                             (funcall (intern-soft (concat "gd-backward-" form))))))
            (end (or end (funcall (intern-soft (concat "gd-forward-" form)))))
            (modified (buffer-modified-p))
@@ -19390,7 +18630,7 @@ Output buffer not in comint-mode, displays \"Fast\"  by default"
   "Remove invisibility of existing form at point. "
   (save-excursion
     (let* ((form (prin1-to-string form))
-           (beg (or beg (or (funcall (intern-soft (concat "py--beginning-of-" form "-p")))
+           (beg (or beg (or (funcall (intern-soft (concat "gd--beginning-of-" form "-p")))
                             (funcall (intern-soft (concat "gd-backward-" form))))))
            (end (or end (funcall (intern-soft (concat "gd-forward-" form)))))
            (modified (buffer-modified-p))
@@ -19406,7 +18646,7 @@ Output buffer not in comint-mode, displays \"Fast\"  by default"
   (interactive)
   (save-excursion
     (let* ((form (prin1-to-string form))
-           (beg (or beg (or (funcall (intern-soft (concat "py--beginning-of-" form "-p")))
+           (beg (or beg (or (funcall (intern-soft (concat "gd--beginning-of-" form "-p")))
                             (funcall (intern-soft (concat "gd-backward-" form))))))
            (end (or end (funcall (intern-soft (concat "gd-forward-" form)))))
            (modified (buffer-modified-p))
@@ -19655,35 +18895,35 @@ Output buffer not in comint-mode, displays \"Fast\"  by default"
 ;; gdscript-components-hide-show.el ends here
 ;; gdscript-components-fast-complete
 
-(defun py--fast-completion-get-completions (input process completion-code)
+(defun gd--fast-completion-get-completions (input process completion-code)
   "Retrieve available completions for INPUT using PROCESS.
 Argument COMPLETION-CODE is the python code used to get
 completions on the current context."
   (let ((completions
-	 (py--fast-send-string-intern
+	 (gd--fast-send-string-intern
 	  (format completion-code input) process gd-buffer-name nil t)))
     (when (> (length completions) 2)
       (split-string completions "^'\\|^\"\\|;\\|'$\\|\"$" t))))
 
-(defun py--fast--do-completion-at-point (process imports input orig gd-exception-buffer code output-buffer)
+(defun gd--fast--do-completion-at-point (process imports input orig gd-exception-buffer code output-buffer)
   "Do completion at point for PROCESS."
   ;; send setup-code
   (let (gd-return-result-p)
     (when imports
       ;; (message "%s" imports)
-      (py--fast-send-string-no-output imports process output-buffer)))
+      (gd--fast-send-string-no-output imports process output-buffer)))
   (let* ((completion
-	  (py--fast-completion-get-completions input process code))
+	  (gd--fast-completion-get-completions input process code))
 	 ;; (completion (when completions
 	 ;; (try-completion input completions)))
 	 newlist erg)
     ;; (message "%s" (current-buffer))
     ;; (sit-for 1 t)
     (cond ((eq completion t)
-	   (and gd-verbose-p (message "py--fast--do-completion-at-point %s" "`t' is returned, not completion. Might be a bug."))
+	   (and gd-verbose-p (message "gd--fast--do-completion-at-point %s" "`t' is returned, not completion. Might be a bug."))
 	   nil)
 	  ((null completion)
-	   (and gd-verbose-p (message "py--fast--do-completion-at-point %s" "Don't see a completion"))
+	   (and gd-verbose-p (message "gd--fast--do-completion-at-point %s" "Don't see a completion"))
 	   nil)
 	  ((and completion
 		(or (and (listp completion)
@@ -19697,11 +18937,11 @@ completions on the current context."
 		  ;; (move-marker orig (point))
 		  ;; minibuffer.el expects a list
 		  nil))
-	  (t (py--try-completion input completion)))
+	  (t (gd--try-completion input completion)))
 
     nil))
 
-(defun py--fast-complete-base (shell pos beg end word imports debug gd-exception-buffer)
+(defun gd--fast-complete-base (shell pos beg end word imports debug gd-exception-buffer)
   (let* ((shell (or shell (gd-choose-shell)))
 	 (gd-buffer-name (gd-shell nil nil shell nil t))
 	 (proc (get-buffer-process gd-buffer-name))
@@ -19710,7 +18950,7 @@ completions on the current context."
 		 gd-shell-module-completion-code)))
     (with-current-buffer gd-buffer-name
       (erase-buffer))
-    (py--fast--do-completion-at-point proc imports word pos gd-exception-buffer code gd-buffer-name)))
+    (gd--fast--do-completion-at-point proc imports word pos gd-exception-buffer code gd-buffer-name)))
 
 (defun gd-fast-complete (&optional shell debug beg end word)
   "Complete word before point, if any.
@@ -19723,7 +18963,7 @@ Use `gd-fast-process' "
 	(gd-fast-process-p t)
 	(gd-fast-complete-p t)
 	(gd-return-result-p t))
-    (py--complete-prepare shell debug beg end word t)))
+    (gd--complete-prepare shell debug beg end word t)))
 
 ;; gdscript-components-intern
 
@@ -19797,7 +19037,7 @@ Use `gd-fast-process' "
 (when gd-org-cycle-p
   (define-key gdscript-mode-map (kbd "<backtab>") 'org-cycle))
 
-(defun py--buffer-filename-remote-maybe (&optional buffer)
+(defun gd--buffer-filename-remote-maybe (&optional buffer)
   ((lambda (file-name)
      (if (and (featurep 'tramp) (tramp-tramp-file-p file-name))
 	 (tramp-file-name-localname
@@ -19821,14 +19061,14 @@ Returns position reached if successful"
   (unless (bobp)
     (goto-char (point-min))))
 
-(defun py--execute-prepare (form &optional shell dedicated switch beg end file)
+(defun gd--execute-prepare (form &optional shell dedicated switch beg end file)
   "Used by gdscript-extended-executes ."
   (save-excursion
     (let* ((form (prin1-to-string form))
 	   (origline (gd-count-lines))
 	   (beg (unless file
                   (prog1
-                      (or beg (funcall (intern-soft (concat "py--beginning-of-" form "-p")))
+                      (or beg (funcall (intern-soft (concat "gd--beginning-of-" form "-p")))
 
                           (funcall (intern-soft (concat "gd-backward-" form)))
                           (push-mark)))))
@@ -19846,16 +19086,16 @@ Returns position reached if successful"
           (progn
             (setq filename (expand-file-name form))
             (if (file-readable-p filename)
-                (py--execute-file-base nil filename nil nil (or (and (boundp 'gd-orig-buffer-or-file) gd-orig-buffer-or-file) filename origline))
+                (gd--execute-file-base nil filename nil nil (or (and (boundp 'gd-orig-buffer-or-file) gd-orig-buffer-or-file) filename origline))
               (message "%s not readable. %s" file "Do you have write permissions?")))
-        (py--execute-base beg end shell)))))
+        (gd--execute-base beg end shell)))))
 
 (defun gd-load-skeletons ()
   "Load skeletons from extensions. "
   (interactive)
   (load (concat gd-install-directory "/extensions/gdscript-components-skeletons.el")))
 
-(defun py--kill-emacs-hook ()
+(defun gd--kill-emacs-hook ()
   "Delete files in `gd-file-queue'.
 These are GDScript temporary files awaiting execution."
   (mapc #'(lambda (filename)
@@ -19881,7 +19121,7 @@ If no EXECUTABLE given, `gd-shell-name' is used.
 Interactively output of `--version' is displayed. "
   (interactive)
   (let* ((executable (or executable gd-shell-name))
-         (erg (py--string-strip (shell-command-to-string (concat executable " --version")))))
+         (erg (gd--string-strip (shell-command-to-string (concat executable " --version")))))
     (when (called-interactively-p 'any) (message "%s" erg))
     (unless verbose (setq erg (cadr (split-string erg))))
     erg))
@@ -19909,7 +19149,7 @@ Treating it as a module keeps the global namespace clean, provides
 function location information for debugging, and supports users of
 module-qualified names."
   (interactive "f")
-  (py--execute-file-base (get-buffer-process (get-buffer (gd-shell))) file-name))
+  (gd--execute-file-base (get-buffer-process (get-buffer (gd-shell))) file-name))
 
 (defun gd-proc (&optional argprompt)
   "Return the current GDScript process.
@@ -19924,7 +19164,7 @@ Start a new process if necessary. "
     erg))
 
 ;;  Miscellany.
-(defun py--shell-simple-send (proc string)
+(defun gd--shell-simple-send (proc string)
   (let* ((strg (substring-no-properties string))
          (nln (string-match "\n$" strg)))
     ;; (or nln (setq strg (concat strg "\n")))
@@ -19941,10 +19181,10 @@ Start a new process if necessary. "
 
 ;;  Hooks
 ;;  arrange to kill temp files when Emacs exists
-(add-hook 'kill-emacs-hook 'py--kill-emacs-hook)
+(add-hook 'kill-emacs-hook 'gd--kill-emacs-hook)
 
-(when py--warn-tmp-files-left-p
-  (add-hook 'gdscript-mode-hook 'py--warn-tmp-files-left))
+(when gd--warn-tmp-files-left-p
+  (add-hook 'gdscript-mode-hook 'gd--warn-tmp-files-left))
 
 
 (defun gd-guess-pdb-path ()
@@ -19995,7 +19235,7 @@ Should you need more shells to select, extend this command by adding inside the 
                     ((eq 3 (prefix-numeric-value arg))
                      "python3")
                     ((eq 4 (prefix-numeric-value arg))
-                     (py--string-strip
+                     (gd--string-strip
                       (read-from-minibuffer "GDScript Shell: " gd-shell-name) "\" " "\" "
                       ))
                     ((eq 5 (prefix-numeric-value arg))
@@ -20013,17 +19253,17 @@ Should you need more shells to select, extend this command by adding inside the 
                  mode-name "IPython"))
           ((string-match "python3" name)
            (setq gd-shell-name name
-                 gd-which-bufname (py--choose-buffer-name)
+                 gd-which-bufname (gd--choose-buffer-name)
                  msg "CPython"
-                 mode-name (py--choose-buffer-name)))
+                 mode-name (gd--choose-buffer-name)))
           ((string-match "jython" name)
            (setq gd-shell-name name
-                 gd-which-bufname (py--choose-buffer-name)
+                 gd-which-bufname (gd--choose-buffer-name)
                  msg "Jython"
-                 mode-name (py--choose-buffer-name)))
+                 mode-name (gd--choose-buffer-name)))
           ((string-match "python" name)
            (setq gd-shell-name name
-                 gd-which-bufname (py--choose-buffer-name)
+                 gd-which-bufname (gd--choose-buffer-name)
                  msg "CPython"
                  mode-name gd-which-bufname))
           (t
@@ -20092,7 +19332,7 @@ as it leaves your system default unchanged."
 
 ;; ;
 
-(defun py--input-filter (str)
+(defun gd--input-filter (str)
   "`comint-input-filter' function for GDScript.
 
 Don't save anything for STR matching `gd-input-filter-re' "
@@ -20140,7 +19380,7 @@ Don't save anything for STR matching `gd-input-filter-re' "
 
 ;;  lp:1355458, what about using `magic-mode-alist'?
 
-(defun py--uncomment-intern (beg end)
+(defun gd--uncomment-intern (beg end)
   (uncomment-region beg end)
   (when gd-uncomment-indents-p
     (gd-indent-region beg end)))
@@ -20159,10 +19399,10 @@ If region is active, restrict uncommenting at region "
                             (while (and (gd-beginning-of-comment) (setq last (point))(prog1 (forward-line -1)(end-of-line))))
                             last))))
         (and (gd-forward-comment))
-        (py--uncomment-intern beg (point))))))
+        (gd--uncomment-intern beg (point))))))
 
-(defun py--set-auto-fill-values ()
-  "Internal use by `py--run-auto-fill-timer'"
+(defun gd--set-auto-fill-values ()
+  "Internal use by `gd--run-auto-fill-timer'"
   (let ((pps (parse-partial-sexp (point-min) (point))))
     (cond ((and (nth 4 pps)(numberp gd-comment-fill-column))
            (setq fill-column gd-comment-fill-column))
@@ -20170,20 +19410,20 @@ If region is active, restrict uncommenting at region "
            (set (make-local-variable 'fill-column) gd-docstring-fill-column))
           (t (setq fill-column gd-fill-column-orig)))))
 
-(defun py--run-auto-fill-timer ()
+(defun gd--run-auto-fill-timer ()
   "Set fill-column to values of `gd-docstring-fill-column' resp. to `gd-comment-fill-column' according to environment. "
   (when gd-auto-fill-mode
     (unless gd-autofill-timer
       (setq gd-autofill-timer
             (run-with-idle-timer
              gd-autofill-timer-delay t
-             'py--set-auto-fill-values)))))
+             'gd--set-auto-fill-values)))))
 
 ;;  unconditional Hooks
 ;;  (orgstruct-mode 1)
 (add-hook 'gdscript-mode-hook
 	  (lambda ()
-	    (setq imenu-create-index-function py--imenu-create-index-function)
+	    (setq imenu-create-index-function gd--imenu-create-index-function)
 	    (setq indent-tabs-mode gd-indent-tabs-mode)))
 
 (remove-hook 'gdscript-mode-hook 'gdscript-setup-brm)
@@ -20206,7 +19446,7 @@ If region is active, restrict uncommenting at region "
 		  (setq gd-complete-last-modified (buffer-chars-modified-tick)))
 	      (setq gd-auto-completion-mode-p nil
 		    gd-auto-completion-buffer nil)
-	      (cancel-timer py--auto-complete-timer)))))))
+	      (cancel-timer gd--auto-complete-timer)))))))
 
 (defun gd-set-command-args (arguments)
   "Set GDScript arguments on the fly, override defaults in this session.
@@ -20221,7 +19461,7 @@ Use `defcustom' to keep value across sessions "
   "Return `t' if emacs major version is above 23"
   (< 23 (string-to-number (car (split-string emacs-version "\\.")))))
 
-(defun py--empty-arglist-indent (nesting gd-indent-offset indent-offset)
+(defun gd--empty-arglist-indent (nesting gd-indent-offset indent-offset)
   "Internally used by `gd-compute-indentation'"
   (if
       (and (eq 1 nesting)
@@ -20257,13 +19497,13 @@ Use `defcustom' to keep value across sessions "
       (set-buffer-modified-p 'nil)
       (kill-buffer (current-buffer)))))
 
-(defun py--line-backward-maybe ()
+(defun gd--line-backward-maybe ()
   "Return result of (< 0 (abs (skip-chars-backward \" \\t\\r\\n\\f\"))) "
   (let ((orig (point)))
     (skip-chars-backward " \t\f" (line-beginning-position))
     (< 0 (abs (skip-chars-backward " \t\r\n\f")))))
 
-(defun py--after-empty-line ()
+(defun gd--after-empty-line ()
   "Return `t' if line before contains only whitespace characters. "
   (save-excursion
     (beginning-of-line)
@@ -20271,11 +19511,11 @@ Use `defcustom' to keep value across sessions "
     (beginning-of-line)
     (looking-at "\\s-*$")))
 
-(defun py--compute-indentation-in-string (pps)
+(defun gd--compute-indentation-in-string (pps)
   (save-restriction
     ;; (narrow-to-region (nth 8 pps) (point))
     (cond
-     ((py--docstring-p)
+     ((gd--docstring-p)
       (save-excursion
 	(back-to-indentation)
 	(skip-chars-backward " \t\r\n\f")
@@ -20289,7 +19529,7 @@ Use `defcustom' to keep value across sessions "
       (if (ignore-errors (< (nth 8 (parse-partial-sexp (point-min) (point))) (line-beginning-position)))
 	  (current-indentation)
 	(ignore-errors (goto-char (nth 8 pps)))
-	(when (py--line-backward-maybe) (setq line t))
+	(when (gd--line-backward-maybe) (setq line t))
 	(back-to-indentation)
 	(gd-compute-indentation orig origline closing line nesting repeat indent-offset liep)))
      (t (goto-char (nth 8 pps))
@@ -20363,8 +19603,8 @@ LIEP stores line-end-position at point-of-interest
 				(current-indentation))))
 			;; in string
 			((and (nth 3 pps)(nth 8 pps))
-			 (if (py--docstring-p)
-			     (py--compute-indentation-in-string pps)
+			 (if (gd--docstring-p)
+			     (gd--compute-indentation-in-string pps)
 			   0))
 			((and (looking-at "\"\"\"\\|'''")(not (bobp)))
 			 (gd-backward-statement)
@@ -20374,7 +19614,7 @@ LIEP stores line-end-position at point-of-interest
 			 (if (eq liep (line-end-position))
 			     (progn
 			       (goto-char (nth 8 pps))
-			       (when (py--line-backward-maybe) (setq line t))
+			       (when (gd--line-backward-maybe) (setq line t))
 			       (skip-chars-backward " \t")
 			       (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			   (goto-char (nth 8 pps))
@@ -20425,21 +19665,21 @@ LIEP stores line-end-position at point-of-interest
 				    ((and (looking-at "\\s([ \t]*$") gd-closing-list-keeps-space)
 				     (+ (current-column) gd-closing-list-space))
 				    ((looking-at "\\s([ \t]*$")
-				     (py--empty-arglist-indent nesting gd-indent-offset indent-offset))
+				     (gd--empty-arglist-indent nesting gd-indent-offset indent-offset))
 				    ((looking-at "\\s([ \t]*\\([^ \t]+.*\\)$")
 				     (goto-char (match-beginning 1))
 				     (if gd-indent-paren-spanned-multilines-p
 					 (+ (current-column) gd-indent-offset)
 				       (current-column)))
-				    (t (py--fetch-previous-indent orig))))
+				    (t (gd--fetch-previous-indent orig))))
 				  ;; already behind a dedented element in list
 				  ((<= 2 (- origline this-line))
-				   (py--fetch-previous-indent orig))
+				   (gd--fetch-previous-indent orig))
 				  ((< (current-indentation) (current-column))
 				   (+ (current-indentation) gd-indent-offset))
-				  (t (py--fetch-previous-indent orig)))
+				  (t (gd--fetch-previous-indent orig)))
 			       (cond ((looking-at "\\s([ \t]*$")
-				      (py--empty-arglist-indent nesting gd-indent-offset indent-offset))
+				      (gd--empty-arglist-indent nesting gd-indent-offset indent-offset))
 				     ((looking-at "\\s([ \t]*\\([^ \t]+.*\\)$")
 				      (goto-char (match-beginning 1))
 				      (if gd-indent-paren-spanned-multilines-p
@@ -20452,7 +19692,7 @@ LIEP stores line-end-position at point-of-interest
 				   ;; should be faster
 				   (< (line-end-position) liep))
 			     (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
-			    ((not (py--beginning-of-statement-p))
+			    ((not (gd--beginning-of-statement-p))
 			     (gd-backward-statement)
 			     (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			    (t (1+ (current-column))))))
@@ -20463,7 +19703,7 @@ LIEP stores line-end-position at point-of-interest
 			   (gd-backward-statement)
 			   (setq this-line (gd-count-lines))
 			   (if (< 1 (- origline this-line))
-			       (py--fetch-previous-indent orig)
+			       (gd--fetch-previous-indent orig)
 			     (if (looking-at "from +\\([^ \t\n]+\\) +import")
 				 gd-backslashed-lines-indent-offset
 			       (+ (current-indentation) gd-continuation-offset)))))
@@ -20488,28 +19728,28 @@ LIEP stores line-end-position at point-of-interest
 			     (eq liep (line-end-position))
 			     (progn
 			       (back-to-indentation)
-			       (when (py--line-backward-maybe) (setq line t))
+			       (when (gd--line-backward-maybe) (setq line t))
 			       (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			   (current-indentation)))
 			((and (looking-at gd-elif-re) (eq (gd-count-lines) origline))
-			 (when (py--line-backward-maybe) (setq line t))
-			 (car (py--clause-lookup-keyword gd-elif-re -1 nil orig origline)))
+			 (when (gd--line-backward-maybe) (setq line t))
+			 (car (gd--clause-lookup-keyword gd-elif-re -1 nil orig origline)))
 			((and (looking-at gd-clause-re)(not line)
 			      (eq liep (line-end-position)))
 			 (cond ((looking-at gd-finally-re)
-				(car (py--clause-lookup-keyword gd-finally-re -1 nil orig origline)))
+				(car (gd--clause-lookup-keyword gd-finally-re -1 nil orig origline)))
 			       ((looking-at gd-except-re)
-				(car (py--clause-lookup-keyword gd-except-re -1 nil orig origline)))
+				(car (gd--clause-lookup-keyword gd-except-re -1 nil orig origline)))
 			       ((looking-at gd-else-re)
-				(car (py--clause-lookup-keyword gd-else-re -1 nil orig origline)))
+				(car (gd--clause-lookup-keyword gd-else-re -1 nil orig origline)))
 			       ((looking-at gd-elif-re)
-				(car (py--clause-lookup-keyword gd-elif-re -1 nil orig origline)))
+				(car (gd--clause-lookup-keyword gd-elif-re -1 nil orig origline)))
 			       ;; maybe at if, try, with
-			       (t (car (py--clause-lookup-keyword gd-block-or-clause-re -1 nil orig origline)))))
+			       (t (car (gd--clause-lookup-keyword gd-block-or-clause-re -1 nil orig origline)))))
 			((looking-at gd-extended-block-or-clause-re)
 			 (cond ((and (not line)
 				     (eq liep (line-end-position)))
-				(when (py--line-backward-maybe) (setq line t))
+				(when (gd--line-backward-maybe) (setq line t))
 				(gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			       (t (+
 				   (cond (indent-offset)
@@ -20535,29 +19775,29 @@ LIEP stores line-end-position at point-of-interest
 			 (unless line
 			   (setq nesting (nth 0 (parse-partial-sexp (point-min) (point)))))
 			 (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
-			((and (not (py--beginning-of-statement-p)) (not (and line (eq ?\# (char-after)))))
+			((and (not (gd--beginning-of-statement-p)) (not (and line (eq ?\# (char-after)))))
 			 (if (bobp)
 			     (current-column)
 			   (if (eq (point) orig)
 			       (progn
-				 (when (py--line-backward-maybe) (setq line t))
+				 (when (gd--line-backward-maybe) (setq line t))
 				 (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			     (gd-backward-statement)
 			     (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))))
-			((or (py--statement-opens-block-p gd-extended-block-or-clause-re)(looking-at "@"))
+			((or (gd--statement-opens-block-p gd-extended-block-or-clause-re)(looking-at "@"))
 			 (if (< (gd-count-lines) origline)
 			     (+ (if gd-smart-indentation (gd-guess-indent-offset) indent-offset) (current-indentation))
 			   (skip-chars-backward " \t\r\n\f")
 			   (setq line t)
 			   (back-to-indentation)
 			   (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep)))
-			((and gd-empty-line-closes-p (py--after-empty-line))
+			((and gd-empty-line-closes-p (gd--after-empty-line))
 			 (progn (gd-backward-statement)
 				(- (current-indentation) gd-indent-offset)))
 			;; still at orignial line
 			((and (eq liep (line-end-position))
 			      (save-excursion
-				(and (setq erg (py--go-to-keyword gd-extended-block-or-clause-re))
+				(and (setq erg (gd--go-to-keyword gd-extended-block-or-clause-re))
 				     (if gd-smart-indentation (setq indent-offset (gd-guess-indent-offset)) t)
 				     (ignore-errors (< orig (or (gd-forward-block-or-clause)(point)))))))
 			 (+ (car erg) (if gd-smart-indentation
@@ -20565,14 +19805,14 @@ LIEP stores line-end-position at point-of-interest
 					indent-offset)))
 			((and (not line)
 			      (eq liep (line-end-position))
-			      (py--beginning-of-statement-p))
+			      (gd--beginning-of-statement-p))
 			 (gd-backward-statement)
 			 (gd-compute-indentation orig origline closing line nesting repeat indent-offset liep))
 			(t (current-indentation))))
 	    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" indent))
 	    indent))))))
 
-(defun py--fetch-previous-indent (orig)
+(defun gd--fetch-previous-indent (orig)
   "Report the preceding indent. "
   (save-excursion
     (goto-char orig)
@@ -20600,7 +19840,7 @@ LIEP stores line-end-position at point-of-interest
   (interactive)
   (let ((erg (save-excursion
                (back-to-indentation)
-               (or (py--beginning-of-statement-p)
+               (or (gd--beginning-of-statement-p)
                    (gd-backward-statement))
                (current-indentation))))
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
@@ -20634,7 +19874,7 @@ Optional ARG indicates a start-position for `parse-partial-sexp'."
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" end))
     end))
 
-(defun py--in-comment-p ()
+(defun gd--in-comment-p ()
   "Return the beginning of current line's comment, if inside. "
   (save-restriction
     (widen)
@@ -20709,20 +19949,20 @@ will work.
   "Returns position, if cursor is at the beginning of a top-level, nil otherwise. "
   (interactive)
   (let (erg)
-    (and (py--beginning-of-statement-p)
+    (and (gd--beginning-of-statement-p)
          (eq 0 (current-column))
          (setq erg (point))
       erg)))
 
-(defun py--beginning-of-line-p ()
+(defun gd--beginning-of-line-p ()
   "Returns position, if cursor is at the beginning of a line, nil otherwise. "
   (when (bolp)(point)))
 
-(defun py--beginning-of-buffer-p ()
+(defun gd--beginning-of-buffer-p ()
   "Returns position, if cursor is at the beginning of buffer, nil otherwise. "
   (when (bobp)(point)))
 
-(defun py--beginning-of-paragraph-p ()
+(defun gd--beginning-of-paragraph-p ()
   "Returns position, if cursor is at the beginning of a paragraph, nil otherwise. "
   (let ((orig (point))
         erg)
@@ -20736,11 +19976,11 @@ will work.
       erg)))
 
 ;;  End-of- p
-(defun py--end-of-line-p ()
+(defun gd--end-of-line-p ()
   "Returns position, if cursor is at the end of a line, nil otherwise. "
   (when (eolp)(point)))
 
-(defun py--end-of-paragraph-p ()
+(defun gd--end-of-paragraph-p ()
   "Returns position, if cursor is at the end of a paragraph, nil otherwise. "
   (let ((orig (point))
          erg)
@@ -20754,17 +19994,17 @@ will work.
        erg)))
 
 ;;  Opens
-(defun py--statement-opens-block-p (&optional regexp)
+(defun gd--statement-opens-block-p (&optional regexp)
   "Return position if the current statement opens a block
 in stricter or wider sense.
 
 For stricter sense specify regexp. "
   (let* ((regexp (or regexp gd-block-or-clause-re))
-         (erg (py--statement-opens-base regexp)))
+         (erg (gd--statement-opens-base regexp)))
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
-(defun py--statement-opens-base (regexp)
+(defun gd--statement-opens-base (regexp)
   (let ((orig (point))
         erg)
     (save-excursion
@@ -20777,27 +20017,27 @@ For stricter sense specify regexp. "
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
-(defun py--statement-opens-clause-p ()
+(defun gd--statement-opens-clause-p ()
   "Return position if the current statement opens block or clause. "
-  (py--statement-opens-base gd-clause-re))
+  (gd--statement-opens-base gd-clause-re))
 
-(defun py--statement-opens-block-or-clause-p ()
+(defun gd--statement-opens-block-or-clause-p ()
   "Return position if the current statement opens block or clause. "
-  (py--statement-opens-base gd-block-or-clause-re))
+  (gd--statement-opens-base gd-block-or-clause-re))
 
-(defun py--statement-opens-class-p ()
+(defun gd--statement-opens-class-p ()
   "Return `t' if the statement opens a functions or class definition, nil otherwise. "
-  (py--statement-opens-base gd-class-re))
+  (gd--statement-opens-base gd-class-re))
 
-(defun py--statement-opens-def-p ()
+(defun gd--statement-opens-def-p ()
   "Return `t' if the statement opens a functions or class definition, nil otherwise. "
-  (py--statement-opens-base gd-def-re))
+  (gd--statement-opens-base gd-def-re))
 
-(defun py--statement-opens-def-or-class-p ()
+(defun gd--statement-opens-def-or-class-p ()
   "Return `t' if the statement opens a functions or class definition, nil otherwise. "
-  (py--statement-opens-base gd-def-or-class-re))
+  (gd--statement-opens-base gd-def-or-class-re))
 
-(defun py--record-list-error (pps)
+(defun gd--record-list-error (pps)
   "When encountering a missing parenthesis, store its line, position. `gd-verbose-p'  must be t
 
 Unclosed-string errors are not handled here, as made visible by fontification already.
@@ -20811,13 +20051,13 @@ Unclosed-string errors are not handled here, as made visible by fontification al
               (gd-count-lines (point-min) (point)))))))
     this-err))
 
-(defun py--message-error (err)
+(defun gd--message-error (err)
   "Receives a list (position line) "
   (message "Closing paren missed: line %s pos %s" (cadr err) (car err)))
 
-(defun py--end-base-look-upward (thisregexp regexp)
+(defun gd--end-base-look-upward (thisregexp regexp)
   (progn (back-to-indentation)
-	 (let ((bofst (py--beginning-of-statement-p)))
+	 (let ((bofst (gd--beginning-of-statement-p)))
 	   (cond ((and bofst (eq regexp 'gd-clause-re)(looking-at gd-extended-block-or-clause-re))
 		  (point))
 		 ((and bofst (looking-at thisregexp))
@@ -20825,12 +20065,12 @@ Unclosed-string errors are not handled here, as made visible by fontification al
 		 (t
 		  (when
 		      (cdr-safe
-		       (py--go-to-keyword
+		       (gd--go-to-keyword
 			thisregexp))
-		    (when (py--statement-opens-block-p gd-extended-block-or-clause-re)
+		    (when (gd--statement-opens-block-p gd-extended-block-or-clause-re)
 		      (point))))))))
 
-(defun py--go-down-when-found-upward (regexp)
+(defun gd--go-down-when-found-upward (regexp)
   (let ((thisindent (current-indentation))
 	last)
     (while
@@ -20845,7 +20085,7 @@ Unclosed-string errors are not handled here, as made visible by fontification al
     (and last (goto-char last))))
 
 ;;  gd-look-downward-for-clause
-(defun py--end-base (regexp &optional orig decorator)
+(defun gd--end-base (regexp &optional orig decorator)
   "Used internal by functions going to the end forms. "
   (unless (eobp)
     (catch 'exit
@@ -20866,26 +20106,26 @@ Unclosed-string errors are not handled here, as made visible by fontification al
 		     gd-minor-block-re)
 		    (t gd-extended-block-or-clause-re)))
              bofst
-             (this (unless (eq regexp 'gd-paragraph-re)(py--end-base-look-upward thisregexp regexp)))
+             (this (unless (eq regexp 'gd-paragraph-re)(gd--end-base-look-upward thisregexp regexp)))
              ind erg last pps thisindent done err)
         (cond ((eq regexp 'gd-paragraph-re)
 	       (while (and (not (eobp)) (re-search-forward gd-paragraph-re nil 'move 1)(nth 8 (parse-partial-sexp (point-min) (point))))))
-	      (this (py--go-down-when-found-upward regexp))
+	      (this (gd--go-down-when-found-upward regexp))
               (t (goto-char orig)))
         (when (and (<= (point) orig)(not (looking-at thisregexp)))
           ;; found the end above
-          ;; py--travel-current-indent will stop of clause at equal indent
-          (when (py--look-downward-for-beginning thisregexp)
-	    (py--end-base regexp orig)))
+          ;; gd--travel-current-indent will stop of clause at equal indent
+          (when (gd--look-downward-for-beginning thisregexp)
+	    (gd--end-base regexp orig)))
         (setq pps (parse-partial-sexp (point-min) (point)))
         ;; (catch 'exit)
-        (and err gd-verbose-p (py--message-error err))
+        (and err gd-verbose-p (gd--message-error err))
         (if (and (< orig (point)) (not (or (looking-at comment-start) (nth 8 pps) (nth 1 pps))))
             (point)
           (goto-char (point-max))
           nil)))))
 
-(defun py--look-downward-for-beginning (regexp)
+(defun gd--look-downward-for-beginning (regexp)
   "When above any beginning of FORM, search downward. "
   (let* ((orig (point))
          (erg orig)
@@ -20906,7 +20146,7 @@ If succesful return position. "
     (let ((ind (or ind
                    (save-excursion
                      (gd-backward-statement)
-                     (if (py--statement-opens-block-p)
+                     (if (gd--statement-opens-block-p)
                          (current-indentation)
                        (- (current-indentation) gd-indent-offset)))))
           (orig (or orig (point)))
@@ -20982,10 +20222,10 @@ Put point inside the parentheses of a multiline import and hit
 	(delete-region open-paren close-paren)
 	(goto-char open-paren)
 	(insert "(\n")
-	(insert (py--join-words-wrapping (remove "" sorted-imports) "," "    " 78))
+	(insert (gd--join-words-wrapping (remove "" sorted-imports) "," "    " 78))
 	(insert ")")))))
 
-(defun py--in-literal (&optional lim)
+(defun gd--in-literal (&optional lim)
   "Return non-nil if point is in a GDScript literal (a comment or string).
 Optional argument LIM indicates the beginning of the containing form,
 i.e. the limit on how far back to scan."
@@ -21003,7 +20243,7 @@ http://launchpad.net/gdscript-mode
 is preferable for that. ")
 
 ;;  Utilities
-(defun py--point (position)
+(defun gd--point (position)
   "Returns the value of point at certain commonly referenced POSITIONs.
 POSITION can be one of the following symbols:
 
@@ -21111,7 +20351,7 @@ Eval resulting buffer to install it, see customizable `gd-extensions'. "
 ;;  (goto-char (match-end 0))
 ;;  (search-forward (match-string-no-properties 0))))
 
-(defun py--until-found (search-string liste)
+(defun gd--until-found (search-string liste)
   "Search liste for search-string until found. "
   (let ((liste liste) element)
     (while liste
@@ -21125,13 +20365,13 @@ Eval resulting buffer to install it, see customizable `gd-extensions'. "
           (setq element (cdr element))))
       element)))
 
-(defun py--delay-process-dependent (process)
+(defun gd--delay-process-dependent (process)
   "Call a `gd-ipython-send-delay' or `gd-gdscript-send-delay' according to process"
   (if (string-match "ipython" (prin1-to-string process))
       (sit-for gd-ipython-send-delay t)
     (sit-for gd-gdscript-send-delay t)))
 
-(defun py--send-string-no-output (string &optional process msg)
+(defun gd--send-string-no-output (string &optional process msg)
   "Send STRING to PROCESS and inhibit output display.
 When MSG is non-nil messages the first line of STRING.  Return
 the output."
@@ -21145,12 +20385,12 @@ the output."
                       "")))))
     (gd-send-string string process)
     (sit-for 0.1 t)
-    ;; (py--delay-process-dependent process)
+    ;; (gd--delay-process-dependent process)
     (when (and output (not (string= "" output)))
-	    (py--string-strip
+	    (gd--string-strip
 	     (format "[ \n]*%s[ \n]*" gd-fast-filter-re)))))
 
-(defun py--send-string-return-output (string &optional process msg)
+(defun gd--send-string-return-output (string &optional process msg)
   "Send STRING to PROCESS and return output.
 
 When MSG is non-nil messages the first line of STRING.  Return
@@ -21244,7 +20484,7 @@ Used by variable `which-func-functions' "
     (when (called-interactively-p 'any) (message "%s" erg))
     erg))
 
-(defun py--beginning-of-form-intern (regexp &optional iact indent orig lc)
+(defun gd--beginning-of-form-intern (regexp &optional iact indent orig lc)
   "Go to beginning of FORM.
 
 With INDENT, go to beginning one level above.
@@ -21257,7 +20497,7 @@ Returns beginning of FORM if successful, nil otherwise"
       (let* ((orig (or orig (point)))
              (indent (or indent (progn
                                   (back-to-indentation)
-                                  (or (py--beginning-of-statement-p)
+                                  (or (gd--beginning-of-statement-p)
                                       (gd-backward-statement))
                                   (current-indentation)))))
         (setq erg (cond ((and (< (point) orig) (looking-at (symbol-value regexp)))
@@ -21266,24 +20506,24 @@ Returns beginning of FORM if successful, nil otherwise"
                          (when (< 0 (abs (skip-chars-backward " \t\r\n\f")))
                            (gd-backward-statement)
                            (unless (looking-at (symbol-value regexp))
-                             (cdr (py--go-to-keyword (symbol-value regexp) (current-indentation))))))
+                             (cdr (gd--go-to-keyword (symbol-value regexp) (current-indentation))))))
                         ((numberp indent)
-			 (cdr (py--go-to-keyword (symbol-value regexp) indent)))
+			 (cdr (gd--go-to-keyword (symbol-value regexp) indent)))
                         (t (ignore-errors
-                             (cdr (py--go-to-keyword (symbol-value regexp)
-                                                    (- (progn (if (py--beginning-of-statement-p) (current-indentation) (save-excursion (gd-backward-statement) (current-indentation)))) gd-indent-offset)))))))
+                             (cdr (gd--go-to-keyword (symbol-value regexp)
+                                                    (- (progn (if (gd--beginning-of-statement-p) (current-indentation) (save-excursion (gd-backward-statement) (current-indentation)))) gd-indent-offset)))))))
         (when lc (beginning-of-line) (setq erg (point)))))
     (when (and gd-verbose-p iact) (message "%s" erg))
     erg))
 
-(defun py--backward-prepare (&optional indent final-re inter-re iact lc)
+(defun gd--backward-prepare (&optional indent final-re inter-re iact lc)
   (let ((orig (point))
         (indent
          (or indent
 	     (cond ((looking-back "^[ \t]*")
 		    (current-indentation))
 		   (t (progn (back-to-indentation)
-			     (or (py--beginning-of-statement-p)
+			     (or (gd--beginning-of-statement-p)
 				 (gd-backward-statement))
 			     (cond ((eq 0 (current-indentation))
 				    (current-indentation))
@@ -21300,9 +20540,9 @@ Returns beginning of FORM if successful, nil otherwise"
           (setq erg (point))
           (when (and gd-verbose-p iact) (message "%s" erg))
           erg)
-      (py--beginning-of-form-intern final-re iact indent orig lc))))
+      (gd--beginning-of-form-intern final-re iact indent orig lc))))
 
-(defun py--fetch-first-gdscript-buffer ()
+(defun gd--fetch-first-gdscript-buffer ()
   "Returns first (I)GDScript-buffer found in `buffer-list'"
   (let ((buli (buffer-list))
         erg)
@@ -21331,7 +20571,7 @@ These would interfere when inserting forms heading a block"
 	    (read-abbrev-file abbrev-file-name))
       (kill-buffer (file-name-nondirectory abbrev-file-name)))))
 
-(defmacro py--kill-buffer-unconditional (buffer)
+(defmacro gd--kill-buffer-unconditional (buffer)
   "Kill buffer unconditional, kill buffer-process if existing. "
   `(let ((proc (get-buffer-process ,buffer))
 	 kill-buffer-query-functions)
@@ -21341,7 +20581,7 @@ These would interfere when inserting forms heading a block"
        (set-buffer-modified-p 'nil)
        (kill-buffer (current-buffer)))))
 
-(defun py--skip-to-semicolon-backward (&optional limit)
+(defun gd--skip-to-semicolon-backward (&optional limit)
   "Fetch the beginning of statement after a semicolon.
 
 Returns position reached if point was moved. "
@@ -21349,14 +20589,14 @@ Returns position reached if point was moved. "
       (< 0 (abs (skip-chars-backward "^;" (or limit (line-beginning-position)))))
     (skip-chars-forward " \t" (line-end-position))))
 
-(defun py--end-of-comment-intern (pos)
+(defun gd--end-of-comment-intern (pos)
   (while (and (not (eobp))
               (forward-comment 99999)))
   ;; forward-comment fails sometimes
   (and (eq pos (point)) (prog1 (forward-line 1) (back-to-indentation))
        (while (member (char-after) (list ?# 10))(forward-line 1)(back-to-indentation))))
 
-(defun py--skip-to-comment-or-semicolon (done)
+(defun gd--skip-to-comment-or-semicolon (done)
   "Returns position if comment or semicolon found. "
   (let ((orig (point)))
     (cond ((and done (< 0 (abs (skip-chars-forward "^#;" (line-end-position))))
@@ -21373,7 +20613,7 @@ Returns position reached if point was moved. "
     (and (< orig (point))(setq done t)
 	 done)))
 
-(defun py--beginning-of-top-level-p ()
+(defun gd--beginning-of-top-level-p ()
   "Returns position, if cursor is at the beginning of a `top-level', nil otherwise. "
   (interactive)
   (let ((erg (and (bolp)(not (or (gd-in-string-or-comment-p)(empty-line-p))))))
@@ -21401,7 +20641,7 @@ Returns position if successful, nil otherwise"
   (let ((orig (point))
 	erg)
     (unless (eobp)
-      (unless (py--beginning-of-statement-p)
+      (unless (gd--beginning-of-statement-p)
 	(gd-backward-statement))
       (unless (eq 0 (current-column))
 	(gd-backward-top-level))
@@ -21461,7 +20701,7 @@ If at beginning of a statement or block, go to beginning one level above of comp
   (let ((pps (parse-partial-sexp (point-min) (point))))
     (cond ((nth 8 pps) (goto-char (nth 8 pps)))
           ((nth 1 pps) (goto-char (nth 1 pps)))
-          ((py--beginning-of-statement-p) (py--beginning-of-form-intern 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
+          ((gd--beginning-of-statement-p) (gd--beginning-of-form-intern 'gd-extended-block-or-clause-re (called-interactively-p 'any) t))
           (t (gd-backward-statement)))))
 
 (defun gd-down (&optional indent)
@@ -21475,7 +20715,7 @@ Returns position if successful, nil otherwise"
   (let* ((orig (point))
          erg
          (indent (if
-                     (py--beginning-of-statement-p)
+                     (gd--beginning-of-statement-p)
                      (current-indentation)
                    (progn
                      (gd-backward-statement)
@@ -21497,7 +20737,7 @@ Returns position if successful, nil otherwise"
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
-(defun py--beginning-of-line-form (erg)
+(defun gd--beginning-of-line-form (erg)
   "Internal use: Go to beginning of line following end of form. "
   (when erg
     (unless (eobp)
@@ -21505,14 +20745,14 @@ Returns position if successful, nil otherwise"
       (beginning-of-line)
       (setq erg (point)))))
 
-(defun py--mark-base (form &optional gd-mark-decorators)
+(defun gd--mark-base (form &optional gd-mark-decorators)
   "Returns boundaries of FORM, a cons.
 
 If PY-MARK-DECORATORS, `def'- and `class'-forms include decorators
 If BOL is t, mark from beginning-of-line"
   (let* ((begform (intern-soft (concat "gd-backward-" form)))
          (endform (intern-soft (concat "gd-forward-" form)))
-         (begcheckform (intern-soft (concat "py--beginning-of-" form "-p")))
+         (begcheckform (intern-soft (concat "gd--beginning-of-" form "-p")))
          (orig (point))
          beg end erg)
     (setq beg (if
@@ -21530,10 +20770,10 @@ If BOL is t, mark from beginning-of-line"
 	(cons beg end)
       nil)))
 
-(defun py--mark-base-bol (form &optional gd-mark-decorators)
+(defun gd--mark-base-bol (form &optional gd-mark-decorators)
   (let* ((begform (intern-soft (concat "gd-backward-" form "-bol")))
          (endform (intern-soft (concat "gd-forward-" form "-bol")))
-         (begcheckform (intern-soft (concat "py--beginning-of-" form "-bol-p")))
+         (begcheckform (intern-soft (concat "gd--beginning-of-" form "-bol-p")))
          (orig (point))
          beg end erg)
     (setq beg (if
@@ -21551,8 +20791,8 @@ If BOL is t, mark from beginning-of-line"
     (cons beg end)))
 
 (defun gd-mark-base (form &optional gd-mark-decorators)
-  "Calls py--mark-base, returns bounds of form, a cons. "
-  (let* ((bounds (py--mark-base form gd-mark-decorators))
+  "Calls gd--mark-base, returns bounds of form, a cons. "
+  (let* ((bounds (gd--mark-base form gd-mark-decorators))
          (beg (car bounds)))
     (push-mark beg t t)
     bounds))
@@ -21563,7 +20803,7 @@ If BOL is t, mark from beginning-of-line"
 With \\[universal-argument], go to beginning one level above.
 Returns position if successful, nil otherwise"
   (interactive "P")
-  (py--beginning-of-form-intern gd-extended-block-or-clause-re (called-interactively-p 'any) indent))
+  (gd--beginning-of-form-intern gd-extended-block-or-clause-re (called-interactively-p 'any) indent))
 
 (defun gd-end (&optional indent)
  "Go to end of of compound statement or definition at point.
@@ -21571,7 +20811,7 @@ Returns position if successful, nil otherwise"
 Returns position block if successful, nil otherwise"
   (interactive "P")
     (let* ((orig (point))
-           (erg (py--end-base 'gd-extended-block-or-clause-re orig)))
+           (erg (gd--end-base 'gd-extended-block-or-clause-re orig)))
       (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
       erg))
 
@@ -21601,10 +20841,10 @@ If no further element at same level, go one level up."
   (let ((pps (parse-partial-sexp (point-min) (point))))
     (cond ((nth 8 pps) (goto-char (nth 8 pps)))
           ((nth 1 pps) (goto-char (nth 1 pps)))
-          ((py--beginning-of-statement-p) (py--beginning-of-form-intern 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
+          ((gd--beginning-of-statement-p) (gd--beginning-of-form-intern 'gd-extended-block-or-clause-re (called-interactively-p 'any)))
           (t (gd-backward-statement)))))
 
-(defun py--end-of-buffer-p ()
+(defun gd--end-of-buffer-p ()
   "Returns position, if cursor is at the end of buffer, nil otherwise. "
   (when (eobp)(point)))
 
@@ -21628,7 +20868,7 @@ Use current region unless optional args BEG END are delivered."
   "Execute section at point. "
   (save-excursion
     (let ((pps (parse-partial-sexp (point-min) (point)))
-	  (start (when (or (py--beginning-of-section-p)
+	  (start (when (or (gd--beginning-of-section-p)
 			   (gd-backward-section))
 		   (forward-line 1)
 		   (beginning-of-line)
@@ -21642,19 +20882,19 @@ Use current region unless optional args BEG END are delivered."
 	      (gd-execute-region start (point))))
 	(error "Can't see `gd-section-start' resp. `gd-section-end'")))))
 
-(defun py--narrow-prepare (name)
+(defun gd--narrow-prepare (name)
   "Used internally. "
   (save-excursion
     (let ((start (cond ((string= name "statement")
-			(if (py--beginning-of-statement-p)
+			(if (gd--beginning-of-statement-p)
 			    (point)
 			  (gd-backward-statement-bol)))
-		       ((funcall (car (read-from-string (concat "py--statement-opens-" name "-p")))))
+		       ((funcall (car (read-from-string (concat "gd--statement-opens-" name "-p")))))
 		       (t (funcall (car (read-from-string (concat "gd-backward-" name "-bol"))))))))
       (funcall (car (read-from-string (concat "gd-forward-" name))))
       (narrow-to-region (point) start))))
 
-(defun py--forms-report-result (erg &optional iact)
+(defun gd--forms-report-result (erg &optional iact)
   (let ((res (ignore-errors (buffer-substring-no-properties (car-safe erg) (cdr-safe erg)))))
     (when (and res iact)
       (goto-char (car-safe erg))
@@ -21670,12 +20910,12 @@ Use current region unless optional args BEG END are delivered."
 	((eq gd-shell-fontify-style 'input)
 	 (setq gd-shell-fontify-style 'all))
 	(t (setq gd-shell-fontify-style 'input)))
-  (py--shell-setup-fontification gd-shell-fontify-style)
+  (gd--shell-setup-fontification gd-shell-fontify-style)
   (when msg (message "gd-shell-fontify-style set to: %s" gd-shell-fontify-style)))
 
 (defun gd-toggle-execute-use-temp-file ()
   (interactive)
-  (setq py--execute-use-temp-file-p (not py--execute-use-temp-file-p)))
+  (setq gd--execute-use-temp-file-p (not gd--execute-use-temp-file-p)))
 
 ;; /usr/lib/python2.7/pdb.py eyp.py
 (defalias 'IPython 'ipython)
@@ -23469,10 +22709,10 @@ In experimental state yet "
 	     :style toggle :selected gd-execute-no-temp-p]
 
 	    ["Warn tmp files left "
-	     (setq py--warn-tmp-files-left-p
-		   (not py--warn-tmp-files-left-p))
+	     (setq gd--warn-tmp-files-left-p
+		   (not gd--warn-tmp-files-left-p))
 	     :help "Messages a warning, when `gd-temp-directory' contains files susceptible being left by previous GDScript-mode sessions. See also lp:987534 Use `M-x customize-variable' to set it permanently"
-	     :style toggle :selected py--warn-tmp-files-left-p])
+	     :style toggle :selected gd--warn-tmp-files-left-p])
 
 	   ("Edit"
 
@@ -23863,10 +23103,10 @@ Default is tUse `M-x customize-variable' to set it permanently"
 	    ("Index"
 
 	     ["Imenu create index "
-	      (setq py--imenu-create-index-p
-		    (not py--imenu-create-index-p))
+	      (setq gd--imenu-create-index-p
+		    (not gd--imenu-create-index-p))
 	      :help "Non-nil means GDScript mode creates and displays an index menu of functions and global variables. Use `M-x customize-variable' to set it permanently"
-	      :style toggle :selected py--imenu-create-index-p]
+	      :style toggle :selected gd--imenu-create-index-p]
 
 	     ["Imenu show method args "
 	      (setq gd-imenu-show-method-args-p
@@ -23876,7 +23116,7 @@ When non-nil, arguments are printed.Use `M-x customize-variable' to set it perma
 	      :style toggle :selected gd-imenu-show-method-args-p]
 	     ["Switch index-function" gd-switch-imenu-index-function
 	      :help "`gd-switch-imenu-index-function'
-Switch between `py--imenu-create-index' from 5.1 series and `py--imenu-create-index-new'."])
+Switch between `gd--imenu-create-index' from 5.1 series and `gd--imenu-create-index-new'."])
 
 	    ("Fontification"
 
@@ -25494,10 +24734,10 @@ In experimental state yet "
 	     :style toggle :selected gd-execute-no-temp-p]
 
 	    ["Warn tmp files left "
-	     (setq py--warn-tmp-files-left-p
-		   (not py--warn-tmp-files-left-p))
+	     (setq gd--warn-tmp-files-left-p
+		   (not gd--warn-tmp-files-left-p))
 	     :help "Messages a warning, when `gd-temp-directory' contains files susceptible being left by previous GDScript-mode sessions. See also lp:987534 Use `M-x customize-variable' to set it permanently"
-	     :style toggle :selected py--warn-tmp-files-left-p])
+	     :style toggle :selected gd--warn-tmp-files-left-p])
 
 	   ("Edit"
 
@@ -25888,10 +25128,10 @@ Default is tUse `M-x customize-variable' to set it permanently"
 	    ("Index"
 
 	     ["Imenu create index "
-	      (setq py--imenu-create-index-p
-		    (not py--imenu-create-index-p))
+	      (setq gd--imenu-create-index-p
+		    (not gd--imenu-create-index-p))
 	      :help "Non-nil means GDScript mode creates and displays an index menu of functions and global variables. Use `M-x customize-variable' to set it permanently"
-	      :style toggle :selected py--imenu-create-index-p]
+	      :style toggle :selected gd--imenu-create-index-p]
 
 	     ["Imenu show method args "
 	      (setq gd-imenu-show-method-args-p
@@ -25901,7 +25141,7 @@ When non-nil, arguments are printed.Use `M-x customize-variable' to set it perma
 	      :style toggle :selected gd-imenu-show-method-args-p]
 	     ["Switch index-function" gd-switch-imenu-index-function
 	      :help "`gd-switch-imenu-index-function'
-Switch between `py--imenu-create-index' from 5.1 series and `py--imenu-create-index-new'."])
+Switch between `gd--imenu-create-index' from 5.1 series and `gd--imenu-create-index-new'."])
 
 	    ("Fontification"
 
@@ -26344,12 +25584,12 @@ Don't use this function in a Lisp program; use `define-abbrev' instead."]
       (progn
 	(setq gd-auto-completion-mode-p nil
 	      gd-auto-completion-buffer nil)
-	(when (timerp py--auto-complete-timer)(cancel-timer py--auto-complete-timer)))
+	(when (timerp gd--auto-complete-timer)(cancel-timer gd--auto-complete-timer)))
     (setq gd-auto-completion-mode-p t
 	  gd-auto-completion-buffer (current-buffer))
-    (setq py--auto-complete-timer
+    (setq gd--auto-complete-timer
 	  (run-with-idle-timer
-	   py--auto-complete-timer-delay
+	   gd--auto-complete-timer-delay
 	   ;; 1
 	   t
 	   #'gd-complete-auto)))
@@ -26403,12 +25643,12 @@ See available customizations listed in files variables-gdscript-mode at director
 				       (font-lock-syntactic-keywords
 					. gd-font-lock-syntactic-keywords)
 				       (font-lock-syntactic-face-function
-					. py--font-lock-syntactic-face-function)))
+					. gd--font-lock-syntactic-face-function)))
     (set (make-local-variable 'font-lock-defaults)
          '(gdscript-font-lock-keywords nil nil nil nil
 				     (font-lock-syntactic-keywords
 				      . gd-font-lock-syntactic-keywords))))
-  ;; avoid to run gd-choose-shell again from `py--fix-start'
+  ;; avoid to run gd-choose-shell again from `gd--fix-start'
   (cond ((string-match "ython3" gd-gdscript-edit-version)
 	 (font-lock-add-keywords 'gdscript-mode
 				 '(("\\<print\\>" . 'gd-builtins-face)
@@ -26429,7 +25669,7 @@ See available customizations listed in files variables-gdscript-mode at director
     (set (make-local-variable 'paragraph-separate) "\f\\|^[ \t]*$\\|^[ \t]*#[ \t]*$\\|^[ \t\f]*:[[:alpha:]]+ [[:alpha:]]+:.+$")
     (set (make-local-variable 'paragraph-start) "\f\\|^[ \t]*$\\|^[ \t]*#[ \t]*$\\|^[ \t\f]*:[[:alpha:]]+ [[:alpha:]]+:.+$"))
   (set (make-local-variable 'comment-column) 40)
-  (set (make-local-variable 'comment-indent-function) #'py--comment-indent-function)
+  (set (make-local-variable 'comment-indent-function) #'gd--comment-indent-function)
   (set (make-local-variable 'indent-region-function) 'gd-indent-region)
   (set (make-local-variable 'indent-line-function) 'gd-indent-line)
   (set (make-local-variable 'hs-hide-comments-when-hiding-all) 'gd-hide-comments-when-hiding-all)
@@ -26448,7 +25688,7 @@ See available customizations listed in files variables-gdscript-mode at director
                                                       (current-column))))
               (^ '(- (1+ (current-indentation)))))))
   (and gd-guess-gd-install-directory-p (gd-set-load-path))
-  ;;  (unless gud-pdb-history (when (buffer-file-name) (add-to-list 'gud-pdb-history (py--buffer-filename-remote-maybe)))) 
+  ;;  (unless gud-pdb-history (when (buffer-file-name) (add-to-list 'gud-pdb-history (gd--buffer-filename-remote-maybe)))) 
   (and gd-autopair-mode
        (load-library "autopair")
        (add-hook 'gdscript-mode-hook
@@ -26460,7 +25700,7 @@ See available customizations listed in files variables-gdscript-mode at director
   (when gd-trailing-whitespace-smart-delete-p
     (add-hook 'before-save-hook 'delete-trailing-whitespace nil 'local))
   (when gd-pdbtrack-do-tracking-p
-    (add-hook 'comint-output-filter-functions 'py--pdbtrack-track-stack-file t))
+    (add-hook 'comint-output-filter-functions 'gd--pdbtrack-track-stack-file t))
   (cond
    (gd-complete-function
     (add-hook 'completion-at-point-functions
@@ -26472,18 +25712,18 @@ See available customizations listed in files variables-gdscript-mode at director
     (add-hook 'completion-at-point-functions
               'gd-shell-complete nil 'local)))
   ;; (if gd-auto-complete-p
-  ;; (add-hook 'gdscript-mode-hook 'py--run-completion-timer)
-  ;; (remove-hook 'gdscript-mode-hook 'py--run-completion-timer))
+  ;; (add-hook 'gdscript-mode-hook 'gd--run-completion-timer)
+  ;; (remove-hook 'gdscript-mode-hook 'gd--run-completion-timer))
   ;; (when gd-auto-complete-p
   ;; (add-hook 'gdscript-mode-hook
   ;; (lambda ()
   ;; (run-with-idle-timer 1 t 'gd-shell-complete))))
   (if gd-auto-fill-mode
-      (add-hook 'gdscript-mode-hook 'py--run-auto-fill-timer)
-    (remove-hook 'gdscript-mode-hook 'py--run-auto-fill-timer))
+      (add-hook 'gdscript-mode-hook 'gd--run-auto-fill-timer)
+    (remove-hook 'gdscript-mode-hook 'gd--run-auto-fill-timer))
 
   ;; caused insert-file-contents error lp:1293172
-  ;;  (add-hook 'after-change-functions 'py--after-change-function nil t)
+  ;;  (add-hook 'after-change-functions 'gd--after-change-function nil t)
   (if gd-defun-use-top-level-p
       (progn
         (set (make-local-variable 'beginning-of-defun-function) 'gd-backward-top-level)
@@ -26497,14 +25737,14 @@ See available customizations listed in files variables-gdscript-mode at director
   (when gd-sexp-use-expression-p
     	(define-key gdscript-mode-map [(control meta f)] 'gd-forward-expression)
 	(define-key gdscript-mode-map [(control meta b)] 'gd-backward-expression))
-  (when (and py--imenu-create-index-p
+  (when (and gd--imenu-create-index-p
              (fboundp 'imenu-add-to-menubar)
              (ignore-errors (require 'imenu)))
-  (setq imenu-create-index-function 'py--imenu-create-index-function)
-  (setq imenu--index-alist (funcall py--imenu-create-index-function))
+  (setq imenu-create-index-function 'gd--imenu-create-index-function)
+  (setq imenu--index-alist (funcall gd--imenu-create-index-function))
   ;; fallback
   (unless imenu--index-alist
-    (setq imenu--index-alist (py--imenu-create-index-new)))
+    (setq imenu--index-alist (gd--imenu-create-index-new)))
     ;; (message "imenu--index-alist: %s" imenu--index-alist)
     (imenu-add-to-menubar "PyIndex"))
   ;; add the menu
@@ -26515,16 +25755,16 @@ See available customizations listed in files variables-gdscript-mode at director
   (when (called-interactively-p 'any) (message "gdscript-mode loaded from: %s" gdscript-mode-message-string))
   (force-mode-line-update))
 
-(defun py--shell-setup-fontification (&optional style)
+(defun gd--shell-setup-fontification (&optional style)
   "Expected values are either nil, 'all or 'input. "
   (setq style (or style gd-shell-fontify-style))
   (if style
       (progn
 	(cond ((eq 'all style)
 	       (remove-hook 'change-major-mode-hook 'font-lock-defontify)
-	       (set (make-local-variable 'py--shell-unfontify) 'gd-shell-unfontify-p)
-	       (when py--shell-unfontify
-	       	 (add-hook 'gd-gdscript-shell-mode-hook #'py--run-unfontify-timer (current-buffer)))
+	       (set (make-local-variable 'gd--shell-unfontify) 'gd-shell-unfontify-p)
+	       (when gd--shell-unfontify
+	       	 (add-hook 'gd-gdscript-shell-mode-hook #'gd--run-unfontify-timer (current-buffer)))
 	       (remove-hook 'post-command-hook 'gd-shell-fontify t)
 	       (set (make-local-variable 'font-lock-defaults)
 		    '(gdscript-font-lock-keywords nil nil nil nil
@@ -26545,17 +25785,17 @@ See available customizations listed in files variables-gdscript-mode at director
 			   #'gd-shell-fontify nil 'local)))
 	(force-mode-line-update))
     ;; no fontification in gd-shell
-    (remove-hook 'gd-gdscript-shell-mode-hook 'py--run-unfontify-timer t)
+    (remove-hook 'gd-gdscript-shell-mode-hook 'gd--run-unfontify-timer t)
     (remove-hook 'post-command-hook 'gd-shell-fontify t)))
 
-(defun py--all-shell-mode-setting ()
-  (py--shell-setup-fontification)
+(defun gd--all-shell-mode-setting ()
+  (gd--shell-setup-fontification)
   (setenv "PAGER" "cat")
   (setenv "TERM" "dumb")
   (set-syntax-table gdscript-mode-syntax-table)
   (if gd-auto-complete-p
-      (add-hook 'gd-shell-mode-hook 'py--run-completion-timer)
-    (remove-hook 'gd-shell-mode-hook 'py--run-completion-timer))
+      (add-hook 'gd-shell-mode-hook 'gd--run-completion-timer)
+    (remove-hook 'gd-shell-mode-hook 'gd--run-completion-timer))
   ;; comint settings
   (set (make-local-variable 'comint-prompt-regexp)
        (cond ((string-match "[iI][pP]ython[[:alnum:]*-]*$" gd-buffer-name)
@@ -26572,7 +25812,7 @@ See available customizations listed in files variables-gdscript-mode at director
   (remove-hook 'comint-output-filter-functions 'font-lock-extend-jit-lock-region-after-change t)
 
   (make-local-variable 'comint-output-filter-functions)
-  ;; (set (make-local-variable 'comint-input-filter) 'py--input-filter)
+  ;; (set (make-local-variable 'comint-input-filter) 'gd--input-filter)
   (set (make-local-variable 'comint-input-filter) 'gd-history-input-filter)
   (set (make-local-variable 'comint-prompt-read-only) gd-shell-prompt-read-only)
   ;; (set (make-local-variable 'comint-use-prompt-regexp) nil)
@@ -26581,11 +25821,11 @@ See available customizations listed in files variables-gdscript-mode at director
   (set (make-local-variable 'comment-start) "# ")
   (set (make-local-variable 'comment-start-skip) "^[ \t]*#+ *")
   (set (make-local-variable 'comment-column) 40)
-  (set (make-local-variable 'comment-indent-function) #'py--comment-indent-function)
+  (set (make-local-variable 'comment-indent-function) #'gd--comment-indent-function)
   (set (make-local-variable 'indent-region-function) 'gd-indent-region)
   (set (make-local-variable 'indent-line-function) 'gd-indent-line)
   (set (make-local-variable 'inhibit-point-motion-hooks) t)
-  (set (make-local-variable 'comint-input-sender) 'py--shell-simple-send))
+  (set (make-local-variable 'comint-input-sender) 'gd--shell-simple-send))
 
 (define-derived-mode gd-gdscript-shell-mode comint-mode "Py"
   "Major mode for interacting with a GDScript process.
@@ -26602,10 +25842,10 @@ Sets basic comint variables, see also versions-related stuff in `gd-shell'.
   (setq mode-line-process '(":%s"))
   ;; (sit-for 0.1)
   (when gd-verbose-p (message "%s" "Initializing GDScript shell, please wait"))
-  (py--all-shell-mode-setting)
-  (py--gdscript-send-completion-setup-code)
-  (py--gdscript-send-ffap-setup-code)
-  (py--gdscript-send-eldoc-setup-code)
+  (gd--all-shell-mode-setting)
+  (gd--gdscript-send-completion-setup-code)
+  (gd--gdscript-send-ffap-setup-code)
+  (gd--gdscript-send-eldoc-setup-code)
   (set-process-sentinel (get-buffer-process (current-buffer))  #'shell-write-history-on-exit)
 
   ;; (setq comint-input-ring-file-name
@@ -26618,7 +25858,7 @@ Sets basic comint variables, see also versions-related stuff in `gd-shell'.
   ;;             (t
   ;;              (if gd-honor-PYTHONHISTORY-p
   ;;                  (if (getenv "PYTHONHISTORY")
-  ;;                      (concat (getenv "PYTHONHISTORY") "/" (py--report-executable gd-buffer-name) "_history")
+  ;;                      (concat (getenv "PYTHONHISTORY") "/" (gd--report-executable gd-buffer-name) "_history")
   ;;                    gd-ipython-history)
   ;;                gd-ipython-history)))
   ;;)
@@ -26656,11 +25896,11 @@ Sets basic comint variables, see also versions-related stuff in `gd-shell'.
   ;; (require 'ansi-color) ; for ipython
   (setq mode-line-process '(":%s"))
   (when gd-verbose-p (message "%s" "Initializing IPython shell, please wait"))
-  (py--all-shell-mode-setting)
-  (py--gdscript-send-completion-setup-code)
-  (py--gdscript-send-ffap-setup-code)
-  (py--gdscript-send-eldoc-setup-code)
-  (py--ipython-import-module-completion)
+  (gd--all-shell-mode-setting)
+  (gd--gdscript-send-completion-setup-code)
+  (gd--gdscript-send-ffap-setup-code)
+  (gd--gdscript-send-eldoc-setup-code)
+  (gd--ipython-import-module-completion)
   (gd-set-ipython-completion-command-string (process-name (get-buffer-process (current-buffer))))
   (sit-for 0.1 t)
   (comint-read-input-ring t)
