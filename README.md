@@ -1,1 +1,1 @@
-# gdscript-mode
+Emacs-mode for gdscript (under development)
