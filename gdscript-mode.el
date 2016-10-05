@@ -1323,7 +1323,7 @@ At any case only current input gets fontified.
   :group 'gdscript-mode)
 
 (defcustom gd-hide-show-keywords
-  '("class"    "def"    "elif"    "else"    "except"
+  '("class"    "func"    "elif"    "else"    "except"
     "for"      "if"     "while"   "finally" "try"
     "with")
   "Keywords composing visible heads. "
@@ -1345,7 +1345,7 @@ At any case only current input gets fontified.
   :group 'gdscript-mode)
 
 (defcustom gd-outline-mode-keywords
-  '("class"    "def"    "elif"    "else"    "except"
+  '("class"    "func"    "elif"    "else"    "except"
     "for"      "if"     "while"   "finally" "try"
     "with")
   "Keywords composing visible heads. "
@@ -2345,11 +2345,9 @@ Result: \"\\nIn [10]:    ....:    ....:    ....: 1\\n\\nIn [11]: \"
 
 (defcustom gd-outdent-re-raw
   (list
-   "async def"
-   "async for"
-   "async with"
+   "static func"
    "class"
-   "def"
+   "func"
    "elif"
    "else"
    "except"
@@ -2393,7 +2391,7 @@ See gd-no-outdent-re-raw for better readable content ")
 (defconst gd-assignment-re "\\_<\\w+\\_>[ \t]*\\(=\\|+=\\|*=\\|%=\\|&=\\|^=\\|<<=\\|-=\\|/=\\|**=\\||=\\|>>=\\|//=\\)"
   "If looking at the beginning of an assignment. ")
 
-(defconst gd-block-re "[ \t]*\\_<\\(class\\|def\\|async def\\|async for\\|for\\|if\\|try\\|while\\|with\\|async with\\)\\_>[:( \n\t]*"
+(defconst gd-block-re "[ \t]*\\_<\\(class\\|func\\|static func\\|async for\\|for\\|if\\|try\\|while\\|with\\|async with\\)\\_>[:( \n\t]*"
   "Matches the beginning of a compound statement. ")
 
 (defconst gd-minor-block-re "[ \t]*\\_<\\(for\\|async for\\|if\\|try\\|with\\|async with\\|except\\)\\_>[:( \n\t]*"
@@ -2417,19 +2415,17 @@ See gd-no-outdent-re-raw for better readable content ")
 (defconst gd-class-re "[ \t]*\\_<\\(class\\)\\_>[ \n\t]"
   "Matches the beginning of a class definition. ")
 
-(defconst gd-def-or-class-re "[ \t]*\\_<\\(async def\\|class\\|def\\)\\_>[ \n\t]"
+(defconst gd-def-or-class-re "[ \t]*\\_<\\(static func\\|class\\|func\\)\\_>[ \n\t]"
   "Matches the beginning of a class- or functions definition. ")
 
-;; (setq gd-def-or-class-re "[ \t]*\\_<\\(async def\\|class\\|def\\)\\_>[ \n\t]")
+;; (setq gd-def-or-class-re "[ \t]*\\_<\\(static func\\|class\\|func\\)\\_>[ \n\t]")
 
-;; (defconst gd-def-re "[ \t]*\\_<\\(async def\\|def\\)\\_>[ \n\t]"
-(defconst gd-def-re "[ \t]*\\_<\\(def\\|async def\\)\\_>[ \n\t]"
+;; (defconst gd-def-re "[ \t]*\\_<\\(static func\\|func\\)\\_>[ \n\t]"
+(defconst gd-def-re "[ \t]*\\_<\\(func\\|static func\\)\\_>[ \n\t]"
   "Matches the beginning of a functions definition. ")
 
 (defcustom gd-block-or-clause-re-raw
   (list
-   "async for"
-   "async with"
    "elif"
    "else"
    "except"
@@ -2487,11 +2483,9 @@ See gd-no-outdent-re-raw for better readable content ")
 
 (defcustom gd-extended-block-or-clause-re-raw
   (list
-   "async def"
-   "async for"
-   "async with"
+   "static func"
    "class"
-   "def"
+   "func"
    "elif"
    "else"
    "except"
@@ -2916,8 +2910,8 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
         (define-key map [(\#)] 'gd-electric-comment)
         (define-key map [(delete)] 'gd-electric-delete)
         (define-key map [(backspace)] 'gd-electric-backspace)
-        (define-key map [(control backspace)] 'gd-hungry-delete-backwards)
-        (define-key map [(control c) (delete)] 'gd-hungry-delete-forward)
+        ;; (define-key map [(control backspace)] 'gd-hungry-delete-backwards)
+        ;; (define-key map [(control c) (delete)] 'gd-hungry-delete-forward)
         ;; (define-key map [(control y)] 'gd-electric-yank)
         ;; moving point
         (define-key map [(control c)(control p)] 'gd-backward-statement)
@@ -2931,7 +2925,8 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
         (define-key map [(control j)] 'gd-newline-and-indent)
         ;; Most Pythoneers expect RET `gd-newline-and-indent'
         ;; (define-key map (kbd "RET") 'gd-newline-and-dedent)
-        (define-key map (kbd "RET") gd-return-key)
+        ;; (define-key map (kbd "RET") gd-return-key)
+        (define-key map (kbd "RET") 'gd-newline-and-indent)
         ;; (define-key map (kbd "RET") 'newline)
         (define-key map [(super backspace)] 'gd-dedent)
         ;; (define-key map [(control return)] 'gd-newline-and-dedent)
@@ -3003,7 +2998,7 @@ Returns char found. "
              (or
 			"if" "elif" "else" "for" "do" "while" "switch" "case" "break" "continue" "pass" 
 			"return" "class" "extends" "tool" "signal" "func" "static" "const" "enum" "var" 
-			"onready" "export" "setget" "breakpoint")
+			"onready" "export" "setget" "breakpoint", "and", "or", "not")
              symbol-end)
         (,(rx symbol-start (or "static func" "func" "class") symbol-end) . gd-def-class-face)
         (,(rx symbol-start (or "if") symbol-end) . gd-try-if-face)
@@ -3069,7 +3064,7 @@ Returns char found. "
 
 
 (require 'ansi-color)
-;; (require 'cc-cmds)
+(require 'cc-cmds)
 (require 'cl)
 (require 'custom)
 (require 'hippie-exp)
@@ -23680,47 +23675,8 @@ See available customizations listed in files variables-gdscript-mode at director
   (set (make-local-variable 'tab-width) gd-indent-offset)
   (set (make-local-variable 'eldoc-documentation-function)
        #'gd-eldoc-function)
-  (and gd-load-skeletons-p
-       (gd-load-skeletons)
-       (set (make-local-variable 'skeleton-further-elements)
-            '((< '(backward-delete-char-untabify (min gd-indent-offset
-                                                      (current-column))))
-              (^ '(- (1+ (current-indentation)))))))
-  (and gd-guess-gd-install-directory-p (gd-set-load-path))
-  ;;  (unless gud-pdb-history (when (buffer-file-name) (add-to-list 'gud-pdb-history (gd--buffer-filename-remote-maybe)))) 
-  (and gd-autopair-mode
-       (load-library "autopair")
-       (add-hook 'gdscript-mode-hook
-                 #'(lambda ()
-                     (setq autopair-handle-action-fns
-                           (list #'autopair-default-handle-action
-                                 #'autopair-gdscript-triple-quote-action))))
-       (gd-autopair-mode-on))
   (when gd-trailing-whitespace-smart-delete-p
     (add-hook 'before-save-hook 'delete-trailing-whitespace nil 'local))
-  (when gd-pdbtrack-do-tracking-p
-    (add-hook 'comint-output-filter-functions 'gd--pdbtrack-track-stack-file t))
-  (cond
-   (gd-complete-function
-    (add-hook 'completion-at-point-functions
-              gd-complete-function nil 'local))
-   (gd-load-pymacs-p
-    (add-hook 'completion-at-point-functions
-              'gd-complete-completion-at-point nil 'local))
-   (t
-    (add-hook 'completion-at-point-functions
-              'gd-shell-complete nil 'local)))
-  ;; (if gd-auto-complete-p
-  ;; (add-hook 'gdscript-mode-hook 'gd--run-completion-timer)
-  ;; (remove-hook 'gdscript-mode-hook 'gd--run-completion-timer))
-  ;; (when gd-auto-complete-p
-  ;; (add-hook 'gdscript-mode-hook
-  ;; (lambda ()
-  ;; (run-with-idle-timer 1 t 'gd-shell-complete))))
-  (if gd-auto-fill-mode
-      (add-hook 'gdscript-mode-hook 'gd--run-auto-fill-timer)
-    (remove-hook 'gdscript-mode-hook 'gd--run-auto-fill-timer))
-
   ;; caused insert-file-contents error lp:1293172
   ;;  (add-hook 'after-change-functions 'gd--after-change-function nil t)
   (if gd-defun-use-top-level-p
