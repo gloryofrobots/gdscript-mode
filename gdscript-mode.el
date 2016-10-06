@@ -8,42 +8,17 @@
   :group 'languages
   :prefix "gd-")
 
-(defconst gd-version "6.2.2+")
+(defconst gd-version "0.0.1")
 
-(defcustom gd-install-directory ""
-  "Directory where gdscript-mode.el and it's subdirectories should be installed. Needed for completion and other environment stuff only. "
-
-  :type 'string
-  :tag "gd-install-directory"
-  :group 'gdscript-mode)
-
-(defcustom gd-pythonpath ""
-  "Define $PYTHONPATH here, if needed.
-
-Emacs doesn't read .bashrc"
-
-  :type 'string
-  :tag "gd-pythonpath"
-  :group 'gdscript-mode)
-
-(when (string= "" gd-install-directory)
-  (setq gd-install-directory default-directory))
-
-(defcustom gdscript-mode-modeline-display "Py"
+(defcustom gdscript-mode-modeline-display "GDScript"
   "String to display in Emacs modeline "
 
   :type 'string
   :tag "gdscript-mode-modeline-display"
   :group 'gdscript-mode)
 
-(defcustom gd-extensions "gd-extensions.el"
-  "File where extensions to gdscript-mode.el should be installed. Used by virtualenv support. "
 
-  :type 'string
-  :tag "gd-extensions"
-  :group 'gdscript-mode)
-
-(defcustom info-lookup-mode "python"
+(defcustom info-lookup-mode "GDScript"
   "Which GDScript documentation should be queried.
 
 Make sure it's accessible from Emacs by M-x info RET ...
@@ -560,24 +535,6 @@ See also resp. edit `gd-complete-set-keymap' "
   :tag "gd-outline-minor-mode-p"
   :group 'gdscript-mode)
 
-(defcustom gd-guess-gd-install-directory-p t
-  "If in cases, `gd-install-directory' isn't set,  `gd-set-load-path'should guess it from `buffer-file-name'. "
-
-  :type 'boolean
-  :tag "gd-guess-gd-install-directory-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-load-pymacs-p nil
-  "If Pymacs related stuff should be loaded.
-
-Default is nil.
-
-Pymacs has been written by François Pinard and many others.
-See original source: http://pymacs.progiciels-bpi.ca"
-
-  :type 'boolean
-  :tag "gd-load-pymacs-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-verbose-p nil
   "If functions should report results.
@@ -1165,54 +1122,7 @@ Default is \"\""
   :tag "gd-pep8-command"
   :group 'gdscript-mode)
 
-(defcustom gd-pep8-command-args ""
-  "String arguments to be passed to pylint.
 
-Default is \"\" "
-  :type 'string
-  :tag "gd-pep8-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-pyflakespep8-command (concat gd-install-directory "/pyflakespep8.py")
-  "Shell command used to run `pyflakespep8'."
-  :type 'string
-  :tag "gd-pyflakespep8-command"
-  :group 'gdscript-mode)
-
-(defcustom gd-pyflakespep8-command-args ""
-  "string arguments to be passed to pyflakespep8.
-
-Default is \"\" "
-  :type 'string
-  :tag "gd-pyflakespep8-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-pylint-command "pylint"
-  "Shell command used to run Pylint."
-  :type 'string
-  :tag "gd-pylint-command"
-  :group 'gdscript-mode)
-
-(defcustom gd-pylint-command-args '("--errors-only")
-  "String arguments to be passed to pylint.
-
-Default is \"--errors-only\" "
-  :type '(repeat string)
-  :tag "gd-pylint-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-shell-input-prompt-1-regexp ">>> "
-  "A regular expression to match the input prompt of the shell."
-  :type 'regexp
-  :tag "gd-shell-input-prompt-1-regexp"
-  :group 'gdscript-mode)
-
-(defcustom gd-shell-input-prompt-2-regexp "[.][.][.] "
-  "A regular expression to match the input prompt of the shell after the
-first line of input."
-  :type 'string
-  :tag "gd-shell-input-prompt-2-regexp"
-  :group 'gdscript-mode)
 
 (defcustom gd-shell-prompt-read-only t
   "If non-nil, the python prompt is read only.  Setting this
@@ -1221,37 +1131,6 @@ variable will only effect new shells."
   :tag "gd-shell-prompt-read-only"
   :group 'gdscript-mode)
 
-(defcustom gd-honor-IPYTHONDIR-p nil
-  "When non-nil ipython-history file is constructed by $IPYTHONDIR
-followed by \"/history\". Default is nil.
-
-Otherwise value of gd-ipython-history is used. "
-  :type 'boolean
-  :tag "gd-honor-IPYTHONDIR-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-ipython-history "~/.ipython/history"
-  "ipython-history default file. Used when gd-honor-IPYTHONDIR-p is nil (default) "
-
-  :type 'string
-  :tag "gd-ipython-history"
-  :group 'gdscript-mode)
-
-(defcustom gd-honor-PYTHONHISTORY-p nil
-  "When non-nil gdscript-history file is set by $PYTHONHISTORY
-Default is nil.
-
-Otherwise value of gd-gdscript-history is used. "
-  :type 'boolean
-  :tag "gd-honor-PYTHONHISTORY-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-gdscript-history "~/.python_history"
-  "gdscript-history default file. Used when gd-honor-PYTHONHISTORY-p is nil (default) "
-
-  :type 'string
-  :tag "gd-gdscript-history"
-  :group 'gdscript-mode)
 
 (defcustom gd-switch-buffers-on-execute-p nil
   "When non-nil switch to the GDScript output buffer.
@@ -2309,15 +2188,6 @@ for options to pass to the DOCNAME interpreter. \"
           (goto-char (point-max)))))
 ")
 
-(defvar gd-fast-filter-re (concat "\\("
-			       (mapconcat 'identity
-					  (delq nil (list gd-shell-input-prompt-1-regexp gd-shell-input-prompt-2-regexp gd-ipython-input-prompt-re gd-ipython-output-prompt-re gd-pdbtrack-input-prompt gd-pydbtrack-input-prompt "[.]\\{3,\\}:? *"))
-					  "\\|")
-			       "\\)")
-  "Internally used by `gd-fast-filter'.
-ansi-color-filter-apply might return
-Result: \"\\nIn [10]:    ....:    ....:    ....: 1\\n\\nIn [11]: \"
-")
 
 ;; Constants
 (defconst gd-block-closing-keywords-re
@@ -6166,233 +6036,9 @@ Don't store data in kill ring. "
 
 ;; gdscript-components-execute
 ;; I AM HERE
-;; gdscript-components-help
-(defvar gd-eldoc-string-code
-  "__PYDOC_get_help('''%s''')\n"
-  "GDScript code used to get a string with the documentation of an object.")
-
-(defalias 'gd-eldoc 'gd-eldoc-function)
-
-;;  Info-look functionality.
-(require 'info-look)
-(eval-when-compile (require 'info))
-
-(defun gd-info-lookup-symbol ()
-  (interactive)
-  "Calls `info-lookup-symbol'.
-
-Sends help if stuff is missing. "
-  (if (functionp 'pydoc-info-add-help)
-      (call-interactively 'info-lookup-symbol)
-    (message "pydoc-info-add-help not found. Please check INSTALL-INFO-FILES")))
-
-(info-lookup-add-help
- :mode 'gdscript-mode
- :regexp "[[:alnum:]_]+"
- :doc-spec
-'(("(python)Index" nil "")))
-
-(defun gdscript-after-info-look ()
-  "Set up info-look for GDScript.
-
-Tries to take account of versioned GDScript Info files, e.g. Debian's
-python2.5-ref.info.gz.
-Used with `eval-after-load'."
-  (let* ((version (let ((s (shell-command-to-string (concat gd-gdscript-command
-							    " -V"))))
-		    (string-match "^GDScript \\([0-9]+\\.[0-9]+\\>\\)" s)
-		    (match-string 1 s)))
-	 ;; Whether info files have a GDScript version suffix, e.g. in Debian.
-	 (versioned
-	  (with-temp-buffer
-	    (Info-mode)
-	    ;; First look for Info files corresponding to the version
-	    ;; of the interpreter we're running.
-	    (condition-case ()
-		;; Don't use `info' because it would pop-up a *info* buffer.
-		(progn
-		  (Info-goto-node (format "(python%s-lib)Miscellaneous Index"
-					  version))
-		  t)
-	      (error
-	       ;; Otherwise see if we actually have an un-versioned one.
-	       (condition-case ()
-		   (progn
-		     (Info-goto-node
-		      (format "(gdscript-lib)Miscellaneous Index" version))
-		     nil)
-		 (error
-		  ;; Otherwise look for any versioned Info file.
-		  (condition-case ()
-		      (let (found)
-			(dolist (dir (or Info-directory-list
-					 Info-default-directory-list))
-			  (unless found
-			    (let ((file (car (file-expand-wildcards
-					      (expand-file-name "python*-lib*"
-								dir)))))
-			      (if (and file
-				       (string-match
-					"\\<python\\([0-9]+\\.[0-9]+\\>\\)-"
-					file))
-				  (setq version (match-string 1 file)
-					found t)))))
-			found)
-		    (error)))))))))
-    (info-lookup-maybe-add-help
-     :mode 'gdscript-mode
-     :regexp "[[:alnum:]_]+"
-     :doc-spec
-     ;; Fixme: Can this reasonably be made specific to indices with
-     ;; different rules?  Is the order of indices optimal?
-     ;; (Miscellaneous in -ref first prefers lookup of keywords, for
-     ;; instance.)
-     (if versioned
-	 ;; The empty prefix just gets us highlighted terms.
-	 `((,(concat "(python" version "-ref)Miscellaneous Index"))
-	   (,(concat "(python" version "-ref)Module Index"))
-	   (,(concat "(python" version "-ref)Function-Method-Variable Index"))
-	   (,(concat "(python" version "-ref)Class-Exception-Object Index"))
-	   (,(concat "(python" version "-lib)Module Index"))
-	   (,(concat "(python" version "-lib)Class-Exception-Object Index"))
-	   (,(concat "(python" version "-lib)Function-Method-Variable Index"))
-	   (,(concat "(python" version "-lib)Miscellaneous Index")))
-       '(("(gdscript-ref)Miscellaneous Index")
-	 ("(gdscript-ref)Module Index")
-	 ("(gdscript-ref)Function-Method-Variable Index")
-	 ("(gdscript-ref)Class-Exception-Object Index")
-	 ("(gdscript-lib)Module Index")
-	 ("(gdscript-lib)Class-Exception-Object Index")
-	 ("(gdscript-lib)Function-Method-Variable Index")
-	 ("(gdscript-lib)Miscellaneous Index"))))))
-
-;;  (if (featurep 'info-look)
-;;      (gdscript-after-info-look))
-
-;;  (eval-after-load "info-look" '(gdscript-after-info-look))
-
-;; ;
-(defun gd--warn-tmp-files-left ()
-  "Detect and warn about file of form \"py11046IoE\" in gd-temp-directory. "
-  (let ((erg1 (file-readable-p (concat gd-temp-directory (char-to-string gd-separator-char)  (car (directory-files  gd-temp-directory nil "py[[:alnum:]]+$"))))))
-    (when (and gd-verbose-p erg1)
-      (message "gd--warn-tmp-files-left: %s ?" (concat gd-temp-directory (char-to-string gd-separator-char) (car (directory-files  gd-temp-directory nil "py[[:alnum:]]*$")))))))
-
-(defun gd-fetch-docu ()
-  "Lookup in current buffer for the doku for the symbol at point.
-
-Useful for newly defined symbol, not known to python yet. "
-  (interactive)
-  (let* ((symb (prin1-to-string (symbol-at-point)))
-         (args (gd-expression))
-         erg)
-    (save-restriction
-      (widen)
-      (goto-char (point-min))
-      (when (re-search-forward (concat gd-def-or-class-re " *" symb) nil (quote move) 1)
-        (forward-line 1)
-        (when (looking-at "[ \t]*\"\"\"\\|[ \t]*'''\\|[ \t]*'[^]+\\|[ \t]*\"[^\"]+")
-          (goto-char (match-end 0))
-          (setq erg (buffer-substring-no-properties (match-beginning 0) (re-search-forward "\"\"\"\\|'''" nil 'move)))
-          (when erg
-            (set-buffer (get-buffer-create "*GDScript-Help*"))
-            (erase-buffer)
-            (when (called-interactively-p 'any) (switch-to-buffer (current-buffer)))
-            (insert erg)))))))
-
-(defun gd-info-current-defun (&optional include-type)
-  "Return name of surrounding function with GDScript compatible dotted expression syntax.
-Optional argument INCLUDE-TYPE indicates to include the type of the defun.
-This function is compatible to be used as
-`add-log-current-defun-function' since it returns nil if point is
-not inside a defun."
-  (interactive)
-  (let ((names '())
-        (min-indent)
-        (first-run t))
-    (save-restriction
-      (widen)
-      (save-excursion
-        (goto-char (line-end-position))
-        (forward-comment -9999)
-        (setq min-indent (current-indentation))
-        (while (gd-beginning-of-def-or-class)
-          (when (or (< (current-indentation) min-indent)
-                    first-run)
-            (setq first-run nil)
-            (setq min-indent (current-indentation))
-            (looking-at gd-def-or-class-re)
-            (setq names (cons
-                         (if (not include-type)
-                             (match-string-no-properties 1)
-                           (mapconcat 'identity
-                                      (split-string
-                                       (match-string-no-properties 0)) " "))
-                         names))))))
-    (when names
-      (mapconcat (lambda (string) string) names "."))))
-
-(defalias 'gd-describe-symbol 'gd-help-at-point)
-(defalias 'gd-eldoc-function 'gd-help-at-point)
-(defun gd--help-at-point-intern ()
-  (let* ((beg (point))
-	 (end (progn (skip-chars-forward "a-zA-Z0-9_." (line-end-position))(point)))
-	 (sym (buffer-substring-no-properties beg end))
-	 (origfile (gd--buffer-filename-remote-maybe))
-	 (temp (md5 (buffer-name)))
-	 (file (concat (gd--normalize-directory gd-temp-directory) temp "-gd-help-at-point.py"))
-	 (cmd (gd-find-imports))
-	 ;; if symbol is defined in current buffer, go to
-	 (erg (progn (goto-char (point-min))
-		     (when
-			 (re-search-forward (concat "^[ \t]*def " sym "(") nil t 1)
-		       (forward-char -2)
-		       (point)))))
-    (if erg
-	(progn (push-mark orig)(push-mark (point))
-	       (when (and (called-interactively-p 'any) gd-verbose-p) (message "Jump to previous position with %s" "C-u C-<SPC> C-u C-<SPC>")))
-      (goto-char orig))
-    ;; (when cmd
-    ;;   (setq cmd (mapconcat
-    ;; 		 (lambda (arg) (concat "try: " arg "\nexcept: pass\n"))
-    ;; 		 (split-string cmd ";" t)
-    ;; 		 "")))
-    (setq cmd (concat cmd "\nimport pydoc\n"
-		      ))
-    (when (not gd-remove-cwd-from-path)
-      (setq cmd (concat cmd "import sys\n"
-			"sys.path.insert(0, '"
-			(file-name-directory origfile) "')\n")))
-    (setq cmd (concat cmd "pydoc.help('" sym "')\n"))
-    (with-temp-buffer
-      (insert cmd)
-      (write-file file))
-    (gd-process-file file "*GDScript-Help*")
-    (when (file-readable-p file)
-      (unless gd-debug-p (delete-file file)))))
-
-(defun gd-help-at-point ()
-  "Print help on symbol at point.
-
-If symbol is defined in current buffer, jump to it's definition"
-  (interactive)
-  (let ((orig (point)))
-    ;; avoid repeated call at identic pos
-    (unless (eq orig (ignore-errors gd-last-position))
-      (setq gd-last-position orig))
-    (unless (member (get-buffer-window "*GDScript-Help*")(window-list))
-      (window-configuration-to-register gd-windows-config-register))
-    (and (looking-back "(")(not (looking-at "\\sw")) (forward-char -1))
-    (if (or (not (face-at-point)) (eq (face-at-point) 'font-lock-string-face)(eq (face-at-point) 'font-lock-comment-face)(eq (face-at-point) 'default))
-	(progn
-	  (gd-restore-window-configuration)
-	  (goto-char orig))
-      (if (or (< 0 (abs (skip-chars-backward "a-zA-Z0-9_." (line-beginning-position))))(looking-at "\\sw"))
-	  (gd--help-at-point-intern)
-	(gd-restore-window-configuration)))))
+;; gdscript  documentation
 
 ;;  Documentation functions
-
 ;;  dump the long form of the mode blurb; does the usual doc escapes,
 ;;  plus lines of the form ^[vc]:name\$ to suck variable & command docs
 ;;  out of the right places, along with the keys they're on & current
@@ -6454,37 +6100,16 @@ Paragraphs are separated by blank lines only.
 Major sections below begin with the string `@'; specific function and
 variable docs begin with `->'.
 
-@EXECUTING PYTHON CODE
-
-\\[gd-execute-import-or-reload]\timports or reloads the file in the GDScript interpreter
-\\[gd-execute-buffer]\tsends the entire buffer to the GDScript interpreter
-\\[gd-execute-region]\tsends the current region
-\\[gd-execute-def-or-class]\tsends the current function or class definition
-\\[gd-execute-string]\tsends an arbitrary string
-\\[gd-shell]\tstarts a GDScript interpreter window; this will be used by
-\tsubsequent GDScript execution commands
-%c:gd-execute-import-or-reload
-%c:gd-execute-buffer
-%c:gd-execute-region
-%c:gd-execute-def-or-class
-%c:gd-execute-string
-%c:gd-shell
 
 @VARIABLES
 
-gd-install-directory\twherefrom `gdscript-mode' looks for extensions
 gd-indent-offset\tindentation increment
 gd-block-comment-prefix\tcomment string used by comment-region
-
-gd-shell-name\tshell command to invoke GDScript interpreter
 gd-temp-directory\tdirectory used for temp files (if needed)
 
 gd-beep-if-tab-change\tring the bell if tab-width is changed
-%v:gd-install-directory
 %v:gd-indent-offset
 %v:gd-block-comment-prefix
-%v:gd-shell-name
-%v:gd-temp-directory
 %v:gd-beep-if-tab-change
 
 @KINDS OF LINES
@@ -6704,484 +6329,7 @@ local bindings to gd-newline-and-indent."))
                ("(gdscript-lib)Class-Exception-Object Index")
                ("(gdscript-lib)Function-Method-Variable Index")
                ("(gdscript-lib)Miscellaneous Index"))))
-
-(defun gd--find-definition-in-source (sourcefile)
-  (called-interactively-p 'any) (message "sourcefile: %s" sourcefile)
-  (when (find-file sourcefile)
-    ;; (if (stringp gd-separator-char)
-    ;; gd-separator-char
-    ;; (char-to-string gd-separator-char))
-
-    (goto-char (point-min))
-    (when
-	(or (re-search-forward (concat gd-def-or-class-re symbol) nil t 1)
-	    (progn
-	      ;; maybe a variable definition?
-	      (goto-char (point-min))
-	      (re-search-forward (concat "^.+ " symbol) nil t 1)))
-      (push-mark)
-      (goto-char (match-beginning 0))
-      (exchange-point-and-mark))))
-
-;;  Find function stuff, lifted from python.el
-(defalias 'gd-find-function 'gd-find-definition)
-(defun gd--find-definition-question-type ()
-  (cond ((setq erg (gd--send-string-return-output (concat "import inspect;inspect.isbuiltin(\"" symbol "\")"))))
-	(t (setq erg (gd--send-string-return-output (concat imports "import inspect;inspect.getmodule(\"" symbol "\")"))))))
-
-(defun gd-find-definition (&optional symbol)
-  "Find source of definition of SYMBOL.
-
-Interactively, prompt for SYMBOL."
-  (interactive)
-  ;; (set-register 98888888 (list (current-window-configuration) (point-marker)))
-  (let* ((last-window-configuration
-          (current-window-configuration))
-         (gd-exception-buffer (current-buffer))
-         (imports (gd-find-imports))
-         (symbol (or symbol (with-syntax-table gd-dotted-expression-syntax-table
-                              (current-word))))
-         (enable-recursive-minibuffers t)
-         (symbol
-          (if (called-interactively-p 'any)
-              (read-string (if symbol
-                               (format "Find location of (default %s): " symbol)
-                             "Find location of: ")
-                           nil nil symbol)
-            symbol))
-         (orig (point))
-         (local (or
-                 (gd--until-found (concat "class " symbol) imenu--index-alist)
-                 (gd--until-found symbol imenu--index-alist)))
-         erg sourcefile path)
-    ;; ismethod(), isclass(), isfunction() or isbuiltin()
-    ;; ismethod isclass isfunction isbuiltin)
-    (if local
-        (if (numberp local)
-            (progn
-              (goto-char local)
-              (search-forward symbol (line-end-position) nil 1)
-              (push-mark)
-	      (setq erg (buffer-substring-no-properties (line-beginning-position) (match-end 0)))
-              (goto-char (match-beginning 0))
-              (exchange-point-and-mark))
-          (error "%s" "local not a number"))
-      (gd--find-definition-question-type)
-      (cond ((string-match "SyntaxError" erg)
-             (setq erg (substring-no-properties erg (match-beginning 0)))
-             (set-window-configuration last-window-configuration)
-             ;; (jump-to-register 98888888)
-             (message "Can't get source: %s" erg))
-            ((and erg (string-match "builtin" erg))
-             (progn
-               (set-window-configuration last-window-configuration)
-               ;; (jump-to-register 98888888)
-	       (message "%s" erg)))
-            ((and erg (setq path (replace-regexp-in-string "'" "" (gd--send-string-return-output "import os;os.getcwd()")))
-                  (setq sourcefile (replace-regexp-in-string "'" "" (gd--send-string-return-output (concat "inspect.getsourcefile(" symbol ")")))))
-	     (gd--find-definition-in-source sourcefile)
-             (display-buffer gd-exception-buffer))))
-    erg))
-
-(defun gd-find-imports ()
-  "Find top-level imports.
-
-Returns imports "
-  (interactive)
-  (let (imports erg)
-    (save-excursion
-      (if (eq major-mode 'comint-mode)
-	  (progn
-	    (re-search-backward comint-prompt-regexp nil t 1)
-	    (goto-char (match-end 0))
-	    (while (re-search-forward
-		    "import *[A-Za-z_][A-Za-z_0-9].*\\|^from +[A-Za-z_][A-Za-z_0-9.]+ +import .*" nil t)
-	      (setq imports
-		    (concat
-		     imports
-		     (replace-regexp-in-string
-		      "[\\]\r?\n?\s*" ""
-		      (buffer-substring-no-properties (match-beginning 0) (point))) ";")))
-	    (when (ignore-errors (string-match ";" imports))
-	      (setq imports (split-string imports ";" t))
-	      (dolist (ele imports)
-		(and (string-match "import" ele)
-		     (if erg
-			 (setq erg (concat erg ";" ele))
-		       (setq erg ele)))
-		(setq imports erg))))
-	(goto-char (point-min))
-	(while (re-search-forward
-		"^import *[A-Za-z_][A-Za-z_0-9].*\\|^from +[A-Za-z_][A-Za-z_0-9.]+ +import .*" nil t)
-	  (unless (gd--end-of-statement-p)
-	    (gd-forward-statement))
-	  (setq imports
-		(concat
-		 imports
-		 (replace-regexp-in-string
-		  "[\\]\r*\n*\s*" ""
-		  (buffer-substring-no-properties (match-beginning 0) (point))) ";")))))
-    ;; (and imports
-    ;; (setq imports (replace-regexp-in-string ";$" "" imports)))
-    (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" imports))
-    imports))
-
-(defun gd-update-imports ()
-  "Returns imports.
-
-Imports done are displayed in message buffer. "
-  (interactive)
-  (save-excursion
-    (let ((gd-exception-buffer (current-buffer))
-          (orig (point))
-          (erg (gd-find-imports)))
-
-      ;; (mapc 'gd-execute-string (split-string (car (read-from-string (gd-find-imports))) "\n" t)))
-      ;; (setq erg (car (read-from-string gdscript-imports)))
-      (goto-char orig)
-      (when (called-interactively-p 'any)
-        (switch-to-buffer (current-buffer))
-        (message "%s" erg))
-      erg)))
-
-;;  Code-Checker
-;;  pep8
-(defalias 'pep8 'gd-pep8-run)
-(defun gd-pep8-run (command)
-  "*Run pep8, check formatting - default on the file currently visited."
-  (interactive
-   (let ((default
-           (if (gd--buffer-filename-remote-maybe)
-               (format "%s %s %s" gd-pep8-command
-                       (mapconcat 'identity gd-pep8-command-args " ")
-                       (gd--buffer-filename-remote-maybe))
-             (format "%s %s" gd-pep8-command
-                     (mapconcat 'identity gd-pep8-command-args " "))))
-         (last (when gd-pep8-history
-                 (let* ((lastcmd (car gd-pep8-history))
-                        (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
-                   (mapconcat 'identity newcmd " ")))))
-
-     (list
-      (if (fboundp 'read-shell-command)
-          (read-shell-command "Run pep8 like this: "
-                              (if last
-                                  last
-                                default)
-                              'gd-pep8-history)
-        (read-string "Run pep8 like this: "
-                     (if last
-                         last
-                       default)
-                     'gd-pep8-history)))))
-  (save-some-buffers (not gd-ask-about-save) nil)
-  (if (fboundp 'compilation-start)
-      ;; Emacs.
-      (compilation-start command)
-    ;; XEmacs.
-    (when (featurep 'xemacs)
-      (compile-internal command "No more errors"))))
-
-(defun gd-pep8-help ()
-  "Display pep8 command line help messages. "
-  (interactive)
-  (set-buffer (get-buffer-create "*pep8-Help*"))
-  (erase-buffer)
-  (shell-command "pep8 --help" "*pep8-Help*"))
-
-;;  Pylint
-(defalias 'pylint 'gd-pylint-run)
-(defun gd-pylint-run (command)
-  "Run pylint (default on the file currently visited).
-
-For help see M-x pylint-help resp. M-x pylint-long-help.
-Home-page: http://www.logilab.org/project/pylint "
-  (interactive
-   (let ((default (format "%s %s %s" gd-pylint-command
-			  (mapconcat 'identity gd-pylint-command-args " ")
-			  (gd--buffer-filename-remote-maybe)))
-         (last (and gd-pylint-history (car gd-pylint-history)))
-         erg)
-
-     (list (funcall (if (fboundp 'read-shell-command)
-			'read-shell-command 'read-string)
-		    "Run pylint like this: "
-		    (or default last)
-		    'gd-pylint-history))))
-  ;; (if gd-pylint-offer-current-p (or default last) (or last default))
-  ;; 'gd-pylint-history))))
-  (save-some-buffers (not gd-ask-about-save))
-  (set-buffer (get-buffer-create "*Pylint*"))
-  (erase-buffer)
-  (unless (file-readable-p (car (cddr (split-string command))))
-    (message "Warning: %s" "pylint needs a file"))
-  (shell-command command "*Pylint*"))
-
-(defalias 'pylint-help 'gd-pylint-help)
-(defun gd-pylint-help ()
-  "Display Pylint command line help messages.
-
-Let's have this until more Emacs-like help is prepared "
-  (interactive)
-  (set-buffer (get-buffer-create "*Pylint-Help*"))
-  (erase-buffer)
-  (shell-command "pylint --long-help" "*Pylint-Help*"))
-
-(defalias 'pylint-doku 'gd-pylint-doku)
-(defun gd-pylint-doku ()
-  "Display Pylint Documentation.
-
-Calls `pylint --full-documentation'"
-  (interactive)
-  (set-buffer (get-buffer-create "*Pylint-Documentation*"))
-  (erase-buffer)
-  (shell-command "pylint --full-documentation" "*Pylint-Documentation*"))
-
-;;  Pyflakes
-(defalias 'pyflakes 'gd-pyflakes-run)
-(defun gd-pyflakes-run (command)
-  "*Run pyflakes (default on the file currently visited).
-
-For help see M-x pyflakes-help resp. M-x pyflakes-long-help.
-Home-page: http://www.logilab.org/project/pyflakes "
-  (interactive
-   (let ((default
-           (if (gd--buffer-filename-remote-maybe)
-               (format "%s %s %s" gd-pyflakes-command
-                       (mapconcat 'identity gd-pyflakes-command-args " ")
-                       (gd--buffer-filename-remote-maybe))
-             (format "%s %s" gd-pyflakes-command
-                     (mapconcat 'identity gd-pyflakes-command-args " "))))
-         (last (when gd-pyflakes-history
-                 (let* ((lastcmd (car gd-pyflakes-history))
-                        (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
-                   (mapconcat 'identity newcmd " ")))))
-
-     (list
-      (if (fboundp 'read-shell-command)
-          (read-shell-command "Run pyflakes like this: "
-                              (if last
-                                  last
-                                default)
-                              'gd-pyflakes-history)
-        (read-string "Run pyflakes like this: "
-                     (if last
-                         last
-                       default)
-                     'gd-pyflakes-history)))))
-  (save-some-buffers (not gd-ask-about-save) nil)
-  (if (fboundp 'compilation-start)
-      ;; Emacs.
-      (compilation-start command)
-    ;; XEmacs.
-    (when (featurep 'xemacs)
-      (compile-internal command "No more errors"))))
-
-(defalias 'pyflakes-help 'gd-pyflakes-help)
-(defun gd-pyflakes-help ()
-  "Display Pyflakes command line help messages.
-
-Let's have this until more Emacs-like help is prepared "
-  (interactive)
-  ;; (set-buffer (get-buffer-create "*Pyflakes-Help*"))
-  ;; (erase-buffer)
-  (with-help-window "*Pyflakes-Help*"
-    (with-current-buffer standard-output
-      (insert "       pyflakes [file-or-directory ...]
-
-       Pyflakes is a simple program which checks GDScript
-       source files for errors. It is similar to
-       PyChecker in scope, but differs in that it does
-       not execute the modules to check them. This is
-       both safer and faster, although it does not
-       perform as many checks. Unlike PyLint, Pyflakes
-       checks only for logical errors in programs; it
-       does not perform any checks on style.
-
-       All commandline arguments are checked, which
-       have to be either regular files or directories.
-       If a directory is given, every .py file within
-       will be checked.
-
-       When no commandline arguments are given, data
-       will be read from standard input.
-
-       The exit status is 0 when no warnings or errors
-       are found. When errors are found the exit status
-       is 2. When warnings (but no errors) are found
-       the exit status is 1.
-
-Extracted from http://manpages.ubuntu.com/manpages/natty/man1/pyflakes.1.html"))))
-
-;;  Pyflakes-pep8
-(defalias 'pyflakespep8 'gd-pyflakespep8-run)
-(defun gd-pyflakespep8-run (command)
-  "*Run pyflakespep8, check formatting (default on the file currently visited).
-"
-  (interactive
-   (let ((default
-           (if (gd--buffer-filename-remote-maybe)
-               (format "%s %s %s" gd-pyflakespep8-command
-                       (mapconcat 'identity gd-pyflakespep8-command-args " ")
-                       (gd--buffer-filename-remote-maybe))
-             (format "%s %s" gd-pyflakespep8-command
-                     (mapconcat 'identity gd-pyflakespep8-command-args " "))))
-         (last (when gd-pyflakespep8-history
-                 (let* ((lastcmd (car gd-pyflakespep8-history))
-                        (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
-                   (mapconcat 'identity newcmd " ")))))
-
-     (list
-      (if (fboundp 'read-shell-command)
-          (read-shell-command "Run pyflakespep8 like this: "
-                              (if last
-                                  last
-                                default)
-                              'gd-pyflakespep8-history)
-        (read-string "Run pyflakespep8 like this: "
-                     (if last
-                         last
-                       default)
-                     'gd-pyflakespep8-history)))))
-  (save-some-buffers (not gd-ask-about-save) nil)
-  (if (fboundp 'compilation-start)
-      ;; Emacs.
-      (compilation-start command)
-    ;; XEmacs.
-    (when (featurep 'xemacs)
-      (compile-internal command "No more errors"))))
-
-(defun gd-pyflakespep8-help ()
-  "Display pyflakespep8 command line help messages. "
-  (interactive)
-  (set-buffer (get-buffer-create "*pyflakespep8-Help*"))
-  (erase-buffer)
-  (shell-command "pyflakespep8 --help" "*pyflakespep8-Help*"))
-
-;;  Pychecker
-;;  hack for GNU Emacs
-;;  (unless (fboundp 'read-shell-command)
-;;  (defalias 'read-shell-command 'read-string))
-
-(defun gd-pychecker-run (command)
-  "*Run pychecker (default on the file currently visited)."
-  (interactive
-   (let ((default
-           (if (gd--buffer-filename-remote-maybe)
-               (format "%s %s %s" gd-pychecker-command
-		       gd-pychecker-command-args
-		       (gd--buffer-filename-remote-maybe))
-             (format "%s %s" gd-pychecker-command gd-pychecker-command-args)))
-         (last (when gd-pychecker-history
-                 (let* ((lastcmd (car gd-pychecker-history))
-                        (cmd (cdr (reverse (split-string lastcmd))))
-                        (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
-                   (mapconcat 'identity newcmd " ")))))
-
-     (list
-      (if (fboundp 'read-shell-command)
-          (read-shell-command "Run pychecker like this: "
-                              (if last
-                                  last
-                                default)
-                              'gd-pychecker-history)
-        (read-string "Run pychecker like this: "
-                     (if last
-                         last
-                       default)
-                     'gd-pychecker-history)))))
-  (save-some-buffers (not gd-ask-about-save) nil)
-  (if (fboundp 'compilation-start)
-      ;; Emacs.
-      (compilation-start command)
-    ;; XEmacs.
-    (when (featurep 'xemacs)
-      (compile-internal command "No more errors"))))
-
-;;  After `sgml-validate-command'.
-(defun gd-check-command (command)
-  "Check a GDScript file (default current buffer's file).
-Runs COMMAND, a shell command, as if by `compile'.
-See `gd-check-command' for the default."
-  (interactive
-   (list (read-string "Checker command: "
-                      (concat gd-check-command " "
-                              (let ((name (gd--buffer-filename-remote-maybe)))
-                                (if name
-                                    (file-name-nondirectory name)))))))
-  (require 'compile)                    ;To define compilation-* variables.
-  (save-some-buffers (not compilation-ask-about-save) nil)
-  (let ((compilation-error-regexp-alist
-	 (cons '("(\\([^,]+\\), line \\([0-9]+\\))" 1 2)
-	       compilation-error-regexp-alist)))
-    (compilation-start command)))
-
-;;  flake8
-(defalias 'flake8 'gd-flake8-run)
-(defun gd-flake8-run (command)
-  "Flake8 is a wrapper around these tools:
-        - PyFlakes
-        - pep8
-        - Ned Batchelder's McCabe script
-
-        It also adds features:
-        - files that contain this line are skipped::
-            # flake8: noqa
-        - lines that contain a ``# noqa`` comment at the end will not issue warnings.
-        - a Git and a Mercurial hook.
-        - a McCabe complexity checker.
-        - extendable through ``flake8.extension`` entry points."
-  (interactive
-   (let* ((gd-flake8-command
-           (if (string= "" gd-flake8-command)
-               (or (executable-find "flake8")
-                   (error "Don't see \"flake8\" on your system.
-Consider \"pip install flake8\" resp. visit \"pypi.python.org\""))
-             gd-flake8-command))
-          (default
-            (if (gd--buffer-filename-remote-maybe)
-                (format "%s %s %s" gd-flake8-command
-                        gd-flake8-command-args
-                        (gd--buffer-filename-remote-maybe))
-              (format "%s %s" gd-flake8-command
-                      gd-flake8-command-args)))
-          (last
-           (when gd-flake8-history
-             (let* ((lastcmd (car gd-flake8-history))
-                    (cmd (cdr (reverse (split-string lastcmd))))
-                    (newcmd (reverse (cons (gd--buffer-filename-remote-maybe) cmd))))
-               (mapconcat 'identity newcmd " ")))))
-     (list
-      (if (fboundp 'read-shell-command)
-          (read-shell-command "Run flake8 like this: "
-                              ;; (if last
-                              ;; last
-                              default
-                              'gd-flake8-history1)
-        (read-string "Run flake8 like this: "
-                     (if last
-                         last
-                       default)
-                     'gd-flake8-history)))))
-  (save-some-buffers (not gd-ask-about-save) nil)
-  (if (fboundp 'compilation-start)
-      ;; Emacs.
-      (compilation-start command)
-    ;; XEmacs.
-    (when (featurep 'xemacs)
-      (compile-internal command "No more errors"))))
-
-(defun gd-flake8-help ()
-  "Display flake8 command line help messages. "
-  (interactive)
-  (set-buffer (get-buffer-create "*flake8-Help*"))
-  (erase-buffer)
-  (shell-command "flake8 --help" "*flake8-Help*"))
-
-;;  from string-strip.el --- Strip CHARS from STRING
+;; WAYPOINT 2
 
 (defvar gd-chars-before " \t\n\r\f"
   "Used by `gd--string-strip'")
@@ -7214,158 +6362,6 @@ i.e. spaces, tabs, carriage returns, newlines and newpages. "
     (when (and gd-verbose-p (called-interactively-p 'any)) (message "%s" erg))
     erg))
 
-;;  ffap
-(defun gd-ffap-module-path (module)
-  "Function for `ffap-alist' to return path for MODULE."
-  (let ((process (or
-                  (and (eq major-mode 'gd-shell-mode)
-                       (get-buffer-process (current-buffer)))
-                  (gd-shell-get-process))))
-    (if (not process)
-        nil
-      (let ((module-file
-             (gd--send-string-no-output
-              (format gd-ffap-string-code module) process)))
-        (when module-file
-          (substring-no-properties module-file 1 -1))))))
-
-(eval-after-load "ffap"
-  '(progn
-     (push '(gdscript-mode . gd-ffap-module-path) ffap-alist)
-     (push '(gd-shell-mode . gd-ffap-module-path) ffap-alist)))
-
-;;  Flymake
-(defun gd-toggle-flymake-intern (name command)
-  ;; (clear-flymake-allowed-file-name-masks)
-  (unless (string-match "pyflakespep8" name)
-    (unless (executable-find name)
-      (when gd-verbose-p (message "Don't see %s. Use `easy_install' %s? " name name))))
-  (if (gd--buffer-filename-remote-maybe)
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                         'flymake-create-temp-inplace))
-             (local-file (file-relative-name
-                          temp-file
-                          (file-name-directory (gd--buffer-filename-remote-maybe)))))
-        (add-to-list 'flymake-allowed-file-name-masks (car (read-from-string (concat "(\"\\.py\\'\" flymake-" name ")"))))
-        (list command (list local-file)))
-    (message "%s" "flymake needs a `file-name'. Please save before calling.")))
-
-(defun gd-flycheck-mode (&optional arg)
-  "Toggle `flycheck-mode'.
-
-With negative argument switch off flycheck-mode
-See menu \"Tools/Syntax Checking\""
-  (interactive "p")
-  (setq arg (or arg (if flycheck-mode 0 1)))
-  (if (featurep 'flycheck)
-      (if (< arg 0)
-	  ;; switch off
-	  (flycheck-mode 0)
-	(when (and gd-verbose-p (called-interactively-p 'any)) (message "flycheck-mode: %s" flycheck-mode))
-	(flycheck-mode 1)
-	(when (and gd-verbose-p (called-interactively-p 'any)) (message "flycheck-mode: %s" flycheck-mode)))
-    (error "Can't find flycheck - see README.org")))
-
-(defun pylint-flymake-mode ()
-  "Toggle `pylint' `flymake-mode'. "
-  (interactive)
-  (if flymake-mode
-      ;; switch off
-      (flymake-mode 0)
-    (gd-toggle-flymake-intern "pylint" "pylint")
-    (flymake-mode 1)))
-
-(defun pyflakes-flymake-mode ()
-  "Toggle `pyflakes' `flymake-mode'. "
-  (interactive)
-  (if flymake-mode
-      ;; switch off
-      (flymake-mode)
-    (gd-toggle-flymake-intern "pyflakes" "pyflakes")
-    (flymake-mode)))
-
-(defun pychecker-flymake-mode ()
-  "Toggle `pychecker' `flymake-mode'. "
-  (interactive)
-  (if flymake-mode
-      ;; switch off
-      (flymake-mode)
-    (gd-toggle-flymake-intern "pychecker" "pychecker")
-    (flymake-mode)))
-
-(defun pep8-flymake-mode ()
-  "Toggle `pep8' `flymake-mode'. "
-  (interactive)
-  (if flymake-mode
-      ;; switch off
-      (flymake-mode)
-    (gd-toggle-flymake-intern "pep8" "pep8")
-    (flymake-mode)))
-
-(defun pyflakespep8-flymake-mode ()
-  "Toggle `pyflakespep8' `flymake-mode'.
-
-Joint call to pyflakes and pep8 as proposed by
-Keegan Carruthers-Smith"
-  (interactive)
-  (if flymake-mode
-      ;; switch off
-      (flymake-mode)
-    (gd-toggle-flymake-intern "pyflakespep8" "pyflakespep8")
-    (flymake-mode)))
-
-;; ;
-(defun variables-state (&optional buffer directory-in directory-out)
-  "Diplays state of gdscript-mode variables in an org-mode buffer.
-
-Reads variables from gdscript-mode.el as current buffer.
-
-Variables which would produce a large output are left out:
-- syntax-tables
-- gdscript-mode-map
-
-Maybe call M-x describe-variable RET to query its value. "
-  (interactive)
-  (variables-prepare "state"))
-
-(defun variables-base-state (gd-exception-buffer orgname reSTname directory-in directory-out)
-  (save-restriction
-    (let ((suffix (file-name-nondirectory (gd--buffer-filename-remote-maybe)))
-          variableslist)
-      ;; (widen)
-      (goto-char (point-min))
-      ;; (eval-buffer)
-      (while (and (not (eobp))(re-search-forward "^(defvar [[:alpha:]]\\|^(defcustom [[:alpha:]]\\|^(defconst [[:alpha:]]" nil t 1))
-        (let* ((name (symbol-at-point))
-               (state
-                (unless
-                    (or (eq name 'gd-menu)
-                        (eq name 'gdscript-mode-map)
-                        (string-match "syntax-table" (prin1-to-string name)))
-
-                  (prin1-to-string (symbol-value name)))))
-          (if state
-              (add-to-list 'variableslist (cons (prin1-to-string name) state))
-            (message "don't see a state for %s" (prin1-to-string name))))
-        (forward-line 1))
-      (setq variableslist (nreverse variableslist))
-      ;; (with-temp-buffer
-      (set-buffer (get-buffer-create "State-of-GDScript-mode-variables.org"))
-      (erase-buffer)
-      ;; org
-      (insert "State of gdscript-mode variables\n\n")
-      (switch-to-buffer (current-buffer))
-      (dolist (ele variableslist)
-        (if (string-match "^;;; " (car ele))
-            (unless (or (string-match "^;;; Constants\\|^;;; Commentary\\|^;;; Code\\|^;;; Macro definitions\\|^;;; Customization" (car ele)))
-
-              (insert (concat (replace-regexp-in-string "^;;; " "* " (car ele)) "\n")))
-          (insert (concat "\n** "(car ele) "\n"))
-          (insert (concat "   " (cdr ele) "\n\n")))
-        ;; (richten)
-        (sit-for 0.01))
-      (sit-for 0.01)
-      (org-mode))))
 
 ;; gdscript-components-extensions
 
@@ -7702,42 +6698,17 @@ Matches lists, but also block, statement, string and comment. "
       (when (called-interactively-p 'any) (message "%s" erg))
       erg)))
 
-(defun gd-documentation (w)
-  "Launch PyDOC on the Word at Point"
-  (interactive
-   (list (let* ((word (thing-at-point 'word))
-                (input (read-string
-                        (format "pydoc entry%s: "
-                                (if (not word) "" (format " (default %s)" word))))))
-           (if (string= input "")
-               (if (not word) (error "No pydoc args given")
-                 word) ;sinon word
-             input)))) ;sinon input
-  (shell-command (concat gd-shell-name " -c \"from pydoc import help;help(\'" w "\')\"") "*PYDOCS*")
-  (view-buffer-other-window "*PYDOCS*" t 'kill-buffer-and-window))
-
-(defun eva ()
-  "Put \"eval(...)\" forms around strings at point. "
-  (interactive "*")
-  (skip-chars-forward " \t\r\n\f")
-  (let* ((bounds (ar-bounds-of-word-atpt))
-         (beg (car bounds))
-         (end (cdr bounds)))
-    (goto-char end)
-    (insert ")")
-    (goto-char beg)
-    (insert "eval(")))
 
 (defun pst-here ()
   "Kill previous \"pdb.set_trace()\" and insert it at point. "
   (interactive "*")
   (let ((orig (copy-marker (point))))
-    (search-backward "pdb.set_trace()")
+    (search-backward "breakpoint")
     (replace-match "")
     (when (empty-line-p)
       (delete-region (line-beginning-position) (line-end-position)))
     (goto-char orig)
-    (insert "pdb.set_trace()")))
+    (insert "breakpoint")))
 
 (defalias 'durck 'gd-printform-insert)
 (defalias 'druck 'gd-printform-insert)
@@ -16936,10 +15907,6 @@ Returns position reached if successful"
               (message "%s not readable. %s" file "Do you have write permissions?")))
         (gd--execute-base beg end shell)))))
 
-(defun gd-load-skeletons ()
-  "Load skeletons from extensions. "
-  (interactive)
-  (load (concat gd-install-directory "/extensions/gdscript-components-skeletons.el")))
 
 (defun gd--kill-emacs-hook ()
   "Delete files in `gd-file-queue'.
@@ -18124,51 +17091,6 @@ This function does not modify point or mark."
   (interactive)
   (let ((erg (split-string (shell-command-to-string (concat "find " default-directory " -maxdepth 9 -type f -name \"*python\"")))))))
 
-;;  (defun gd-install-local-epdfree ()
-;;    (interactive)
-;;    (gd-install-local-shells "MY-PATH/epdfree"))
-
-(defun gd-install-local-shells (&optional local path-prefix)
-  "Builds GDScript-shell commands from executable found in LOCAL.
-
-If LOCAL is empty, shell-command `find' searches beneath current directory.
-Eval resulting buffer to install it, see customizable `gd-extensions'. "
-  (interactive)
-  (let* ((local-dir (if local
-                        (expand-file-name local)
-                      (read-from-minibuffer "Virtualenv directory: " default-directory)))
-         (path-separator (if (string-match "/" local-dir)
-                             "/"
-                           "\\" t))
-         (shells (split-string (shell-command-to-string (concat "find " local-dir " -maxdepth 9 -type f -executable -name \"*python\""))))
-         erg newshell prefix akt end orig curexe aktpath)
-    (set-buffer (get-buffer-create gd-extensions))
-    (erase-buffer)
-    (dolist (elt shells)
-      (setq prefix "")
-      (setq curexe (substring elt (1+ (string-match "/[^/]+$" elt))))
-      (setq aktpath (substring elt 0 (1+ (string-match "/[^/]+$" elt))))
-      (dolist (prf (split-string aktpath (regexp-quote path-separator)))
-        (unless (string= "" prf)
-          (setq prefix (concat prefix (substring prf 0 1)))))
-      (setq orig (point))
-      (insert gd-shell-template)
-      (setq end (point))
-      (goto-char orig)
-      (when (re-search-forward "\\<NAME\\>" end t 1)
-        (replace-match (concat prefix "-" (substring elt (1+ (save-match-data (string-match "/[^/]+$" elt)))))t))
-      (goto-char orig)
-      (while (search-forward "DOCNAME" end t 1)
-        (replace-match (if (string= "ipython" curexe)
-                           "IPython"
-                         (capitalize curexe)) t))
-      (goto-char orig)
-      (when (search-forward "FULLNAME" end t 1)
-        (replace-match elt t))
-      (goto-char (point-max)))
-    (emacs-lisp-mode)
-    (if (file-readable-p (concat gd-install-directory "/" gd-extensions))
-        (find-file (concat gd-install-directory "/" gd-extensions)))))
 
 (defun gd-end-of-string (&optional beginning-of-string-position)
   "Go to end of string at point if any, if successful return position. "
@@ -21128,11 +20050,6 @@ Use `M-x customize-variable' to set it permanently"
 
 	    ("Directory"
 
-	     ["Guess install directory "
-	      (setq gd-guess-gd-install-directory-p
-		    (not gd-guess-gd-install-directory-p))
-	      :help "If in cases, `gd-install-directory' isn't set,  `gd-set-load-path'should guess it from `buffer-file-name'. Use `M-x customize-variable' to set it permanently"
-	      :style toggle :selected gd-guess-gd-install-directory-p]
 
 	     ["Use local default"
 	      (setq gd-use-local-default
@@ -23153,11 +22070,6 @@ Use `M-x customize-variable' to set it permanently"
 
 	    ("Directory"
 
-	     ["Guess install directory "
-	      (setq gd-guess-gd-install-directory-p
-		    (not gd-guess-gd-install-directory-p))
-	      :help "If in cases, `gd-install-directory' isn't set,  `gd-set-load-path'should guess it from `buffer-file-name'. Use `M-x customize-variable' to set it permanently"
-	      :style toggle :selected gd-guess-gd-install-directory-p]
 
 	     ["Use local default"
 	      (setq gd-use-local-default
@@ -23595,44 +22507,6 @@ See available customizations listed in files variables-gdscript-mode at director
     (remove-hook 'gd-gdscript-shell-mode-hook 'gd--run-unfontify-timer t)
     (remove-hook 'post-command-hook 'gd-shell-fontify t)))
 
-(defun gd--all-shell-mode-setting ()
-  (gd--shell-setup-fontification)
-  (setenv "PAGER" "cat")
-  (setenv "TERM" "dumb")
-  (set-syntax-table gdscript-mode-syntax-table)
-  (if gd-auto-complete-p
-      (add-hook 'gd-shell-mode-hook 'gd--run-completion-timer)
-    (remove-hook 'gd-shell-mode-hook 'gd--run-completion-timer))
-  ;; comint settings
-  (set (make-local-variable 'comint-prompt-regexp)
-       (cond ((string-match "[iI][pP]ython[[:alnum:]*-]*$" gd-buffer-name)
-	      (concat "\\("
-		      (mapconcat 'identity
-				 (delq nil (list gd-shell-input-prompt-1-regexp gd-shell-input-prompt-2-regexp gd-ipython-input-prompt-re gd-ipython-output-prompt-re gd-pdbtrack-input-prompt gd-pydbtrack-input-prompt))
-				 "\\|")
-		      "\\)"))
-	     (t (concat "\\("
-			(mapconcat 'identity
-				   (delq nil (list gd-shell-input-prompt-1-regexp gd-shell-input-prompt-2-regexp gd-pdbtrack-input-prompt gd-pydbtrack-input-prompt))
-				   "\\|")
-			"\\)"))))
-  (remove-hook 'comint-output-filter-functions 'font-lock-extend-jit-lock-region-after-change t)
-
-  (make-local-variable 'comint-output-filter-functions)
-  ;; (set (make-local-variable 'comint-input-filter) 'gd--input-filter)
-  (set (make-local-variable 'comint-input-filter) 'gd-history-input-filter)
-  (set (make-local-variable 'comint-prompt-read-only) gd-shell-prompt-read-only)
-  ;; (set (make-local-variable 'comint-use-prompt-regexp) nil)
-  (set (make-local-variable 'compilation-error-regexp-alist)
-       gd-compilation-regexp-alist)
-  (set (make-local-variable 'comment-start) "# ")
-  (set (make-local-variable 'comment-start-skip) "^[ \t]*#+ *")
-  (set (make-local-variable 'comment-column) 40)
-  (set (make-local-variable 'comment-indent-function) #'gd--comment-indent-function)
-  (set (make-local-variable 'indent-region-function) 'gd-indent-region)
-  (set (make-local-variable 'indent-line-function) 'gd-indent-line)
-  (set (make-local-variable 'inhibit-point-motion-hooks) t)
-  (set (make-local-variable 'comint-input-sender) 'gd--shell-simple-send))
 
 (define-derived-mode gd-gdscript-shell-mode comint-mode "Py"
   "Major mode for interacting with a GDScript process.
