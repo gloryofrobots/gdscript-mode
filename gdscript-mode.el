@@ -9813,6 +9813,7 @@ as it leaves your system default unchanged."
 (defalias 'gd-hungry-delete-forward 'c-hungry-delete-forward)
 (defalias 'gd-hungry-delete-backwards 'c-hungry-delete-backwards)
 
+;; ABBREV
 ;; TODO I DONT KNOW WHAT THIS ABOUT BUT IN PYTHON MODE IT BROKEN TOO
 ;;  FixMe: for unknown reasons this is not done by mode
 ;; (if (file-readable-p abbrev-file-name)
@@ -9870,24 +9871,6 @@ If region is active, restrict uncommenting at region "
                             last))))
         (and (gd-forward-comment))
         (gd--uncomment-intern beg (point))))))
-
-(defun gd--set-auto-fill-values ()
-  "Internal use by `gd--run-auto-fill-timer'"
-  (let ((pps (parse-partial-sexp (point-min) (point))))
-    (cond ((and (nth 4 pps)(numberp gd-comment-fill-column))
-           (setq fill-column gd-comment-fill-column))
-          ((and (nth 3 pps)(numberp gd-docstring-fill-column))
-           (set (make-local-variable 'fill-column) gd-docstring-fill-column))
-          (t (setq fill-column gd-fill-column-orig)))))
-
-(defun gd--run-auto-fill-timer ()
-  "Set fill-column to values of `gd-docstring-fill-column' resp. to `gd-comment-fill-column' according to environment. "
-  (when gd-auto-fill-mode
-    (unless gd-autofill-timer
-      (setq gd-autofill-timer
-            (run-with-idle-timer
-             gd-autofill-timer-delay t
-             'gd--set-auto-fill-values)))))
 
 ;;  unconditional Hooks
 ;;  (orgstruct-mode 1)
@@ -11342,22 +11325,7 @@ Use current region unless optional args BEG END are delivered."
   (interactive)
   (setq gd--execute-use-temp-file-p (not gd--execute-use-temp-file-p)))
 
-;; /usr/lib/python2.7/pdb.py eyp.py
-(defalias 'IPython 'ipython)
-(defalias 'Ipython 'ipython)
-(defalias 'GDScript 'python)
-(defalias 'Python2 'python2)
-(defalias 'Python3 'python3)
-(defalias 'ipy 'ipython)
-(defalias 'iyp 'ipython)
-(defalias 'gd-execute-region-default 'gd-execute-region)
-(defalias 'gd-execute-region-default-dedicated 'gd-execute-region-dedicated)
-(defalias 'gd-fast-send-string 'gd-execute-string-fast)
-(defalias 'gd-kill-minor-expression 'gd-kill-partial-expression)
-(defalias 'pyhotn 'python)
-(defalias 'pyhton 'python)
-(defalias 'pyt 'python)
-
+;;WAYPOINT 10
 
 ;; gdscript-components-menu
 
