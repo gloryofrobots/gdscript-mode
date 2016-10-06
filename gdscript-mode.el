@@ -2998,7 +2998,7 @@ Returns char found. "
              (or
 			"if" "elif" "else" "for" "do" "while" "switch" "case" "break" "continue" "pass" 
 			"return" "class" "extends" "tool" "signal" "func" "static" "const" "enum" "var" 
-			"onready" "export" "setget" "breakpoint", "and", "or", "not")
+			"onready" "export" "setget" "breakpoint" "and" "or" "not")
              symbol-end)
         (,(rx symbol-start (or "static func" "func" "class") symbol-end) . gd-def-class-face)
         (,(rx symbol-start (or "if") symbol-end) . gd-try-if-face)
@@ -3071,164 +3071,12 @@ Returns char found. "
 (require 'thingatpt)
 (require 'which-func)
 
-;; gdscript-components-switches
-
-;; Toggle highlight-indentation
-
-(defun gd-toggle-highlight-indentation (&optional indent)
-  "If `highlight-indentation-p' should be on or off. "
-  (interactive "P")
-  ;; (let ((indent indent))
-  (unless (featurep 'highlight-indentation)
-    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
-  (highlight-indentation indent)
-  (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
-  highlight-indent-active)
-
-(defun gd-highlight-indentation-off ()
-  "If `highlight-indentation-p' should be on or off. "
-  (interactive)
-  (unless (featurep 'highlight-indentation)
-    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
-  (highlight-indentation-off)
-  (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
-  highlight-indent-active)
-
-(defun gd-highlight-indentation-on ()
-  "If `highlight-indentation-p' should be on or off. "
-  (interactive "P")
-  (unless (featurep 'highlight-indentation)
-    (load (concat (gd--normalize-directory gd-install-directory) "extensions" (char-to-string gd-separator-char) "highlight-indentation.el")))
-  (highlight-indentation-on)
-  (when gd-verbose-p (message "highlight-indent-active: %s" highlight-indent-active))
-  highlight-indent-active)
-
-;;  Smart indentation
-(defalias 'toggle-gd-smart-indentation 'gd-toggle-smart-indentation)
-(defun gd-toggle-smart-indentation (&optional arg)
-  "If `gd-smart-indentation' should be on or off.
-
-Returns value of `gd-smart-indentation' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-smart-indentation -1 1))))
-    (if (< 0 arg)
-        (progn
-          (setq gd-smart-indentation t)
-          (gd-guess-indent-offset))
-      (setq gd-smart-indentation nil)
-      (setq gd-indent-offset (default-value 'gd-indent-offset)))
-    (when (called-interactively-p 'any) (message "gd-smart-indentation: %s" gd-smart-indentation))
-    gd-smart-indentation))
-
-(defun gd-smart-indentation-on (&optional arg)
-  "Make sure, `gd-smart-indentation' is on.
-
-Returns value of `gd-smart-indentation'. "
-  (interactive "p")
-  (let ((arg (or arg 1)))
-    (toggle-gd-smart-indentation arg))
-  (when (called-interactively-p 'any) (message "gd-smart-indentation: %s" gd-smart-indentation))
-  gd-smart-indentation)
-
-(defun gd-smart-indentation-off (&optional arg)
-  "Make sure, `gd-smart-indentation' is off.
-
-Returns value of `gd-smart-indentation'. "
-  (interactive "p")
-  (let ((arg (if arg (- arg) -1)))
-    (toggle-gd-smart-indentation arg))
-  (when (called-interactively-p 'any) (message "gd-smart-indentation: %s" gd-smart-indentation))
-  gd-smart-indentation)
 
 (defun gd-toggle-sexp-function ()
   "Opens customization "
   (interactive)
   (customize-variable 'gd-sexp-function))
 
-;; Autopair mode
-;; gd-autopair-mode forms
-(defalias 'toggle-gd-autopair-mode 'gd-toggle-autopair-mode)
-(defun gd-toggle-autopair-mode (&optional arg)
-  "If `gd-autopair-mode' should be on or off.
-
-  Returns value of `gd-autopair-mode' switched to. "
-  (interactive)
-  (and (gd-autopair-check)
-       (setq gd-autopair-mode (autopair-mode (if autopair-mode 0 1)))))
-
-(defun gd-autopair-mode-on ()
-  "Make sure, gd-autopair-mode' is on.
-
-Returns value of `gd-autopair-mode'. "
-  (interactive)
-  (and (gd-autopair-check)
-       (setq gd-autopair-mode (autopair-mode 1))))
-
-(defun gd-autopair-mode-off ()
-  "Make sure, gd-autopair-mode' is off.
-
-Returns value of `gd-autopair-mode'. "
-  (interactive)
-  (setq gd-autopair-mode (autopair-mode 0)))
-
-;; Smart operator
-;; gd-smart-operator-mode-p forms
-(defun toggle-gd-smart-operator-mode-p (&optional arg)
-  "If `gd-smart-operator-mode-p' should be on or off.
-
-  Returns value of `gd-smart-operator-mode-p' switched to. "
-  (interactive)
-  (and (gd-smart-operator-check)
-       (setq gd-smart-operator-mode-p (smart-operator-mode (if smart-operator-mode 0 1)))))
-
-(defun gd-smart-operator-mode-p-on ()
-  "Make sure, gd-smart-operator-mode-p' is on.
-
-Returns value of `gd-smart-operator-mode-p'. "
-  (interactive)
-  (and (gd-smart-operator-check)
-       (setq gd-smart-operator-mode-p (smart-operator-mode 1))))
-
-(defun gd-smart-operator-mode-p-off ()
-  "Make sure, gd-smart-operator-mode-p' is off.
-
-Returns value of `gd-smart-operator-mode-p'. "
-  (interactive)
-  (setq gd-smart-operator-mode-p (smart-operator-mode 0)))
-
-
-
-;;  gd-electric-comment-p forms
-(defun toggle-gd-electric-comment-p (&optional arg)
-  "If `gd-electric-comment-p' should be on or off.
-
-  Returns value of `gd-electric-comment-p' switched to. "
-  (interactive)
-  (let ((arg (or arg (if gd-electric-comment-p -1 1))))
-    (if (< 0 arg)
-        (setq gd-electric-comment-p t)
-      (setq gd-electric-comment-p nil))
-    (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-electric-comment-p: %s" gd-electric-comment-p))
-    gd-electric-comment-p))
-
-(defun gd-electric-comment-p-on (&optional arg)
-  "Make sure, gd-electric-comment-p' is on.
-
-Returns value of `gd-electric-comment-p'. "
-  (interactive)
-  (let ((arg (or arg 1)))
-    (toggle-gd-electric-comment-p arg))
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-electric-comment-p: %s" gd-electric-comment-p))
-  gd-electric-comment-p)
-
-(defun gd-electric-comment-p-off ()
-  "Make sure, `gd-electric-comment-p' is off.
-
-Returns value of `gd-electric-comment-p'. "
-  (interactive)
-  (toggle-gd-electric-comment-p -1)
-  (when (or gd-verbose-p (called-interactively-p 'any)) (message "gd-electric-comment-p: %s" gd-electric-comment-p))
-  gd-electric-comment-p)
 
 ;;  gd-underscore-word-syntax-p forms
 (defun toggle-gd-underscore-word-syntax-p (&optional arg)
@@ -3280,7 +3128,11 @@ See bug report at launchpad, lp:940812 "
          (set-default symbol value)
          (toggle-gd-underscore-word-syntax-p (if value 1 0))))
 
+
 ;; gdscript-components-edit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;; INDENTATION ;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun gd--top-level-form-p ()
   "Return non-nil, if line starts with a top level definition.
@@ -3293,7 +3145,7 @@ Used by `gd-electric-colon', which will not indent than. "
                     (looking-at gd-def-re))))
     erg))
 
-
+
 (defun gd-indent-line-outmost (&optional arg)
   "Indent the current line to the outmost reasonable indent.
 
