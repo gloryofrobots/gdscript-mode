@@ -6699,7 +6699,7 @@ Matches lists, but also block, statement, string and comment. "
       erg)))
 
 
-(defun pst-here ()
+(defun gd-move-breakpoint ()
   "Kill previous \"pdb.set_trace()\" and insert it at point. "
   (interactive "*")
   (let ((orig (copy-marker (point))))
@@ -6710,8 +6710,6 @@ Matches lists, but also block, statement, string and comment. "
     (goto-char orig)
     (insert "breakpoint")))
 
-(defalias 'durck 'gd-printform-insert)
-(defalias 'druck 'gd-printform-insert)
 
 (defun gd-printform-insert (&optional arg string)
   "Inserts a print statement out of current `(car kill-ring)' by default, inserts STRING if delivered.
@@ -6727,8 +6725,9 @@ With optional \\[universal-argument] print as string"
                         (concat "print(\"" name ": %s \" % \"" name "\")"))))))
     (insert form)))
 
-(defun gd-line-to-printform-python2 (&optional arg)
-  "Transforms the item on current in a print statement. "
+
+(defun gd-line-to-printform (&optional arg)
+  "Transforms the item on current line in a print statement. "
   (interactive "*")
   (let* ((name (thing-at-point 'word))
          (form (cond ((or (eq major-mode 'gdscript-mode)(eq major-mode 'gd-shell-mode))
@@ -6747,11 +6746,11 @@ I.e. switch it from \"True\" to \"False\" and vice versa"
     (unless (gd--end-of-statement-p)
       (gd-forward-statement))
     (backward-word)
-    (cond ((looking-at "True")
-           (replace-match "False"))
-          ((looking-at "False")
-           (replace-match "True"))
-          (t (message "%s" "Can't see \"True or False\" here")))))
+    (cond ((looking-at "true")
+           (replace-match "false"))
+          ((looking-at "false")
+           (replace-match "true"))
+          (t (message "%s" "Can't see \"true or false\" here")))))
 
 (when (featurep 'thing-at-point-utils)
   (defun gd-beginning-of-list (&optional iact orig limit done last)
