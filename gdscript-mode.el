@@ -427,7 +427,7 @@ terminated line. "
   :tag "gd-continuation-offset"
   :group 'gdscript-mode)
 
-(defcustom gd-indent-tabs-mode nil
+(defcustom gd-indent-tabs-mode t
   "GDScript-mode starts `indent-tabs-mode' with the value specified here, default is nil. "
   :type 'boolean
   :tag "gd-indent-tabs-mode"
@@ -692,10 +692,8 @@ Default ignores all inputs of 0, 1, or 2 non-blank characters.")
 
 (defvar gd-this-abbrevs-changed nil
   "Internally used by gdscript-mode-hook")
+;; WP 3
 
-(defvar gd-ffap-p nil)
-(defvar gd-ffap nil)
-(defvar ffap-alist nil)
 
 (defvar gd-buffer-name nil
   "Internal use. ")
@@ -703,33 +701,6 @@ Default ignores all inputs of 0, 1, or 2 non-blank characters.")
 (defvar gd-orig-buffer-or-file nil
   "Internal use. ")
 
-(defun gd--set-ffap-form ()
-  (cond ((and gd-ffap-p gd-ffap)
-         (eval-after-load "ffap"
-           '(push '(gdscript-mode . gd-module-path) ffap-alist))
-         (setq ffap-alist (remove '(gdscript-mode . gd-ffap-module-path) ffap-alist))
-         (setq ffap-alist (remove '(gd-shell-mode . gd-ffap-module-path)
-                                  ffap-alist)))
-        (t (setq ffap-alist (remove '(gdscript-mode . gd-ffap-module-path) ffap-alist))
-           (setq ffap-alist (remove '(gd-shell-mode . gd-ffap-module-path)
-                                    ffap-alist))
-           (setq ffap-alist (remove '(gdscript-mode . gd-module-path) ffap-alist)))))
-
-(defcustom gd-ffap-p nil
-
-  "Select gdscript-modes way to find file at point.
-
-Default is nil "
-
-  :type '(choice
-
-          (const :tag "default" nil)
-          (const :tag "use gd-ffap" gd-ffap))
-  :tag "gd-ffap-p"
-  :set (lambda (symbol value)
-         (set-default symbol value)
-         (gd--set-ffap-form))
-    :group 'gdscript-mode)
 
 (defcustom gd-keep-windows-configuration nil
   "Takes precedence over `gd-split-window-on-execute' and `gd-switch-buffers-on-execute-p'.
@@ -753,9 +724,7 @@ Default is nil "
 Output buffer is created dynamically according to GDScript version and kind of process-handling")
 (make-variable-buffer-local 'gd-output-buffer)
 
-(defvar gd-ffap-string-code
-  "__FFAP_get_module_path('''%s''')\n"
-  "GDScript code used to get a string with the path of a module.")
+
 
 (defcustom gd-shell-prompt-regexp ">>> "
   "Regular Expression matching top\-level input prompt of python shell.
@@ -764,18 +733,6 @@ It should not contain a caret (^) at the beginning."
   :tag "gd-shell-prompt-regexp"
   :group 'gdscript-mode)
 
-(defvar gd-ffap-setup-code
-  "def __FFAP_get_module_path(module):
-    try:
-        import os
-        path = __import__(module).__file__
-        if path[-4:] == '.pyc' and os.path.exists(path[0:-1]):
-            path = path[:-1]
-        return path
-    except:
-        return ''
-"
-  "GDScript code to get a module path.")
 
 (defvar gd-eldoc-window-configuration nil
   "Keeps window-configuration when eldoc-mode is called. ")
@@ -8679,6 +8636,7 @@ These are GDScript temporary files awaiting execution."
 (add-to-list 'same-window-buffer-names (purecopy "*GDScript*"))
 
 (add-to-list 'auto-mode-alist (cons (purecopy "\\.gd\\'")  'gdscript-mode))
+(add-to-list 'auto-mode-alist '("\\.gd\\'" . 'gdscript-mode))
 
 (defun gd--uncomment-intern (beg end)
   (uncomment-region beg end)
