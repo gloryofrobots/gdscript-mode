@@ -18,32 +18,6 @@
   :group 'gdscript-mode)
 
 
-(defcustom info-lookup-mode "GDScript"
-  "Which GDScript documentation should be queried.
-
-Make sure it's accessible from Emacs by M-x info RET ...
-See INSTALL-INFO-FILES for help. "
-
-  :type 'string
-  :tag "info-lookup-mode"
-  :group 'gdscript-mode)
-
-(defcustom gd-fast-process-p nil
-  "Use `gd-fast-process'.
-
-Commands prefixed \"gd-fast-...\" suitable for large output
-
-See: large output makes Emacs freeze, lp:1253907
-
-Results arrive in output buffer, which is not in comint-mode"
-
-  :type 'boolean
-  :tag "gd-fast-process-p"
-  :group 'gdscript-mode)
-
-(defvar gd-this-result nil
-  "Internally used, store return-value")
-
 ;; (defcustom gd-which-def-or-class-function gd-which-def-or-class
 ;;   "If which-function-mode should use `gd-which-def-or-class'.
 
@@ -68,13 +42,6 @@ Results arrive in output buffer, which is not in comint-mode"
 ;;           (const :tag "gdscript-info-current-defun" gdscript-info-current-defun))
 ;;   :group 'gdscript-mode)
 
-(defcustom gd-comment-auto-fill-p nil
-  "When non-nil, fill comments.
-
-Defaut is nil"
-
-  :type 'boolean
-  :group 'gdscript-mode)
 
 (defcustom gd-sexp-use-expression-p nil
   "If non-nil, C-M-s call gd-forward-expression.
@@ -84,48 +51,6 @@ Default is t"
   :type 'boolean
   :group 'gdscript-mode)
 
-(defcustom gd-session-p t
-  "If commands would use an existing process.
-
-If nil, a maybe existing process at gd-buffer-name would be killed and re-started
-
-See also `gd-dedicated-process-p'
-"
-
-  :type 'boolean
-  :tag "gd-session-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-max-help-buffer-p nil
-  "If \"\*GDScript-Help\*\"-buffer should appear as the only visible.
-
-Default is nil. In help-buffer, \"q\" will close it.  "
-
-  :type 'boolean
-  :tag "gd-max-help-buffer-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-highlight-error-source-p nil
-  "When gd-execute-... commands raise an error, respective code in source-buffer will be highlighted. Default is nil.
-
-M-x `gd-remove-overlays-at-point' removes that highlighting.
- "
-  :type 'boolean
-  :tag "gd-highlight-error-source-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-set-pager-cat-p nil
-  "If the shell environment variable $PAGER should set to `cat'.
-
-If `t', use `C-c C-r' to jump to beginning of output. Then scroll normally.
-
-Avoids lp:783828, \"Terminal not fully functional\", for help('COMMAND') in gdscript-shell
-
-When non-nil, imports module `os' "
-
-  :type 'boolean
-  :tag "gd-set-pager-cat-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-empty-line-closes-p nil
   "When non-nil, dedent after empty line following block
@@ -143,58 +68,9 @@ If non-nil, a C-j from empty line dedents."
   :tag "gd-empty-line-closes-p"
   :group 'gdscript-mode)
 
-(defcustom gd-prompt-on-changed-p t
-  "When called interactively, ask for save before a changed buffer is sent to interpreter.
-
-Default is `t'"
-
-  :type 'boolean
-  :tag "gd-prompt-on-changed-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-dedicated-process-p nil
-  "If commands executing code use a dedicated shell.
-
-Default is nil
-
-When non-nil and `gd-session-p', an existing dedicated process is re-used instead of default - which allows executing stuff in parallel.
-"
-  :type 'boolean
-  :tag "gd-dedicated-process-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-store-result-p nil
-  "When non-nil, put resulting string of `gd-execute-...' into kill-ring, so it might be yanked.
-
-Default is nil"
-
-  :type 'boolean
-  :tag "gd-dedicated-process-p"
-  :group 'gdscript-mode)
-
-(defvar gd-shell--font-lock-buffer " *PSFLB*"
-  "May contain the `gd-buffer-name' currently fontified. " )
-
-(defvar gd-return-result-p t
-  "Internally used. When non-nil, return resulting string of `gd-execute-...' functions. Imports will use it with nil.
-
-Default is t")
-
-(defcustom gd--execute-use-temp-file-p nil
- "Assume execution at a remote machine.
-
- where write-access is not given. "
-
- :type 'boolean
- :group 'gdscript-mode)
 
 (defvar gd--match-paren-forward-p nil
   "Internally used by `gd-match-paren'. ")
-
-(defvar gd-new-session-p t
-  "Internally used. See lp:1393882.
-
-Restart gd-shell once with new Emacs/gdscript-mode. ")
 
 (defcustom gd-electric-close-active-p nil
   "Close completion buffer when it's sure, it's no longer needed, i.e. when inserting a space.
@@ -204,27 +80,6 @@ Default is `nil'"
   :type 'boolean
   :group 'gdscript-mode)
 
-(defcustom gd-update-gud-pdb-history-p t
-  "If pdb should provide suggestions WRT file to check and gd-pdb-path.
-
-Default is t
-See lp:963253
-"
-  :type 'boolean
-  :tag "gd-update-gud-pdb-history-p"
-  :group 'gdscript-mode
-  :tag "gd-update-gud-pdb-history-p")
-
-(defcustom gd-pdb-executable nil
-  "Indicate PATH/TO/pdb.
-
-Default is nil
-See lp:963253
-"
-  :type 'string
-  :tag "gd-pdb-executable"
-  :group 'gdscript-mode
-  :tag "gd-pdb-executable")
 
 (defcustom gd-hide-show-minor-mode-p nil
   "If hide-show minor-mode should be on, default is nil. "
@@ -244,15 +99,6 @@ Pressing \"if<SPACE>\" for example will prompt for the if-condition.
   :tag "gd-load-skeletons-p"
   :group 'gdscript-mode)
 
-(defcustom gd-if-name-main-permission-p t
-  "Allow execution of code inside blocks started
-by \"if __name__== '__main__':\".
-
-Default is non-nil"
-
-  :type 'boolean
-  :tag "gd-if-name-main-permission-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-use-font-lock-doc-face-p nil
   "If documention string inside of def or class get `font-lock-doc-face'.
@@ -279,198 +125,12 @@ Default is nil. "
   :tag "gd-indent-honors-inline-comment"
   :group 'gdscript-mode)
 
-(defcustom gd-auto-fill-mode nil
-  "If gdscript-mode should set fill-column
 
-according values in `gd-comment-fill-column' and `gd-docstring-fill-column'.
-Default is  nil"
-
-  :type 'boolean
-  :tag "gd-auto-fill-mode"
-  :group 'gdscript-mode)
-
-(defcustom gd-error-markup-delay 4
-  "Seconds error's are highlighted in exception buffer. "
-
-  :type 'integer
-  :tag "gd-error-markup-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-fast-completion-delay 0.1
-  "Used by gd--fast-send-string-intern. "
-
-  :type 'float
-  :tag "gd-fast-completion-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-new-shell-delay
-    (if (eq system-type 'windows-nt)
-      2.0
-    1.0)
-
-  "If a new comint buffer is connected to GDScript, commands like completion might need some delay. "
-
-  :type 'float
-  :tag "gd-new-shell-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-autofill-timer-delay 1
-  "Delay when idle before functions ajusting  `gd-docstring-fill-column' resp. `gd-comment-fill-column' are called. "
-  :type 'integer
-  :tag "gd-autofill-timer-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-docstring-fill-column 72
-  "Value of `fill-column' to use when filling a docstring.
-Any non-integer value means do not use a different value of
-`fill-column' when filling docstrings."
-  :type '(choice (integer)
-                 (const :tag "Use the current `fill-column'" t))
-  :tag "gd-docstring-fill-column"
-  :group 'gdscript-mode)
-
-(defcustom gd-comment-fill-column 79
-  "Value of `fill-column' to use when filling a comment.
-Any non-integer value means do not use a different value of
-`fill-column' when filling docstrings."
-  :type '(choice (integer)
-		 (const :tag "Use the current `fill-column'" t))
-  :tag "gd-comment-fill-column"
-  :group 'gdscript-mode)
-
-(defcustom gd-fontify-shell-buffer-p nil
-  "If code in GDScript shell should be highlighted as in script buffer.
-
-Default is nil.
-
-If `t', related vars like `comment-start' will be set too.
-Seems convenient when playing with stuff in IPython shell
-Might not be TRT when a lot of output arrives "
-
-  :type 'boolean
-  :tag "gd-fontify-shell-buffer-p"
-  :group 'gdscript-mode)
-
-
-(defcustom gd-modeline-acronym-display-home-p nil
-  "If the modeline acronym should contain chars indicating the home-directory.
-
-Default is nil "
-  :type 'boolean
-  :tag "gd-modeline-acronym-display-home-p"
-  :group 'gdscript-mode)
-
-(defun gd-smart-operator-check ()
-  "Check, if smart-operator-mode is loaded resp. available.
-
-Give some hints, if not."
-  (interactive)
-  (if (featurep 'smart-operator)
-      't
-    (progn
-      (and (boundp 'gd-smart-operator-mode-p) gd-smart-operator-mode-p (message "%s" "Don't see smart-operator.el. Make sure, it's installed. See in menu Options, Manage Emacs Packages. Or get it from source: URL: http://xwl.appspot.com/ref/smart-operator.el")
-           nil))))
-
-(defun gd-autopair-check ()
-  "Check, if autopair-mode is available.
-
-Give some hints, if not."
-  (interactive)
-  (if (featurep 'autopair)
-      't
-    (progn
-      (message "gd-autopair-check: %s" "Don't see autopair.el. Make sure, it's installed. If not, maybe see source: URL: http://autopair.googlecode.com")
-      nil)))
-
-(defvar smart-operator-mode nil)
-(defvar highlight-indent-active nil)
-(defvar autopair-mode nil)
+;; WP 1
 
 (defvar gd-edit-docstring-orig-pos nil
   "Internally used by `gd-edit-docstring'. ")
 
-(defvar gd-result nil
-  "Internally used. May store result from GDScript process. ")
-
-(defvar gd-error nil
-  "Internally used. Takes the error-messages from GDScript process. ")
-
-(defvar gd-gdscript-completions "*GDScript Completions*"
-  "Buffer name for GDScript-shell completions, internally used")
-
-(defvar gd-ipython-completions "*IPython Completions*"
-  "Buffer name for IPython-shell completions, internally used")
-
-(defcustom gd-timer-close-completions-p t
-  "If `gd-timer-close-completion-buffer' should run, default is non-nil. "
-
-  :type 'boolean
-  :tag "gd-timer-close-completions-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-smart-operator-mode-p nil
-  "If gdscript-mode calls `smart-operator-mode-on'
-
-Default is nil. "
-
-  :type 'boolean
-  :tag "gd-smart-operator-mode-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-autopair-mode nil
-  "If gdscript-mode calls (autopair-mode-on)
-
-Default is nil
-Load `autopair-mode' written by Joao Tavora <joaotavora [at] gmail.com>
-URL: http://autopair.googlecode.com "
-  :type 'boolean
-  :tag "gd-autopair-mode"
-  :group 'gdscript-mode)
-
-(defcustom gd-indent-no-completion-p nil
-  "If completion function should insert a TAB when no completion found.
-
-Default is `nil'"
-  :type 'boolean
-  :tag "gd-indent-no-completion-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-company-pycomplete-p nil
-  "Load company-pycomplete stuff. Default is  nil"
-
-  :type 'boolean
-  :tag "gd-company-pycomplete-p"
-  :group 'gdscript-mode)
-
-(defvar gd-last-position nil
-    "Used by gd-help-at-point.
-
-Avoid repeated call at identic pos. ")
-
-(defvar gd-auto-completion-mode-p nil
-  "Internally used by `gd-auto-completion-mode'")
-
-(defvar gd-complete-last-modified nil
-  "Internally used by `gd-auto-completion-mode'")
-
-(defvar gd--auto-complete-timer nil
-  "Internally used by `gd-auto-completion-mode'")
-
-(defvar gd-auto-completion-buffer nil
-  "Internally used by `gd-auto-completion-mode'")
-
-(defvar gd--auto-complete-timer-delay 1
-  "Seconds Emacs must be idle to trigger auto-completion.
-
-See `gd-auto-completion-mode'")
-
-(defcustom gd-auto-complete-p nil
-  "Run gdscript-mode's built-in auto-completion via gd-complete-function. Default is  nil"
-
-  :type 'boolean
-  :tag "gd-auto-complete-p"
-  :group 'gdscript-mode)
-(make-variable-buffer-local 'gd-auto-complete-p)
 
 (defcustom gd-tab-shifts-region-p nil
   "If `t', TAB will indent/cycle the region, not just the current line.
@@ -501,24 +161,6 @@ Default is t"
   :tag "gd-block-comment-prefix-p"
   :group 'gdscript-mode)
 
-(defcustom gd-org-cycle-p nil
-  "When non-nil, command `org-cycle' is available at shift-TAB, <backtab>
-
-Default is nil. "
-
-  :type 'boolean
-  :tag "gd-org-cycle-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-set-complete-keymap-p  nil
-  "If `gd-complete-initialize', which sets up enviroment for Pymacs based gd-complete, should load it's keys into `gdscript-mode-map'
-
-Default is nil.
-See also resp. edit `gd-complete-set-keymap' "
-
-  :type 'boolean
-  :tag "gd-set-complete-keymap-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-outline-minor-mode-p t
   "If outline minor-mode should be on, default is `t'. "
@@ -764,68 +406,12 @@ mark-defun marks top-level form at point etc."
   :tag "gd-return-key"
   :group 'gdscript-mode)
 
-(defcustom gd-complete-function 'gd-fast-complete
-  "When set, enforces function todo completion, default is `gd-fast-complete'.
-
-Might not affect IPython, as `gd-shell-complete' is the only known working here.
-Normally gdscript-mode knows best which function to use. "
-  :type '(choice
-
-          (const :tag "default" nil)
-          (const :tag "Pymacs and company based gd-complete" gd-complete)
-          (const :tag "gd-shell-complete" gd-shell-complete)
-          (const :tag "gd-indent-or-complete" gd-indent-or-complete)
-	  (const :tag "gd-fast-complete" gd-fast-complete)
-          )
-  :tag "gd-complete-function"
-  :group 'gdscript-mode)
-
 (defcustom gd-encoding-string " # -*- coding: utf-8 -*-"
   "Default string specifying encoding of a GDScript file. "
   :type 'string
   :tag "gd-encoding-string"
   :group 'gdscript-mode)
 
-(defcustom gd-shebang-startstring "#! /bin/env"
-  "Detecting the shell in head of file. "
-  :type 'string
-  :tag "gd-shebang-startstring"
-  :group 'gdscript-mode)
-
-(defcustom gd-flake8-command ""
-  "Which command to call flake8.
-
-If empty, gdscript-mode will guess some "
-  :type 'string
-  :tag "gd-flake8-command"
-  :group 'gdscript-mode)
-
-(defcustom gd-flake8-command-args ""
-  "Arguments used by flake8.
-
-Default is the empty string. "
-  :type 'string
-  :tag "gd-flake8-command-args"
-  :group 'gdscript-mode)
-
-(defvar gd-flake8-history nil
-  "Used by flake8, resp. gd-flake8-command.
-
-Default is nil. ")
-
-(defcustom gd-message-executing-temporary-file t
-  "If execute functions using a temporary file should message it. Default is `t'.
-
-Messaging increments the prompt counter of IPython shell. "
-  :type 'boolean
-  :tag "gd-message-executing-temporary-file"
-  :group 'gdscript-mode)
-
-(defcustom gd-execute-no-temp-p nil
-  "Seems Emacs-24.3 provided a way executing stuff without temporary files. "
-  :type 'boolean
-  :tag "gd-execute-no-temp-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-lhs-inbound-indent 1
   "When line starts a multiline-assignment: How many colums indent should be more than opening bracket, brace or parenthesis. "
@@ -894,19 +480,6 @@ No semantic indent,  which diff to `gd-indent-offset' indicates "
   :tag "gd-backslashed-lines-indent-offset"
   :group 'gdscript-mode)
 
-(defcustom gd-pdb-path
-  (if (or (eq system-type 'ms-dos)(eq system-type 'windows-nt))
-      (quote c:/python27/python\ -i\ c:/python27/Lib/pdb.py)
-    '/usr/lib/python2.7/pdb.py)
-  "Where to find pdb.py. Edit this according to your system.
-
-If you ignore the location `M-x gd-guess-pdb-path' might display it."
-  :type 'variable
-  :tag "gd-pdb-path"
-  :group 'gdscript-mode)
-
-(defvar gd-gdscript-ms-pdb-command ""
-  "MS-systems might use that")
 
 (defcustom gd-indent-comments t
   "When t, comment lines are indented. "
@@ -933,35 +506,15 @@ Precedes guessing when not empty, returned by function `gd-separator-char'. "
  ;; kept a character not to break existing customizations
  (characterp gd-separator-char)(setq gd-separator-char (char-to-string gd-separator-char)))
 
+;; WP 2
+
 (defcustom gd-custom-temp-directory ""
   "If set, will take precedence over guessed values from `gd-temp-directory'. Default is the empty string. "
   :type 'string
   :tag "gd-custom-temp-directory"
   :group 'gdscript-mode)
 
-(defcustom gd-beep-if-tab-change t
-  "Ring the bell if `tab-width' is changed.
-If a comment of the form
 
-                           \t# vi:set tabsize=<number>:
-
-is found before the first code line when the file is entered, and the
-current value of (the general Emacs variable) `tab-width' does not
-equal <number>, `tab-width' is set to <number>, a message saying so is
-displayed in the echo area, and if `gd-beep-if-tab-change' is non-nil
-the Emacs bell is also rung as a warning."
-  :type 'boolean
-  :tag "gd-beep-if-tab-change"
-  :group 'gdscript-mode)
-
-(defcustom gd-jump-on-exception t
-  "Jump to innermost exception frame in GDScript output buffer.
-When this variable is non-nil and an exception occurs when running
-GDScript code synchronously in a subprocess, jump immediately to the
-source code of the innermost traceback frame."
-  :type 'boolean
-  :tag "gd-jump-on-exception"
-  :group 'gdscript-mode)
 
 (defcustom gd-ask-about-save t
   "If not nil, ask about which buffers to save before executing some code.
@@ -2732,7 +2285,6 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
     (insert "\\")
     (end-of-line)))
 
-(and gd-company-pycomplete-p (require 'company-pycomplete))
 
 ;; Macros
 (defmacro empty-line-p ()
@@ -2806,12 +2358,6 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
         ;; information
         (define-key map [(control c)(control v)] 'gd-version)
         (define-key map (kbd "TAB") 'gd-indent-line)
-	;; (if gd-complete-function
-        ;;     (progn
-        ;;       (define-key map [(meta tab)] gd-complete-function)
-        ;;       (define-key map [(esc) (tab)] gd-complete-function))
-        ;;   (define-key map [(meta tab)] 'gd-shell-complete)
-        ;;   (define-key map [(esc) (tab)] 'gd-shell-complete))
         map))
 
 (defun gd-separator-char ()
@@ -6097,12 +5643,9 @@ variable docs begin with `->'.
 
 gd-indent-offset\tindentation increment
 gd-block-comment-prefix\tcomment string used by comment-region
-gd-temp-directory\tdirectory used for temp files (if needed)
 
-gd-beep-if-tab-change\tring the bell if tab-width is changed
 %v:gd-indent-offset
 %v:gd-block-comment-prefix
-%v:gd-beep-if-tab-change
 
 @KINDS OF LINES
 
@@ -6321,7 +5864,6 @@ local bindings to gd-newline-and-indent."))
                ("(gdscript-lib)Class-Exception-Object Index")
                ("(gdscript-lib)Function-Method-Variable Index")
                ("(gdscript-lib)Miscellaneous Index"))))
-;; WAYPOINT 2
 
 (defvar gd-chars-before " \t\n\r\f"
   "Used by `gd--string-strip'")
@@ -6797,7 +6339,6 @@ I.e. switch it from \"True\" to \"False\" and vice versa"
               (when iact (message "%s" last))
               last)))))))
 
-;; WAYPOINT 3
 ;; TODO MAYBE DELETE ALL OF ELECTRIC
 ;; gdscript-components-electric
 (defun gd-electric-colon (arg)
@@ -8765,7 +8306,6 @@ Return position if section found, nil otherwise "
 ;; gdscript-components-exec-forms
 ;; Execute forms at point
 
-;; WAYPOINT 4
 
 ;; gdscript-abbrev-propose
 
@@ -8832,7 +8372,6 @@ Don't use this function in a Lisp program; use `define-abbrev' instead."
      "Mode" arg)))
 
 ;; gdscript-components-paragraph
-;; WAYPOINT 5
 
 ;; gdscript-components-shift-forms
 
@@ -9218,7 +8757,6 @@ Returns outmost indentation reached. "
     erg))
 
 ;; gdscript-components-execute-file
-;; WAYPOINT 6
 ;;  Execute file commands
 ;; gdscript-components-comment
 
@@ -9368,7 +8906,6 @@ Return code of `gd-top-level' at point, a string. "
 
 ;; Process forms fast
 
-;;WAYPOINT 7
 ;; gdscript-components-narrow
 
 (defun gd-narrow-to-block ()
@@ -9407,32 +8944,6 @@ Return code of `gd-top-level' at point, a string. "
   (gd--narrow-prepare "statement"))
 
 ;; gdscript-components-auto-fill
-
-(defvar gd-auto-fill-mode-orig (auto-fill-mode)
-  "Store the original state of auto-fill-mode. ")
-
-;; gd-fill-column-orig  already defined
-
-(defun gd-comment-auto-fill (&optional arg) 
-  "Toggles comment-auto-fill mode"
-  (interactive "P")
-  (if (or (and arg (< 0 (prefix-numeric-value arg))) (and (boundp 'gd-comment-auto-fill)(not gd-comment-auto-fill)))
-      (progn
-        (set (make-local-variable 'gd-comment-auto-fill-p) t)
-        (setq fill-column comment-fill-column)
-        (auto-fill-mode 1))
-    (set (make-local-variable 'gd-comment-auto-fill-p) nil)
-;;    (set (make-local-variable 'gd-comment-auto-fill-only-comments) nil)
-    ;; (setq fill-column fill-column-orig)
-    (auto-fill-mode -1)))
-
-(defun gd-comment-auto-fill-on ()
-  (interactive)
-  (gd-comment-auto-fill 1))
-
-(defun gd-comment-auto-fill-off ()
-  (interactive)
-  (gd-comment-auto-fill -1))
 
 ;; gdscript-components-hide-show
 
@@ -9725,15 +9236,12 @@ Return code of `gd-top-level' at point, a string. "
 ;; gdscript-components-hide-show.el ends here
 ;; ;; gdscript-components-fast-complete
 
-;;WAYPOINT 8
 ;; gdscript-components-intern
 
 ;;  Keymap
 
 (defvaralias 'gd-mode-map 'gdscript-mode-map)
 
-(when gd-org-cycle-p
-  (define-key gdscript-mode-map (kbd "<backtab>") 'org-cycle))
 
 (defun gd--buffer-filename-remote-maybe (&optional buffer)
   ((lambda (file-name)
@@ -9774,7 +9282,6 @@ These are GDScript temporary files awaiting execution."
 (when gd--warn-tmp-files-left-p
   (add-hook 'gdscript-mode-hook 'gd--warn-tmp-files-left))
 
-;; WAYPOINT 9
 ;; (if gd-mode-output-map
 ;;     nil
 ;;   (setq gd-mode-output-map (make-sparse-keymap))
@@ -9872,26 +9379,6 @@ If region is active, restrict uncommenting at region "
 	    (setq indent-tabs-mode gd-indent-tabs-mode)))
 
 (remove-hook 'gdscript-mode-hook 'gdscript-setup-brm)
-
-(defun gd-complete-auto ()
-  "Auto-complete function using gd-complete. "
-  ;; disable company
-  ;; (when company-mode (company-mode))
-  (let ((modified (buffer-chars-modified-tick)))
-    ;; don't try completion if buffer wasn't modified
-    (unless (eq modified gd-complete-last-modified)
-      (if gd-auto-completion-mode-p
-	  (if (string= "*PythonCompletions*" (buffer-name (current-buffer)))
-	      (sit-for 0.1 t)
-	    (if
-		(eq gd-auto-completion-buffer (current-buffer))
-		;; not after whitespace, TAB or newline
-		(unless (member (char-before) (list 32 9 10))
-		  (gd-complete)
-		  (setq gd-complete-last-modified (buffer-chars-modified-tick)))
-	      (setq gd-auto-completion-mode-p nil
-		    gd-auto-completion-buffer nil)
-	      (cancel-timer gd--auto-complete-timer)))))))
 
 (defun gd-set-command-args (arguments)
   "Set GDScript arguments on the fly, override defaults in this session.
@@ -11317,7 +10804,6 @@ Use current region unless optional args BEG END are delivered."
   (interactive)
   (setq gd--execute-use-temp-file-p (not gd--execute-use-temp-file-p)))
 
-;;WAYPOINT 10
 
 ;; gdscript-components-menu
 
@@ -12500,20 +11986,7 @@ Use `M-x customize-variable' to set it permanently"]
 
 Use `M-x customize-variable' to set it permanently"])
 
-	     ["Beep if tab change"
-	      (setq gd-beep-if-tab-change
-		    (not gd-beep-if-tab-change))
-	      :help "Ring the bell if `tab-width' is changed.
-If a comment of the form
-
-                           	# vi:set tabsize=<number>:
-
-is found before the first code line when the file is entered, and the
-current value of (the general Emacs variable) `tab-width' does not
-equal <number>, `tab-width' is set to <number>, a message saying so is
-displayed in the echo area, and if `gd-beep-if-tab-change' is non-nil
-the Emacs bell is also rung as a warning.Use `M-x customize-variable' to set it permanently"
-	      :style toggle :selected gd-beep-if-tab-change]
+	     
 
 	     ["Highlight indentation" highlight-indentation
 	      :help "Toggle highlight indentation.
@@ -12696,28 +12169,7 @@ Defines gdscript-mode specific abbrev for last expressions before point."]
 ;; gdscript-components-foot
 
 
-
-;; (define-derived-mode gd-auto-completion-mode gdscript-mode "Pac"
-;;   "Run auto-completion"
-;;   ;; disable company
-;;   ;; (when company-mode (company-mode))
-;;   (if gd-auto-completion-mode-p
-;;       (progn
-;; 	(setq gd-auto-completion-mode-p nil
-;; 	      gd-auto-completion-buffer nil)
-;; 	(when (timerp gd--auto-complete-timer)(cancel-timer gd--auto-complete-timer)))
-;;     (setq gd-auto-completion-mode-p t
-;; 	  gd-auto-completion-buffer (current-buffer))
-;;     (setq gd--auto-complete-timer
-;; 	  (run-with-idle-timer
-;; 	   gd--auto-complete-timer-delay
-;; 	   ;; 1
-;; 	   t
-;; 	   #'gd-complete-auto)))
-;;   (force-mode-line-update))
-
 ;;;
-;;; WAYPOINT 12
 (define-derived-mode gdscript-mode prog-mode gdscript-mode-modeline-display
   "Major mode for editing Godot engine script files.
 
