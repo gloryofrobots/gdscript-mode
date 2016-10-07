@@ -508,72 +508,12 @@ Precedes guessing when not empty, returned by function `gd-separator-char'. "
 
 ;; WP 2
 
-(defcustom gd-custom-temp-directory ""
-  "If set, will take precedence over guessed values from `gd-temp-directory'. Default is the empty string. "
-  :type 'string
-  :tag "gd-custom-temp-directory"
-  :group 'gdscript-mode)
-
-
-
-(defcustom gd-ask-about-save t
-  "If not nil, ask about which buffers to save before executing some code.
-Otherwise, all modified buffers are saved without asking."
-  :type 'boolean
-  :tag "gd-ask-about-save"
-  :group 'gdscript-mode)
-
 (defcustom gd-delete-function 'delete-char
   "Function called by `gd-electric-delete' when deleting forwards."
   :type 'function
   :tag "gd-delete-function"
   :group 'gdscript-mode)
 
-(defcustom gd-pdbtrack-do-tracking-p t
-  "Controls whether the pdbtrack feature is enabled or not.
-When non-nil, pdbtrack is enabled in all comint-based buffers,
-e.g. shell buffers and the *GDScript* buffer.  When using pdb to debug a
-GDScript program, pdbtrack notices the pdb prompt and displays the
-source file and line that the program is stopped at, much the same way
-as gud-mode does for debugging C programs with gdb."
-  :type 'boolean
-  :tag "gd-pdbtrack-do-tracking-p"
-  :group 'gdscript-mode)
-(make-variable-buffer-local 'gd-pdbtrack-do-tracking-p)
-
-(defcustom gd-pdbtrack-filename-mapping nil
-  "Supports mapping file paths when opening file buffers in pdbtrack.
-When non-nil this is an alist mapping paths in the GDScript interpreter
-to paths in Emacs."
-  :type 'alist
-  :tag "gd-pdbtrack-filename-mapping"
-  :group 'gdscript-mode)
-
-(defcustom gd-pdbtrack-minor-mode-string " PDB"
-  "String to use in the minor mode list when pdbtrack is enabled."
-  :type 'string
-  :tag "gd-pdbtrack-minor-mode-string"
-  :group 'gdscript-mode)
-
-(defcustom gd-import-check-point-max
-  20000
-  "Maximum number of characters to search for a Java-ish import statement.
-When `gdscript-mode' tries to calculate the shell to use (either a
-CPython or a Jython shell), it looks at the so-called `shebang' line
-                           -- i.e. #! line.  If that's not available, it looks at some of the
-file heading imports to see if they look Java-like."
-  :type 'integer
-  :tag "gd-import-check-point-max
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-jython-packages
-  '("java" "javax")
-  "Imported packages that imply `jython-mode'."
-  :type '(repeat string)
-  :tag "gd-jython-packages
-"
-  :group 'gdscript-mode)
 
 (defcustom gd-current-defun-show t
   "If `gd-current-defun' should jump to the definition, highlight it while waiting PY-WHICH-FUNC-DELAY seconds, before returning to previous position.
@@ -591,145 +531,6 @@ Default is `t'."
   :tag "gd-current-defun-delay"
   :group 'gdscript-mode)
 
-(defcustom gd--delete-temp-file-delay 1
-  "Used by `gd--delete-temp-file'"
-
-  :type 'number
-  :tag "gd--delete-temp-file-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-gdscript-send-delay 5
-  "Seconds to wait for output, used by `gd--send-...' functions.
-
-See also gd-ipython-send-delay"
-
-  :type 'number
-  :tag "gd-gdscript-send-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-ipython-send-delay 9
-  "Seconds to wait for output, used by `gd--send-...' functions.
-
-See also gd-gdscript-send-delay"
-
-  :type 'number
-  :tag "gd-ipython-send-delay"
-  :group 'gdscript-mode)
-
-(defcustom gd-master-file nil
-  "If non-nil, \\[gd-execute-buffer] executes the named
-master file instead of the buffer's file.  If the file name has a
-relative path, the value of variable `default-directory' for the
-buffer is prepended to come up with a file name.
-
-Beside you may set this variable in the file's local
-variable section, e.g.:
-
-                           # Local Variables:
-                           # gd-master-file: \"master.py\"
-                           # End:
-
-                           "
-  :type 'string
-  :tag "gd-master-file"
-  :group 'gdscript-mode)
-(make-variable-buffer-local 'gd-master-file)
-
-(defcustom gd-pychecker-command "pychecker"
-  "Shell command used to run Pychecker."
-  :type 'string
-  :tag "gd-pychecker-command"
-  :group 'gdscript-mode)
-
-(defcustom gd-pychecker-command-args "--stdlib"
-  "String arguments to be passed to pychecker."
-  :type 'string
-  :tag "gd-pychecker-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-pyflakes-command "pyflakes"
-  "Shell command used to run Pyflakes."
-  :type 'string
-  :tag "gd-pyflakes-command"
-  :group 'gdscript-mode)
-
-(defcustom gd-pyflakes-command-args ""
-  "String arguments to be passed to pyflakes.
-
-Default is \"\""
-  :type 'string
-  :tag "gd-pyflakes-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-pep8-command "pep8"
-  "Shell command used to run pep8."
-  :type 'string
-  :tag "gd-pep8-command"
-  :group 'gdscript-mode)
-
-
-
-(defcustom gd-shell-prompt-read-only t
-  "If non-nil, the python prompt is read only.  Setting this
-variable will only effect new shells."
-  :type 'boolean
-  :tag "gd-shell-prompt-read-only"
-  :group 'gdscript-mode)
-
-
-(defcustom gd-switch-buffers-on-execute-p nil
-  "When non-nil switch to the GDScript output buffer.
-
-If `gd-keep-windows-configuration' is t, this will take precedence over setting here. "
-
-  :type 'boolean
-  :tag "gd-switch-buffers-on-execute-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-split-window-on-execute 'just-two
-  "When non-nil split windows.
-
-Default is just-two - when code is send to interpreter, split screen into source-code buffer and current gd-shell result.
-
-Other buffer will be hidden that way.
-
-When set to `t', gdscript-mode tries to reuse existing windows and will split only if needed.
-
-With 'always, results will displayed in a new window.
-
-Both `t' and `always' is experimental still.
-
-For the moment: If a multitude of gdscript-shells/buffers should be
-visible, open them manually and set `gd-keep-windows-configuration' to `t'.
-
-See also `gd-keep-windows-configuration'
-"
-  :type '(choice
-
-          (const :tag "default" just-two)
-	  (const :tag "reuse" t)
-          (const :tag "no split" nil)
-	  (const :tag "just-two" just-two)
-          (const :tag "always" always))
-  :tag "gd-split-window-on-execute"
-  :group 'gdscript-mode)
-
-(defcustom gd-split-window-on-execute-threshold 3
-  "Maximal number of displayed windows.
-
-Honored, when `gd-split-window-on-execute' is `t', i.e. \"reuse\".
-Don't split when max number of displayed windows is reached. "
-  :type 'number
-  :tag "gd-split-window-on-execute-threshold"
-  :group 'gdscript-mode)
-
-(defcustom gd-split-windows-on-execute-function 'split-window-vertically
-  "How window should get splitted to display results of gd-execute-... functions. "
-  :type '(choice (const :tag "split-window-vertically" split-window-vertically)
-                 (const :tag "split-window-horizontally" split-window-horizontally)
-                 )
-  :tag "gd-split-windows-on-execute-function"
-  :group 'gdscript-mode)
 
 (defcustom gd-shell-fontify-style 'all
   "Fontify current input resp. output in GDScript shell. Default is nil.
@@ -786,174 +587,6 @@ At any case only current input gets fontified.
   :group 'gdscript-mode
   )
 
-(defcustom gd-shell-name
-  (if (eq system-type 'windows-nt)
-      "C:/Python27/python"
-    ;; "python"
-    "python")
-
-  "A PATH/TO/EXECUTABLE or default value `gd-shell' may look for, if no shell is specified by command.
-
-On Windows default is C:/Python27/python
---there is no garantee it exists, please check your system--
-
-Else python"
-  :type 'string
-  :tag "gd-shell-name
-"
-  :group 'gdscript-mode)
-
-(defvar gd-default-interpreter gd-shell-name)
-
-(defvar gd-tempfile nil
-  "Internally used")
-
-(defvar gd-named-shells (list 'ipython 'ipython-dedicated 'ipython-no-switch 'ipython-switch 'ipython-switch-dedicated 'ipython2.7 'ipython2.7-dedicated 'ipython2.7-no-switch 'ipython2.7-switch 'ipython2.7-switch-dedicated 'ipython3 'ipython3-dedicated 'ipython3-no-switch 'ipython3-switch 'ipython3-switch-dedicated 'jython 'jython-dedicated 'jython-no-switch 'jython-switch 'jython-switch-dedicated 'python 'gdscript-dedicated 'gdscript-no-switch 'gdscript-switch 'gdscript-switch-dedicated 'python2 'python2-dedicated 'python2-no-switch 'python2-switch 'python2-switch-dedicated 'python3 'python3-dedicated 'python3-no-switch 'python3-switch 'python3-switch-dedicated))
-
-(defcustom gd-gdscript-command
-  (if (eq system-type 'windows-nt)
-      ;; "C:\\Python27\\python.exe"
-      "python"
-   ;; "C:/Python33/Lib/site-packages/IPython"
-    "python")
-
-  "Make sure, the directory where python.exe resides in in the PATH-variable.
-
-Windows: If needed, edit in \"Advanced System Settings/Environment Variables\" Commonly \"C:\\\\Python27\\\\python.exe\"
-With Anaconda for example the following works here:
-\"C:\\\\Users\\\\My-User-Name\\\\Anaconda\\\\Scripts\\\\python.exe\"
-
-Else /usr/bin/python"
-
-  :type 'string
-  :tag "gd-gdscript-command
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-gdscript-command-args '("-i")
-  "String arguments to be used when starting a GDScript shell."
-  :type 'string
-  :tag "gd-gdscript-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-python2-command
-  (if (eq system-type 'windows-nt)
-      "C:\\Python27\\python"
-    ;; "python2"
-    "python2")
-
-  "Make sure, the directory where python.exe resides in in the PATH-variable.
-
-Windows: If needed, edit in \"Advanced System Settings/Environment Variables\" Commonly \"C:\\\\Python27\\\\python.exe\"
-With Anaconda for example the following works here:
-\"C:\\\\Users\\\\My-User-Name\\\\Anaconda\\\\Scripts\\\\python.exe\"
-
-Else /usr/bin/python"
-
-  :type 'string
-  :tag "gd-python2-command
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-python2-command-args '("-i")
-  "String arguments to be used when starting a GDScript shell."
-  :type '(repeat string)
-  :tag "gd-python2-command-args"
-  :group 'gdscript-mode)
-
-;; "/usr/bin/python3"
-(defcustom gd-python3-command
-  (if (eq system-type 'windows-nt)
-    "C:/Python33/python"
-    "python3")
-
-  "A PATH/TO/EXECUTABLE or default value `gd-shell' may look for, if
-  no shell is specified by command.
-
-On Windows see C:/Python3/python.exe
---there is no garantee it exists, please check your system--
-
-At GNU systems see /usr/bin/python3"
-
-  :type 'string
-  :tag "gd-python3-command
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-python3-command-args '("-i")
-  "String arguments to be used when starting a Python3 shell."
-  :type '(repeat string)
-  :tag "gd-python3-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-ipython-command
-  (if (eq system-type 'windows-nt)
-      ;; "ipython"
-    "C:\\Python27\\python"
-    ;; "C:/Python33/Lib/site-packages/IPython"
-    ;; "/usr/bin/ipython"
-    "ipython")
-
-  "A PATH/TO/EXECUTABLE or default value `M-x IPython RET' may look for, if no IPython-shell is specified by command.
-
-On Windows default is \"C:\\\\Python27\\\\python.exe\"
-While with Anaconda for example the following works here:
-\"C:\\\\Users\\\\My-User-Name\\\\Anaconda\\\\Scripts\\\\ipython.exe\"
-
-Else /usr/bin/ipython"
-
-  :type 'string
-  :tag "gd-ipython-command
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-ipython-command-args
-  (if (eq system-type 'windows-nt)
-      "-i C:\\Python27\\Scripts\\ipython-script.py"
-    "--pylab --automagic")
-  "String arguments to be used when starting a GDScript shell.
-At Windows make sure ipython-script.py is PATH. Also setting PATH/TO/SCRIPT here should work, for example;
-C:\\Python27\\Scripts\\ipython-script.py
-With Anaconda the following is known to work:
-\"C:\\\\Users\\\\My-User-Name\\\\Anaconda\\\\Scripts\\\\ipython-script-py\"
-"
-  :type 'string
-  :tag "gd-ipython-command-args
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-jython-command
-  (if (eq system-type 'windows-nt)
-      "jython"
-    "/usr/bin/jython")
-
-  "A PATH/TO/EXECUTABLE or default value `M-x Jython RET' may look for, if no Jython-shell is specified by command.
-
-Not known to work at windows
-Default /usr/bin/jython"
-
-  :type 'string
-  :tag "gd-jython-command
-"
-  :group 'gdscript-mode)
-
-(defcustom gd-jython-command-args ""
-  "String arguments to be used when starting a GDScript shell."
-  :type 'string
-  :tag "gd-jython-command-args"
-  :group 'gdscript-mode)
-
-(defcustom gd-shell-toggle-1 gd-python2-command
-  "A PATH/TO/EXECUTABLE or default value used by `gd-toggle-shell'. "
-  :type 'string
-  :tag "gd-shell-toggle-1"
-  :group 'gdscript-mode)
-
-(defcustom gd-shell-toggle-2 gd-python3-command
-  "A PATH/TO/EXECUTABLE or default value used by `gd-toggle-shell'. "
-  :type 'string
-  :tag "gd-shell-toggle-2"
-  :group 'gdscript-mode)
 
 (defcustom gd--imenu-create-index-p nil
   "Non-nil means GDScript mode creates and displays an index menu of functions and global variables. "
@@ -997,38 +630,7 @@ When non-nil, arguments are printed."
   :tag "gd-imenu-show-method-args-p"
   :group 'gdscript-mode)
 
-(defcustom gd-use-local-default nil
-  "If `t', gd-shell will use `gd-shell-local-path' instead
-of default GDScript.
 
-Making switch between several virtualenv's easier,
-                               `gdscript-mode' should deliver an installer, so named-shells pointing to virtualenv's will be available. "
-  :type 'boolean
-  :tag "gd-use-local-default"
-  :group 'gdscript-mode)
-
-(defcustom gd-edit-only-p nil
-  "When `t' `gdscript-mode' will not take resort nor check for installed GDScript executables. Default is nil.
-
-See bug report at launchpad, lp:944093. "
-  :type 'boolean
-  :tag "gd-edit-only-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-force-gd-shell-name-p nil
-  "When `t', execution with kind of GDScript specified in `gd-shell-name' is enforced, possibly shebang doesn't take precedence. "
-
-  :type 'boolean
-  :tag "gd-force-gd-shell-name-p"
-  :group 'gdscript-mode)
-
-(defcustom gdscript-mode-v5-behavior-p nil
-  "Execute region through `shell-command-on-region' as
-v5 did it - lp:990079. This might fail with certain chars - see UnicodeEncodeError lp:550661"
-
-  :type 'boolean
-  :tag "gdscript-mode-v5-behavior-p"
-  :group 'gdscript-mode)
 
 (defcustom gd-trailing-whitespace-smart-delete-p nil
   "Default is nil. When t, gdscript-mode calls
@@ -1054,42 +656,6 @@ Default is `t'. See lp:1100892 "
   :tag "gd--warn-tmp-files-left-p"
   :group 'gdscript-mode)
 
-(defcustom gd-complete-ac-sources '(ac-source-pycomplete)
-  "List of auto-complete sources assigned to `ac-sources' in `gd-complete-initialize'.
-
-Default is known to work an Ubuntu 14.10 - having python-
-mode, pymacs and auto-complete-el, with the following minimal
-emacs initialization:
-
-\(require 'pymacs)
-\(require 'auto-complete-config)
-\(ac-config-default)
-
-"
-  :type 'hook
-  :tag "gd-complete-ac-sources"
-  :options '(ac-source-pycomplete ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers)
-  :group 'gdscript-mode)
-
-(defcustom gd-remove-cwd-from-path t
-  "Whether to allow loading of GDScript modules from the current directory.
-If this is non-nil, Emacs removes '' from sys.path when starting
-a GDScript process.  This is the default, for security
-reasons, as it is easy for the GDScript process to be started
-without the user's realization (e.g. to perform completion)."
-  :type 'boolean
-  :tag "gd-remove-cwd-from-path"
-  :group 'gdscript-mode)
-
-(defvar gd-ignore-result-p nil
-  "Internally used, for example by setup-functions. ")
-
-(defcustom gd-shell-local-path ""
-  "If `gd-use-local-default' is non-nil, `gd-shell' will use EXECUTABLE indicated here incl. path. "
-
-  :type 'string
-  :tag "gd-shell-local-path"
-  :group 'gdscript-mode)
 
 (defcustom gd-gdscript-edit-version ""
   "When not empty, fontify according to GDScript version specified.
@@ -1102,52 +668,6 @@ When empty, version is guessed via `gd-choose-shell'. "
   :tag "gd-gdscript-edit-version"
   :group 'gdscript-mode)
 
-(defcustom gd-ipython-execute-delay 0.3
-  "Delay needed by execute functions when no IPython shell is running. "
-  :type 'float
-  :tag "gd-ipython-execute-delay"
-  :group 'gdscript-mode)
-
-(defvar gd-shell-completion-setup-code
-  "try:
-    import readline
-except ImportError:
-    def __COMPLETER_all_completions(text): []
-else:
-    import rlcompleter
-    readline.set_completer(rlcompleter.Completer().complete)
-    def __COMPLETER_all_completions(text):
-        import sys
-        completions = []
-        try:
-            i = 0
-            while True:
-                res = readline.get_completer()(text, i)
-                if not res: break
-                i += 1
-                completions.append(res)
-        except NameError:
-            pass
-        return completions"
-  "Code used to setup completion in GDScript processes.")
-
-(defvar gd-shell-module-completion-code "';'.join(__COMPLETER_all_completions('''%s'''))"
-  "GDScript code used to get completions separated by semicolons for imports.")
-
-(defvar gd-ipython-module-completion-code
-  "import IPython
-version = IPython.__version__
-if \'0.10\' < version:
-    from IPython.core.completerlib import module_completion
-"
-  "For IPython v0.11 or greater.
- Use the following as the value of this variable:
-
-';'.join(module_completion('''%s'''))")
-
-(defvar gd-ipython-module-completion-string
-  "';'.join(module_completion('''%s'''))"
-  "See also `gd-ipython-module-completion-code'")
 
 (defcustom gd--imenu-create-index-function 'gd--imenu-create-index-new
   "Switch between `gd--imenu-create-index-new', which also lists modules variables,  and series 5. index-machine"
@@ -1169,111 +689,6 @@ Default ignores all inputs of 0, 1, or 2 non-blank characters.")
 (defvar strip-chars-after  "[ \t\r\n]*\\'"
   "Regexp indicating which chars shall be stripped after STRING - which is defined by `string-chars-preserve'.")
 
-(defcustom gd-docstring-style 'pep-257-nn
-  "Implemented styles are DJANGO, ONETWO, PEP-257, PEP-257-NN,
-SYMMETRIC, and NIL.
-
-A value of NIL won't care about quotes
-position and will treat docstrings a normal string, any other
-value may result in one of the following docstring styles:
-
-DJANGO:
-
-    \"\"\"
-    Process foo, return bar.
-    \"\"\"
-
-    \"\"\"
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    \"\"\"
-
-ONETWO:
-
-    \"\"\"Process foo, return bar.\"\"\"
-
-    \"\"\"
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-
-    \"\"\"
-
-PEP-257:
-
-    \"\"\"Process foo, return bar.\"\"\"
-
-    \"\"\"Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-
-    \"\"\"
-
-PEP-257-NN:
-
-    \"\"\"Process foo, return bar.\"\"\"
-
-    \"\"\"Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    \"\"\"
-
-SYMMETRIC:
-
-    \"\"\"Process foo, return bar.\"\"\"
-
-    \"\"\"
-    Process foo, return bar.
-
-    If processing fails throw ProcessingError.
-    \"\"\""
-  :type '(choice
-
-          (const :tag "Don't format docstrings" nil)
-          (const :tag "Django's coding standards style." django)
-          (const :tag "One newline and start and Two at end style." onetwo)
-          (const :tag "PEP-257 with 2 newlines at end of string." pep-257)
-          (const :tag "PEP-257 with 1 newline at end of string." pep-257-nn)
-          (const :tag "Symmetric style." symmetric))
-  :tag "gd-docstring-style"
-  :group 'gdscript-mode)
-
-(defcustom gd-execute-directory nil
-  "When set, stores the file's default directory-name gd-execute-... functions act upon.
-
-Used by GDScript-shell for output of `gd-execute-buffer' and related commands. See also `gd-use-current-dir-when-execute-p'"
-  :type 'string
-  :tag "gd-execute-directory"
-  :group 'gdscript-mode)
-
-(defcustom gd-use-current-dir-when-execute-p t
-  "When `t', current directory is used by GDScript-shell for output of `gd-execute-buffer' and related commands.
-
-See also `gd-execute-directory'"
-  :type 'boolean
-  :tag "gd-use-current-dir-when-execute-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-keep-shell-dir-when-execute-p nil
-  "Don't change GDScript shell's current working directory when sending code.
-
-See also `gd-execute-directory'"
-  :type 'boolean
-  :tag "gd-keep-shell-dir-when-execute-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-fileless-buffer-use-default-directory-p t
-  "When `gd-use-current-dir-when-execute-p' is non-nil and no buffer-file exists, value of `default-directory' sets current working directory of GDScript output shell"
-  :type 'boolean
-  :tag "gd-fileless-buffer-use-default-directory-p"
-  :group 'gdscript-mode)
-
-(defcustom gd-check-command "pychecker --stdlib"
-  "Command used to check a GDScript file."
-  :type 'string
-  :tag "gd-check-command"
-  :group 'gdscript-mode)
 
 (defvar gd-this-abbrevs-changed nil
   "Internally used by gdscript-mode-hook")
@@ -1485,47 +900,7 @@ gd-ipython0.11-completion-command-string also covers version 0.12")
 (defvar gd-separator-char "/"
   "Values set by defcustom only will not be seen in batch-mode. ")
 
-(defvar gd-temp-directory
-  (let ((ok '(lambda (x)
-               (and x
-                    (setq x (expand-file-name x)) ; always true
-                    (file-directory-p x)
-                    (file-writable-p x)
-                    x)))
-        erg)
-    (or
-     (and (not (string= "" gd-custom-temp-directory))
-          (if (funcall ok gd-custom-temp-directory)
-              (setq erg (expand-file-name gd-custom-temp-directory))
-            (if (file-directory-p (expand-file-name gd-custom-temp-directory))
-                (error "gd-custom-temp-directory set but not writable")
-              (error "gd-custom-temp-directory not an existing directory"))))
-     (and (funcall ok (getenv "TMPDIR"))
-          (setq erg (getenv "TMPDIR")))
-     (and (funcall ok (getenv "TEMP/TMP"))
-          (setq erg (getenv "TEMP/TMP")))
-     (and (funcall ok "/usr/tmp")
-          (setq erg "/usr/tmp"))
-     (and (funcall ok "/tmp")
-          (setq erg "/tmp"))
-     (and (funcall ok "/var/tmp")
-          (setq erg "/var/tmp"))
-     (and (eq system-type 'darwin)
-          (funcall ok "/var/folders")
-          (setq erg "/var/folders"))
-     (and (or (eq system-type 'ms-dos)(eq system-type 'windows-nt))
-          (funcall ok (concat "c:" gd-separator-char "Users"))
-          (setq erg (concat "c:" gd-separator-char "Users")))
-     ;; (funcall ok ".")
-     (error
-      "Couldn't find a usable temp directory -- set `gd-temp-directory'"))
-    (when erg (setq gd-temp-directory erg)))
-  "Directory used for temporary files created by a *GDScript* process.
-By default, guesses the first directory from this list that exists and that you
-can write into: the value (if any) of the environment variable TMPDIR,
-                          /usr/tmp, /tmp, /var/tmp, or the current directory.
 
-                          `gd-custom-temp-directory' will take precedence when setq ")
 
 (defvar gd-pdbtrack-input-prompt "^[(<]*[Ii]?[Pp]y?db[>)]+ "
   "Recognize the prompt. ")
@@ -2162,40 +1537,7 @@ See also `gd-object-reference-face'"
       (delete-region erg (point-max))))
   (goto-char (point-max)))
 
-(defun gd--gdscript-send-setup-code-intern (name &optional msg)
-  (let ((setup-file (concat (gd--normalize-directory gd-temp-directory) "py-" name "-setup-code.py"))
-	(gd-ignore-result-p t)
-	(buf (current-buffer)))
-    (unless (file-readable-p setup-file)
-      (with-temp-buffer
-	(insert (eval (car (read-from-string (concat "py-" name "-setup-code")))))
-	(write-file setup-file)))
-    (gd--execute-file-base nil setup-file nil buf)
-    (when msg (message "%s" (concat name " setup-code sent to " (process-name (get-buffer-process buf)))))))
 
-(defun gd--gdscript-send-completion-setup-code ()
-  "For GDScript see gd--gdscript-send-setup-code "
-  (gd--gdscript-send-setup-code-intern "shell-completion" gd-verbose-p))
-
-(defun gd--gdscript-send-ffap-setup-code ()
-  "For GDScript see gd--gdscript-send-setup-code "
-  (gd--gdscript-send-setup-code-intern "ffap" gd-verbose-p))
-
-(defun gd--gdscript-send-eldoc-setup-code ()
-  "For GDScript see gd--gdscript-send-setup-code "
-  (gd--gdscript-send-setup-code-intern "eldoc" gd-verbose-p))
-
-(defun gd--ipython-import-module-completion ()
-  "Setup IPython v0.11 or greater.
-
-Used by `gd-ipython-module-completion-string'"
-  (let ((setup-file (concat (gd--normalize-directory gd-temp-directory) "gd-ipython-module-completion.py"))
-	(gd-ignore-result-p t))
-    (unless (file-readable-p setup-file)
-      (with-temp-buffer
-	(insert gd-ipython-module-completion-code)
-	(write-file setup-file)))
-    (gd--execute-file-base nil setup-file nil (current-buffer))))
 
 (defun gd--at-raw-string ()
   "If at beginning of a raw-string. "
@@ -9296,18 +8638,6 @@ These are GDScript temporary files awaiting execution."
 
 ;;  backward compatibility
 
-(defun gd-toggle-local-default-use ()
-  (interactive)
-  "Toggle boolean value of `gd-use-local-default'.
-
-Returns `gd-use-local-default'
-
-See also `gd-install-local-shells'
-Installing named virualenv shells is the preffered way,
-as it leaves your system default unchanged."
-  (setq gd-use-local-default (not gd-use-local-default))
-  (when (called-interactively-p 'any) (message "gd-use-local-default set to %s" gd-use-local-default))
-  gd-use-local-default)
 
 (defalias 'gd-hungry-delete-forward 'c-hungry-delete-forward)
 (defalias 'gd-hungry-delete-backwards 'c-hungry-delete-backwards)
@@ -9379,15 +8709,6 @@ If region is active, restrict uncommenting at region "
 	    (setq indent-tabs-mode gd-indent-tabs-mode)))
 
 (remove-hook 'gdscript-mode-hook 'gdscript-setup-brm)
-
-(defun gd-set-command-args (arguments)
-  "Set GDScript arguments on the fly, override defaults in this session.
-
-Use `defcustom' to keep value across sessions "
-  (interactive
-   (list
-    (read-from-minibuffer "Command args: " gd-gdscript-command-args)))
-    (setq gd-gdscript-command-args arguments))
 
 (defun py---emacs-version-greater-23 ()
   "Return `t' if emacs major version is above 23"
@@ -10251,56 +9572,6 @@ This function does not modify point or mark."
             (setq element (car element))
           (setq element (cdr element))))
       element)))
-
-(defun gd--delay-process-dependent (process)
-  "Call a `gd-ipython-send-delay' or `gd-gdscript-send-delay' according to process"
-  (if (string-match "ipython" (prin1-to-string process))
-      (sit-for gd-ipython-send-delay t)
-    (sit-for gd-gdscript-send-delay t)))
-
-(defun gd--send-string-no-output (string &optional process msg)
-  "Send STRING to PROCESS and inhibit output display.
-When MSG is non-nil messages the first line of STRING.  Return
-the output."
-  (let* (output
-         (process (or process (get-buffer-process (gd-shell))))
-         (comint-preoutput-filter-functions
-          (append comint-preoutput-filter-functions
-                  '(ansi-color-filter-apply
-                    (lambda (string)
-                      (setq output string)
-                      "")))))
-    (gd-send-string string process)
-    (sit-for 0.1 t)
-    ;; (gd--delay-process-dependent process)
-    (when (and output (not (string= "" output)))
-	    (gd--string-strip
-	     (format "[ \n]*%s[ \n]*" gd-fast-filter-re)))))
-
-(defun gd--send-string-return-output (string &optional process msg)
-  "Send STRING to PROCESS and return output.
-
-When MSG is non-nil messages the first line of STRING.  Return
-the output."
-  (let ((process (or process (get-buffer-process (gd-shell))))
-	erg)
-    (with-current-buffer (process-buffer process)
-      (let ((comint-preoutput-filter-functions
-	     (append comint-preoutput-filter-functions
-		     '(ansi-color-filter-apply
-		       (lambda (string)
-			 (setq erg (concat erg string))
-			 "")))))
-	(gd-send-string string process)
-	(accept-process-output process 5)
-	(sit-for 0.1 t)
-	(when (and erg (not (string= "" erg)))
-	  (setq erg
-		(replace-regexp-in-string
-		 (format "[ \n]*%s[ \n]*" gd-fast-filter-re)
-		 "" erg)))
-	;; (sit-for 0.1 t)
-	erg))))
 
 (defun gd-which-def-or-class (&optional orig)
   "Returns concatenated `def' and `class' names in hierarchical order, if cursor is inside.
