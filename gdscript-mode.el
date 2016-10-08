@@ -749,29 +749,6 @@ syntax or has word syntax and isn't a letter.")
   "Values set by defcustom only will not be seen in batch-mode. ")
 
 ;; WP 4
-(defvar gd-ipython-input-prompt-re "In \\[[0-9]+\\]:\\|^[ ]\\{3\\}[.]\\{3,\\}:"
-  "A regular expression to match the IPython input prompt. ")
-
- ;; prevent ipython.el's setting
-(setq gd-ipython-input-prompt-re   "In \\[[0-9]+\\]:\\|^[ ]\\{3\\}[.]\\{3,\\}:" )
-
-(defvar gd-exec-command nil
-  "Internally used. ")
-
-(defvar gd-which-bufname "GDScript")
-
-(defvar gd-pychecker-history nil)
-
-(defvar gd-pyflakes-history nil)
-
-(defvar gd-pep8-history nil)
-
-(defvar gd-pyflakespep8-history nil)
-
-(defvar gd-pylint-history nil)
-
-(defvar gd-ipython-output-prompt-re "^Out\\[[0-9]+\\]: "
-  "A regular expression to match the output prompt of IPython.")
 
 (defvar gd-mode-output-map nil
   "Keymap used in *GDScript Output* buffers.")
@@ -779,11 +756,6 @@ syntax or has word syntax and isn't a letter.")
 (defvar hs-hide-comments-when-hiding-all t
   "Defined in hideshow.el, silence compiler warnings here. ")
 
-(defvar gd-force-local-shell-p nil
-  "Used internally, see `toggle-force-local-shell'. ")
-
-(defvar gd-shell-complete-debug nil
-  "For interal use when debugging, stores completions." )
 
 (defcustom gd-debug-p nil
   "When non-nil, keep resp. store information useful for debugging.
@@ -808,18 +780,12 @@ some logging etc. "
 
 (defvar gd-section-re gd-section-start)
 
-(defvar gd-last-window-configuration nil
-  "Internal use: restore gd-restore-window-configuration when completion is done resp. abandoned. ")
-
-(defvar gd-exception-buffer nil
-  "Will be set internally, let-bound, remember source buffer where error might occur. ")
 
 (defvar gd-string-delim-re "\\(\"\"\"\\|'''\\|\"\\|'\\)"
   "When looking at beginning of string. ")
 
 (defvar gd-labelled-re "[ \\t]*:[[:graph:]]+"
   "When looking at label. ")
-;; (setq gd-labelled-re "[ \\t]*:[[:graph:]]+")
 
 (defvar gd-expression-skip-regexp "[^ (=:#\t\r\n\f]"
   "gd-expression assumes chars indicated possible composing a gd-expression, skip it. ")
@@ -851,7 +817,7 @@ some logging etc. "
 (defvar gd-partial-expression-forward-chars "^ .\"')}]:#\t\r\n\f")
 ;; (setq gd-partial-expression-forward-chars "^ .\"')}]:#\t\r\n\f")
 
-(defvar gd-operator-re "[ \t]*\\(\\.\\|+\\|-\\|*\\|//\\|//\\|&\\|%\\||\\|\\^\\|>>\\|<<\\|<\\|<=\\|>\\|>=\\|==\\|!=\\|=\\)[ \t]*"
+(defvar gd-operator-re "[ \t]*\\(\\.\\|+\\|-\\|*\\|//\\|!\\|//\\|||\\|&&\\|&\\|%\\||\\|\\^\\|>>\\|<<\\|<\\|<=\\|>\\|>=\\|==\\|!=\\|=\\)[ \t]*"
   "Matches most of GDScript syntactical meaningful characters, inclusive whitespaces around.
 
 See also `gd-assignment-re' ")
@@ -866,21 +832,9 @@ See also `gd-operator-re' ")
 (defvar gd-delimiter-re "\\(\\.[[:alnum:]]\\|,\\|;\\|:\\)[ \t\n]"
   "Delimiting elements of lists or other programming constructs. ")
 
-(defvar gd-line-number-offset 0
-  "When an exception occurs as a result of gd-execute-region, a
-subsequent gd-up-exception needs the line number where the region
-started, in order to jump to the correct file line.  This variable is
-set in gd-execute-region and used in gd--jump-to-exception.")
 
 (defvar gd-match-paren-no-use-syntax-pps nil)
 
-(defvar gd-traceback-line-re
-  "[ \t]+File \"\\([^\"]+\\)\", line \\([0-9]+\\)"
-  "Regular expression that describes tracebacks.")
-
-(defvar gd-bol-forms-last-indent nil
-  "For internal use. Stores indent from last gd-end-of-FORM-bol command.
-When this-command is gd-beginning-of-FORM-bol, last-command's indent will be considered in order to jump onto right beginning position.")
 
 (defvar gd-XXX-tag-face 'gd-XXX-tag-face)
 
@@ -910,12 +864,6 @@ When this-command is gd-beginning-of-FORM-bol, last-command's indent will be con
   "Queue of GDScript temp files awaiting execution.
 Currently-active file is at the head of the list.")
 
-(defvar jython-mode-hook nil
-  "Hook called by `jython-mode'. `jython-mode' also calls
-                                 `gdscript-mode-hook'.")
-
-(defvar gd-shell-hook nil
-  "Hook called by `gd-shell'.")
 
 (defvar gdscript-font-lock-keywords nil)
 
@@ -935,20 +883,6 @@ Updated on each expansion.")
 
 When `this-command' is `eq' to `last-command', use the guess already computed. ")
 (make-variable-buffer-local 'gd-already-guessed-indent-offset)
-
-(defvar gd-shell-template "
-\(defun NAME (&optional argprompt)
-  \"Start an DOCNAME interpreter in another window.
-
-With optional \\\\[universal-argument] user is prompted
-for options to pass to the DOCNAME interpreter. \"
-  (interactive \"P\")
-  (let\* ((gd-shell-name \"FULLNAME\"))
-    (gd-shell argprompt)
-    (when (called-interactively-p 'any) (switch-to-buffer (current-buffer))
-          (goto-char (point-max)))))
-")
-
 
 ;; Constants
 (defconst gd-block-closing-keywords-re
@@ -1267,11 +1201,6 @@ Used for syntactic keywords.  N is the match number (1, 2 or 3)."
      (3 (gd--quote-syntax 3) t t)
      (6 (gd--quote-syntax 1) t t))))
 
-(defconst gd-windows-config-register 313465889
-  "Internal used")
-
-(defvar gd-windows-config nil
-  "Completion stores gd-windows-config-register here")
 
 (put 'gd-indent-offset 'safe-local-variable 'integerp)
 
@@ -1379,7 +1308,6 @@ See also `gd-object-reference-face'"
   (goto-char (point-max)))
 
 
-
 (defun gd--at-raw-string ()
   "If at beginning of a raw-string. "
   (looking-at "\"\"\"\\|'''") (member (char-before) (list ?u ?U ?r ?R)))
@@ -1421,7 +1349,6 @@ Returns DIRECTORY"
                     (concat directory gd-separator-char)))))
     (unless erg (when gd-verbose-p (message "Warning: directory is empty")))
     erg))
-
 
 
 (defun gd-count-lines (&optional beg end)
@@ -1507,8 +1434,8 @@ See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=7115"
         (define-key map [(\#)] 'gd-electric-comment)
         (define-key map [(delete)] 'gd-electric-delete)
         (define-key map [(backspace)] 'gd-electric-backspace)
-        ;; (define-key map [(control backspace)] 'gd-hungry-delete-backwards)
-        ;; (define-key map [(control c) (delete)] 'gd-hungry-delete-forward)
+        (define-key map [(control backspace)] 'gd-hungry-delete-backwards)
+        (define-key map [(control c) (delete)] 'gd-hungry-delete-forward)
         ;; (define-key map [(control y)] 'gd-electric-yank)
         ;; moving point
         (define-key map [(control c)(control p)] 'gd-backward-statement)
@@ -1614,7 +1541,7 @@ Returns char found. "
         (,(rx
         (or space line-start (not (any ".(")))
         symbol-start
-        (group (or "_" "__doc__" "__import__" "__name__" "__package__" "abs" "all"
+        (group (or "_" 
             "Vector2" "Rect2" "Vector3" "Matrix32" "Plane" "Quat" "AABB" "Matrix3" "Transform"
             "String" "int" "float" "bool" "Color" "RID" "Object"
             "InputEvent" "Array" "Dictionary" 
@@ -4820,15 +4747,6 @@ Paragraphs are separated by blank lines only.
 
 Major sections below begin with the string `@'; specific function and
 variable docs begin with `->'.
-
-
-@VARIABLES
-
-gd-indent-offset\tindentation increment
-gd-block-comment-prefix\tcomment string used by comment-region
-
-%v:gd-indent-offset
-%v:gd-block-comment-prefix
 
 @KINDS OF LINES
 
@@ -8677,9 +8595,7 @@ LIEP stores line-end-position at point-of-interest
              (indent-offset (or indent-offset gd-indent-offset))
              (cubuf (current-buffer))
              erg indent this-line)
-        (if (and (< repeat 1)
-                 (and (comint-check-proc (current-buffer))
-                      (re-search-backward (concat  gd-ipython-output-prompt-re "\\|" gd-ipython-input-prompt-re) nil t 1)))
+        (if (and (< repeat 1) (comint-check-proc (current-buffer)))
             ;; common recursion not suitable because of prompt
             (with-temp-buffer
 	      ;; (when gd-debug-p (switch-to-buffer (current-buffer)))
