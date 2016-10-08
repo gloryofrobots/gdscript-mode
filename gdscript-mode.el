@@ -695,86 +695,6 @@ Default ignores all inputs of 0, 1, or 2 non-blank characters.")
 ;; WP 3
 
 
-(defvar gd-buffer-name nil
-  "Internal use. ")
-
-(defvar gd-orig-buffer-or-file nil
-  "Internal use. ")
-
-
-(defcustom gd-keep-windows-configuration nil
-  "Takes precedence over `gd-split-window-on-execute' and `gd-switch-buffers-on-execute-p'.
-
-See lp:1239498
-
-To suppres window-changes due to error-signaling also, set `gd-keep-windows-configuration' onto 'force
-
-Default is nil "
-
-  :type '(choice
-          (const :tag "nil" nil)
-          (const :tag "t" t)
-          (const :tag "force" 'force))
-  :tag "gd-keep-windows-configuration"
-  :group 'gdscript-mode)
-
-(defvar gd-output-buffer "*GDScript Output*"
-    "Currently unused.
-
-Output buffer is created dynamically according to GDScript version and kind of process-handling")
-(make-variable-buffer-local 'gd-output-buffer)
-
-
-
-(defcustom gd-shell-prompt-regexp ">>> "
-  "Regular Expression matching top\-level input prompt of python shell.
-It should not contain a caret (^) at the beginning."
-  :type 'string
-  :tag "gd-shell-prompt-regexp"
-  :group 'gdscript-mode)
-
-
-(defvar gd-eldoc-window-configuration nil
-  "Keeps window-configuration when eldoc-mode is called. ")
-
-(defvar gd-eldoc-setup-code
-  "def __PYDOC_get_help(obj):
-    try:
-        import inspect
-        if hasattr(obj, 'startswith'):
-            obj = eval(obj, globals())
-        doc = inspect.getdoc(obj)
-        if not doc and callable(obj):
-            target = None
-            if inspect.isclass(obj) and hasattr(obj, '__init__'):
-                target = obj.__init__
-                objtype = 'class'
-            else:
-                target = obj
-                objtype = 'def'
-            if target:
-                args = inspect.formatargspec(
-                    *inspect.getargspec(target))
-                name = obj.__name__
-                doc = '{objtype} {name}{args}'.format(
-                    objtype=objtype, name=name, args=args)
-        else:
-            doc = doc.splitlines()[0]
-    except:
-        doc = ''
-    try:
-        exec('print doc')
-    except SyntaxError:
-        print(doc)"
-  "GDScript code to setup documentation retrieval.")
-
-(defcustom gd-shell-prompt-output-regexp ""
-  "Regular Expression matching output prompt of python shell.
-It should not contain a caret (^) at the beginning."
-  :type 'string
-  :tag "gd-shell-prompt-output-regexp"
-  :group 'gdscript-mode)
-
 (defvar gd-underscore-word-syntax-p t
   "This is set later by defcustom, only initial value here.
 
@@ -782,8 +702,6 @@ If underscore chars should be of syntax-class `word', not of `symbol'.
 Underscores in word-class makes `forward-word' etc. travel the indentifiers. Default is `t'.
 See also command `toggle-gd-underscore-word-syntax-p' ")
 
-(defvar gd-autofill-timer nil)
-(defvar gd-fill-column-orig fill-column)
 
 (defvar gdscript-mode-message-string
   (if (or (string= "gdscript-mode.el" (buffer-name))
@@ -826,45 +744,11 @@ syntax or has word syntax and isn't a letter.")
           (modify-syntax-entry ?\_ "_" table))
         table))
 
-(defvar gd-local-command nil
-  "Returns locally used executable-name. ")
-(make-variable-buffer-local 'gd-local-command)
-
-(defvar gd-local-versioned-command nil
-  "Returns locally used executable-name including its version. ")
-(make-variable-buffer-local 'gd-local-versioned-command)
-
-(defvar gd-ipython-completion-command-string nil
-  "Either gd-ipython0.10-completion-command-string or gd-ipython0.11-completion-command-string.
-
-gd-ipython0.11-completion-command-string also covers version 0.12")
-
-(defvar gd-ipython0.10-completion-command-string
-  "print(';'.join(__IP.Completer.all_completions('%s'))) #PYTHON-MODE SILENT\n"
-  "The string send to ipython to query for all possible completions")
-
-(defvar gd-ipython0.11-completion-command-string
-  "print(';'.join(get_ipython().Completer.all_completions('%s'))) #PYTHON-MODE SILENT\n"
-  "The string send to ipython to query for all possible completions")
-
-(defvar gd-encoding-string-re "^[ \t]*#[ \t]*-\\*-[ \t]*coding:.+-\\*-"
-  "Matches encoding string of a GDScript file. ")
-
-(defvar gd-shebang-regexp "#![ \t]?\\([^ \t\n]+\\)[ \t]*\\([biptj]+ython[^ \t\n]*\\)"
-  "Detecting the shell in head of file. ")
-;; (setq gd-shebang-regexp   "#![ \t]?\\([^ \t\n]+\\)[ \t]*\\([biptj]+ython[^ \t\n]*\\)")
 
 (defvar gd-separator-char "/"
   "Values set by defcustom only will not be seen in batch-mode. ")
 
-
-
-(defvar gd-pdbtrack-input-prompt "^[(<]*[Ii]?[Pp]y?db[>)]+ "
-  "Recognize the prompt. ")
-
-(defvar gd-pydbtrack-input-prompt "^[(]*ipydb[>)]+ "
-  "Recognize the pydb-prompt. ")
-
+;; WP 4
 (defvar gd-ipython-input-prompt-re "In \\[[0-9]+\\]:\\|^[ ]\\{3\\}[.]\\{3,\\}:"
   "A regular expression to match the IPython input prompt. ")
 
@@ -8795,7 +8679,7 @@ LIEP stores line-end-position at point-of-interest
              erg indent this-line)
         (if (and (< repeat 1)
                  (and (comint-check-proc (current-buffer))
-                      (re-search-backward (concat gd-shell-prompt-regexp "\\|" gd-ipython-output-prompt-re "\\|" gd-ipython-input-prompt-re) nil t 1)))
+                      (re-search-backward (concat  gd-ipython-output-prompt-re "\\|" gd-ipython-input-prompt-re) nil t 1)))
             ;; common recursion not suitable because of prompt
             (with-temp-buffer
 	      ;; (when gd-debug-p (switch-to-buffer (current-buffer)))
