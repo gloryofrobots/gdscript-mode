@@ -2,12 +2,14 @@
 
 This mode is based on python-mode.el. 
 The idea is to provide accustomed interface for users familiar with emacs python-mode.
-Mode targets only basic editing areas such as editing/navigation/marking.  
-Features not related to this simple tasks or to GDScript were removed (execution, shell, pymacs, plugins, etc)
+Mode targets only basic editing areas such as editing/navigation/marking. 
+Features not related to this simple tasks or to GDScript were removed (execution, shell, pymacs, plugins, etc).
 GDscript mode also adds some minor syntax tweaks (different set of language keywords, priority of tabs over spaces, etc)
 
 Command names are the same as in python-mode but with "gd" prefix
-Examples
+
+For example:
+
 * gd-mark-def - marks current func
 * gd-mark-block - marks current block (if/func/class/etc)
 * gd-delete-def-or-class - delete current func or class statement
