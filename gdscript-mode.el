@@ -8438,7 +8438,7 @@ These are GDScript temporary files awaiting execution."
 (add-to-list 'same-window-buffer-names (purecopy "*GDScript*"))
 
 (add-to-list 'auto-mode-alist (cons (purecopy "\\.gd\\'")  'gdscript-mode))
-(add-to-list 'auto-mode-alist '("\\.gd\\'" . 'gdscript-mode))
+;; (add-to-list 'auto-mode-alist '("\\.gd\\'" . 'gdscript-mode))
 
 (defun gd--uncomment-intern (beg end)
   (uncomment-region beg end)
