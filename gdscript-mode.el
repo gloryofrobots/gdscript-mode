@@ -1516,7 +1516,7 @@ Returns char found. "
              (or
 			"if" "elif" "else" "for" "do" "while" "switch" "case" "break" "continue" "pass" 
 			"return" "class" "extends" "tool" "signal" "func" "static" "const" "enum" "var" 
-			"onready" "export" "setget" "breakpoint" "and" "or" "not")
+			"onready" "export" "setget" "breakpoint" "and" "or" "not" "in")
              symbol-end)
         (,(rx symbol-start (or "static func" "func" "class") symbol-end) . gd-def-class-face)
         (,(rx symbol-start (or "if") symbol-end) . gd-try-if-face)
